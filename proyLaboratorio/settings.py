@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+REST_FRAMEWORK = {'EXCEPTION_HANDLER':'rest_framework.views.exception_handler'}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'laboratorio',
     'bootstrap3',
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [
