@@ -6,6 +6,8 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^patrocinadores/$', views.patrocinadores, name='patrocinadores'),
-    url(r'^patrocinadores/(?P<id>\d+)/$', views.patrocinadores, name='patrocinadorId'),
+    url(r'^patrocinadores/(?P<id>\d+)/$', views.patrocinadores_id, name='patrocinadorId'),
+    url(r'^proyectos/$', views.proyectos, name='proyectos'),
+    url(r'^proyectos/(?P<id>\d+)/$', views.proyectos_id, name='proyectoId'),
 
 ]
