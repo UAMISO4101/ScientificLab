@@ -1,65 +1,9 @@
 import json
-
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.core import serializers
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, render_to_response
-from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.exceptions import ValidationError, NotFound
-from models import Patrocinador, Proyecto
-from datetime import datetime
-
-# Create your views here.
-def index(request):
-    context = {'mensaje': 'Hola Mundo'}
-    return render(request, 'laboratorio/index.html', context)
-    #return HttpResponse("Hello, world. You're at the polls index.")
-
-#Atiende las peticiones de los Patrocinadores
-@csrf_exempt
-def patrocinadores(request):
-
-    # Si es POST Graba
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        nombre = data["nombre"]
-        patrocinador = Patrocinador(nombre=nombre)
-        patrocinador.save()
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
-    # Si es GET Lista
-    elif request.method == 'GET':
-        patrocinadores = Patrocinador.objects.all()
-        return HttpResponse(serializers.serialize("json", patrocinadores))
-    else:
-        raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
-
-#Atiende las peticiones de un Patrocinador determinado
-@csrf_exempt
-def patrocinadores_id(request, id):
-
-    # Si es DELETE Borra
-    if request.method == 'DELETE':
-        patrocinador = Patrocinador.objects.get(id=id)
-        patrocinador.delete()
-        return JsonResponse({"Mensaje":"Patrocinador " + id + " borrado"})
-    # Si es PUT Actualiza
-    elif request.method == 'PUT':
-        patrocinador = Patrocinador.objects.get(id=id)
-        data = json.loads(request.body)
-        patrocinador.nombre = data["nombre"]
-        patrocinador.save()
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
-    # Si es GET Lista
-    elif request.method == 'GET':
-        patrocinador = Patrocinador.objects.get(id=id)
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
-    else:
-        raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
-
+from ..models import Proyecto
 
 #Atiende las peticiones de los Proyectos
 @csrf_exempt
