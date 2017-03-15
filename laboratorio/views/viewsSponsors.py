@@ -3,8 +3,6 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.exceptions import NotFound
-
 from ..models import Patrocinador
 
 #Atiende las peticiones de los Patrocinadores
@@ -12,6 +10,8 @@ from ..models import Patrocinador
 def patrocinadores(request):
 
     # Si es POST Graba
+    #if request.is_ajax():
+    # #Falta pero no lo puedo determinar en la prueba que dato requiere para determinar si es una peticion ajax
     if request.method == 'POST':
         data = json.loads(request.body)
         nombre = data["nombre"]
@@ -23,13 +23,16 @@ def patrocinadores(request):
         patrocinadores = Patrocinador.objects.all()
         return HttpResponse(serializers.serialize("json", patrocinadores))
     else:
-        raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
+        return JsonResponse({"Mensaje":"No entendi la peticion"})
+
 
 #Atiende las peticiones de un Patrocinador determinado
 @csrf_exempt
-def patrocinadores_id(request, id):
+def patrocinadores(request, id):
 
     # Si es DELETE Borra
+    #if request.is_ajax():
+    # #Falta pero no lo puedo determinar en la prueba que dato requiere para determinar si es una peticion ajax
     if request.method == 'DELETE':
         patrocinador = Patrocinador.objects.get(id=id)
         patrocinador.delete()
@@ -38,12 +41,9 @@ def patrocinadores_id(request, id):
     elif request.method == 'PUT':
         patrocinador = Patrocinador.objects.get(id=id)
         data = json.loads(request.body)
+        print "Este es el nombre " + data["nombre"]
         patrocinador.nombre = data["nombre"]
         patrocinador.save()
         return HttpResponse(serializers.serialize("json", [patrocinador]))
-    # Si es GET Lista
-    elif request.method == 'GET':
-        patrocinador = Patrocinador.objects.get(id=id)
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
     else:
-        raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
+        return JsonResponse({"Mensaje":"No entendi la peticion"})
