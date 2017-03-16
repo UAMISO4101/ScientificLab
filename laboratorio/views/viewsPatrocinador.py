@@ -38,8 +38,12 @@ def patrocinadores_id(request, id):
     elif request.method == 'PUT':
         patrocinador = Patrocinador.objects.get(id=id)
         data = json.loads(request.body)
-        patrocinador.nombre = data["nombre"]
-        patrocinador.save()
+        algoCambio = False
+        if data.has_key("nombre"):
+            patrocinador.nombre = data["nombre"]
+            algoCambio = True
+        if algoCambio:
+            patrocinador.save()
         return HttpResponse(serializers.serialize("json", [patrocinador]))
     # Si es GET Lista
     elif request.method == 'GET':

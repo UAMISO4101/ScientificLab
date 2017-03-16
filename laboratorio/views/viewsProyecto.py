@@ -55,27 +55,43 @@ def proyectos_id(request, id):
     elif request.method == 'PUT':
         proyecto = Proyecto.objects.get(id=id)
         data = json.loads(request.body)
-        proyecto.nombre = data["nombre"]
-
-        proyecto.nombre = data["nombre"]
-        proyecto.descripcion = data["descripcion"]
-        fechaInicioUnicode = data["fechaInicio"]
-        proyecto.fechaInicio = None
-        if fechaInicioUnicode is not None:
-            proyecto.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
-        fechaFinalUnicode = data["fechaFinal"]
-        proyecto.fechaFinal = None
-        if fechaFinalUnicode is not None:
-            proyecto.fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
-        proyecto.prioridad = data["prioridad"]
-        proyecto.avance = data["avance"]
-        proyecto.estado = data["estado"]
-        idPatrocinador = data["idPatrocinador"]
-        patrocinador = Patrocinador.objects.get(id=idPatrocinador)
-        if patrocinador is None:
-            raise ValidationError({'idPatrocinador': ['No existe este patrocinador']})
-        proyecto.patrocinador = patrocinador
-        proyecto.save()
+        algoCambio = False
+        if data.has_key("nombre"):
+            proyecto.nombre = data["nombre"]
+            algoCambio = True
+        if data.has_key("descripcion"):
+            proyecto.descripcion = data["descripcion"]
+            algoCambio = True
+        if data.has_key("fechaInicio"):
+            fechaInicioUnicode = data["fechaInicio"]
+            proyecto.fechaInicio = None
+            if fechaInicioUnicode is not None:
+                proyecto.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
+            algoCambio = True
+        if data.has_key("fechaFinal"):
+            fechaFinalUnicode = data["fechaFinal"]
+            proyecto.fechaFinal = None
+            if fechaFinalUnicode is not None:
+                proyecto.fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
+            algoCambio = True
+        if data.has_key("prioridad"):
+            proyecto.prioridad = data["prioridad"]
+            algoCambio = True
+        if data.has_key("avance"):
+            proyecto.avance = data["avance"]
+            algoCambio = True
+        if data.has_key("estado"):
+            proyecto.estado = data["estado"]
+            algoCambio = True
+        if data.has_key("idPatrocinador"):
+            idPatrocinador = data["idPatrocinador"]
+            algoCambio = True
+            patrocinador = Patrocinador.objects.get(id=idPatrocinador)
+            if patrocinador is None:
+                raise ValidationError({'idPatrocinador': ['No existe este patrocinador']})
+            proyecto.patrocinador = patrocinador
+        if algoCambio:
+            proyecto.save()
         return HttpResponse(serializers.serialize("json", [proyecto]))
     # Si es GET Lista
     elif request.method == 'GET':
