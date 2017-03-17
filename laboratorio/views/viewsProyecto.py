@@ -2,6 +2,7 @@ import json
 from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
@@ -38,7 +39,9 @@ def proyectos(request):
     # Si es GET Lista
     elif request.method == 'GET':
         proyectos = Proyecto.objects.all()
-        return HttpResponse(serializers.serialize("json", proyectos))
+        #return HttpResponse(serializers.serialize("json", proyectos))
+        contexto = {'proyectos' :proyectos}
+        return render(request, 'laboratorio/proyectos.html', contexto)
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
 

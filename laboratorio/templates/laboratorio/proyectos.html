@@ -1,0 +1,42 @@
+{% extends 'laboratorio/base.html' %}
+
+{% block header_text %}
+
+{% endblock %}
+
+{% block content %}
+    <section id="portfolio" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="datagrid">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th><th>Avance</th><th>Estado</th><th>Prioridad</th><th>Fecha Inicio</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5"><div id="paging"><ul><li><a href="#"><span>Previous</span></a></li><li><a href="#" class="active"><span>1</span></a></li><li><a href="#"><span>2</span></a></li><li><a href="#"><span>3</span></a></li><li><a href="#"><span>Next</span></a></li></ul></div></td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        {% if proyectos %}
+                        {% for proyecto in proyectos %}
+                            <tr>
+                                <td>data</td><td>data</td><td>data</td><td>data</td><td>data</td>
+                            </tr>
+                            <tr class="alt">
+                                <td>data</td><td>data</td><td>data</td><td>data</td><td>data</td>
+                            </tr>
+                        {% endfor %}
+                        {%  else %}
+                        <h1>No se han encontrado proyectos</h1>
+                        {%  endif %}
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+         </div>
+    </section>
+{% endblock %}
