@@ -1,5 +1,5 @@
 {% extends 'laboratorio/base.html' %}
-
+{% load staticfiles %}
 {% block header_text %}
 
 {% endblock %}
@@ -8,6 +8,9 @@
     <section id="portfolio" class="bg-light-gray">
         <div class="container">
             <div class="row">
+<a href="{% url 'laboratorio:agregarProyecto' %}" class="portfolio-link" data-toggle="modal"> agregar proyecto</a>
+
+
                 <div class="datagrid">
                     <table>
                         <thead>

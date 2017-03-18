@@ -7,6 +7,7 @@ from rest_framework.exceptions import ValidationError, NotFound
 
 from ..models import Patrocinador
 
+
 #Atiende las peticiones de los Patrocinadores
 @csrf_exempt
 def patrocinadores(request):
@@ -24,6 +25,7 @@ def patrocinadores(request):
         return HttpResponse(serializers.serialize("json", patrocinadores))
     else:
         raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
+
 
 #Atiende las peticiones de un Patrocinador determinado
 @csrf_exempt

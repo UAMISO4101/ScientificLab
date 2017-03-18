@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Creación de proyecto</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../../static/js/ProjectController.js"></script>
+
+</head>
+<body>
+<form method="POST"  action="{%url 'laboratorio:crearProyecto'%}" >
+
+    <div>
+          <label for="title">Titulo: </label>
+          <input type="text" name="title" id="title" value=""/>
+    </div>
+    <div>
+          <label for="startDate">Fecha de inicio: </label>
+          <input type="date" name="startDate" id="startDate" value=""/>
+    </div>
+    <div>
+          <label for="endDate">Fecha de finalización: </label>
+          <input type="date" name="endDate" id="endDate" value=""/>
+    </div>
+    <div>
+          <label for="state">Estado: </label>
+
+    </div>
+    <div>
+          <label for="percentageCompletion">Avance: </label>
+          <input type="number" name="percentageCompletion" id="percentageCompletion" value=""/>
+    </div>
+    <div>
+          <label for="priority">Prioridad: </label>
+          <input type="number" name="priority" id="priority" value=""/>
+    </div>
+    <div>
+          <label for="description">Descripción: </label>
+        <textarea name="description"   cols="100" rows="5" id="description"> </textarea>
+    </div>
+
+    <input type="submit"  value="Guardar"/>
+</form>
+</body>
+</html>

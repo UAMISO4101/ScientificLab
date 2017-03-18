@@ -2,17 +2,34 @@ import json
 from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
 from ..models import Proyecto, Patrocinador
+from django.shortcuts import render
+
+
+def agregar_proyecto(request):
+    return render(request, 'laboratorio/agregarProyecto.html')
+
+
+def mostrar_proyectos(request):
+    return render(request, 'laboratorio/proyectos.html')
+
 
 #Atiende las peticiones de los Proyectos
 @csrf_exempt
 def proyectos(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        proyectos = Proyecto.objects.all()
+        return HttpResponse(serializers.serialize("json", proyectos))
+    else:
+        raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
 
-    # Si es POST Graba
+
+@csrf_exempt
+def crear_proyecto(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         nombre = data["nombre"]
@@ -33,16 +50,11 @@ def proyectos(request):
             patrocinador = Patrocinador.objects.get(id=idPatrocinador)
         except:
             raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
-        proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal,
-                            prioridad=prioridad, avance=avance, estado=estado, patrocinador=patrocinador)
+
+        proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal, prioridad=prioridad, avance=avance, estado=estado, patrocinador=patrocinador)
         proyecto.save()
-        return HttpResponse(serializers.serialize("json", [proyecto]))
-    # Si es GET Lista
-    elif request.method == 'GET':
-        proyectos = Proyecto.objects.all()
-        return HttpResponse(serializers.serialize("json", proyectos))
-    else:
-        raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
+        return render(request, 'laboratorio/proyectos.html', {"message":"El proyecto fue agregado exitosamente"})
+
 
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
