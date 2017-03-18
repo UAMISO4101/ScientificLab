@@ -39,9 +39,7 @@ def proyectos(request):
     # Si es GET Lista
     elif request.method == 'GET':
         proyectos = Proyecto.objects.all()
-        #return HttpResponse(serializers.serialize("json", proyectos))
-        contexto = {'proyectos' :proyectos}
-        return render(request, 'laboratorio/proyectos.html', contexto)
+        return HttpResponse(serializers.serialize("json", proyectos))
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
 
