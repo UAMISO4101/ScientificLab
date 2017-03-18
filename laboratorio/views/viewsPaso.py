@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
-from ..models import Paso, Protocolo
+from ..models import Paso, Protocolo, Elemento
 
 #Atiende las peticiones de los Pasos
 @csrf_exempt
@@ -21,11 +21,11 @@ def pasos(request):
             raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
         paso = Paso(nombre=nombre, protocolo=protocolo)
         paso.save()
-        return HttpResponse(serializers.serialize("json", [paso]))
+        return HttpResponse(serializers.serialize("json", [paso]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         pasos = Paso.objects.all()
-        return HttpResponse(serializers.serialize("json", pasos))
+        return HttpResponse(serializers.serialize("json", pasos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest pasos con metodo " + request.method)
 
@@ -62,13 +62,27 @@ def pasos_id(request, id):
             paso.protocolo = protocolo
         if algoCambio:
             paso.save()
-        return HttpResponse(serializers.serialize("json", [paso]))
+        return HttpResponse(serializers.serialize("json", [paso]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             paso = Paso.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe paso ' + id]})
-        return HttpResponse(serializers.serialize("json", [paso]))
+        return HttpResponse(serializers.serialize("json", [paso]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest pasos con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest pasos/{id} con metodo " + request.method)
+
+#Atiende las peticiones de un Experimento determinado
+@csrf_exempt
+def pasos_id_elementos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            paso = Paso.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe paso ' + id]})
+        elementos = Elemento.objects.filter(paso=paso)
+        return HttpResponse(serializers.serialize("json", elementos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest elementos/{id}/pasos con metodo " + request.method)

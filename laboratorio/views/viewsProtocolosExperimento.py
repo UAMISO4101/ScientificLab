@@ -25,11 +25,11 @@ def protocolosExperimento(request):
             raise ValidationError({'idExperimento': ['No existe experimento ' + idExperimento]})
         protocoloExperimento = ProtocolosExperimento(protocolo=protocolo, experimento=experimento)
         protocoloExperimento.save()
-        return HttpResponse(serializers.serialize("json", [protocoloExperimento]))
+        return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         protocolosExperimento = ProtocolosExperimento.objects.all()
-        return HttpResponse(serializers.serialize("json", protocolosExperimento))
+        return HttpResponse(serializers.serialize("json", protocolosExperimento), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolosExperimento con metodo " + request.method)
 
@@ -71,13 +71,13 @@ def protocolosExperimento_id(request, id):
             protocoloExperimento.experimento = experimento
         if algoCambio:
             protocoloExperimento.save()
-        return HttpResponse(serializers.serialize("json", [protocoloExperimento]))
+        return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             protocoloExperimento = ProtocolosExperimento.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe Protocolo Experimento ' + id]})
-        return HttpResponse(serializers.serialize("json", [protocoloExperimento]))
+        return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest protocolosExperimento con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest protocolosExperimento/{id} con metodo " + request.method)

@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
-from ..models import Responsable
+from ..models import Responsable, Experimento
 
 #Atiende las peticiones de los Responsables
 @csrf_exempt
@@ -16,11 +16,11 @@ def responsables(request):
         nombre = data["nombre"]
         responsable = Responsable(nombre=nombre)
         responsable.save()
-        return HttpResponse(serializers.serialize("json", [responsable]))
+        return HttpResponse(serializers.serialize("json", [responsable]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         responsables = Responsable.objects.all()
-        return HttpResponse(serializers.serialize("json", responsables))
+        return HttpResponse(serializers.serialize("json", responsables), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest responsables con metodo " + request.method)
 
@@ -49,13 +49,27 @@ def responsables_id(request, id):
             algoCambio = True
         if algoCambio:
             responsable.save()
-        return HttpResponse(serializers.serialize("json", [responsable]))
+        return HttpResponse(serializers.serialize("json", [responsable]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             responsable = Responsable.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe responsable ' + id]})
-        return HttpResponse(serializers.serialize("json", [responsable]))
+        return HttpResponse(serializers.serialize("json", [responsable]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest responsables con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest responsables/{id} con metodo " + request.method)
+
+#Atiende las peticiones de un Responsable determinado
+@csrf_exempt
+def responsables_id_experimentos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            responsable = Responsable.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe responsable ' + id]})
+        experimentos = Experimento.objects.filter(responsable=responsable)
+        return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest proyectos/{id}/experimentos con metodo " + request.method)
