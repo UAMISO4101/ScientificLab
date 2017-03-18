@@ -17,8 +17,9 @@ def elementos(request):
         cantidad = data["cantidad"]
         unidades = data["unidades"]
         idPaso = data["idPaso"]
-        paso = Paso.objects.get(id=idPaso)
-        if paso is None:
+        try:
+            paso = Paso.objects.get(id=idPaso)
+        except:
             raise ValidationError({'idPaso': ['No existe paso ' + idPaso]})
         elemento = Elemento(nombre=nombre, cantidad=cantidad, unidades=unidades, paso=paso)
         elemento.save()
@@ -36,12 +37,18 @@ def elementos_id(request, id):
 
     # Si es DELETE Borra
     if request.method == 'DELETE':
-        elemento = Elemento.objects.get(id=id)
+        try:
+            elemento = Elemento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe elemento ' + id]})
         elemento.delete()
         return JsonResponse({"Mensaje":"Elemento " + id + " borrado"})
     # Si es PUT Actualiza
     elif request.method == 'PUT':
-        elemento = Elemento.objects.get(id=id)
+        try:
+            elemento = Elemento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe elemento ' + id]})
         data = json.loads(request.body)
         algoCambio = False
         if data.has_key("nombre"):
@@ -56,8 +63,9 @@ def elementos_id(request, id):
         if data.has_key("idPaso"):
             idPaso = data["idPaso"]
             algoCambio = True
-            paso = Paso.objects.get(id=idPaso)
-            if paso is None:
+            try:
+                paso = Paso.objects.get(id=idPaso)
+            except:
                 raise ValidationError({'idPaso': ['No existe paso ' + idPaso]})
             elemento.paso = paso
         if algoCambio:
@@ -65,7 +73,10 @@ def elementos_id(request, id):
         return HttpResponse(serializers.serialize("json", [elemento]))
     # Si es GET Lista
     elif request.method == 'GET':
-        elemento = Elemento.objects.get(id=id)
+        try:
+            elemento = Elemento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe elemento ' + id]})
         return HttpResponse(serializers.serialize("json", [elemento]))
     else:
         raise NotFound(detail="No se encuentra comando rest elementos con metodo " + request.method)

@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import ValidationError, NotFound
 from ..models import Protocolo
 
 #Atiende las peticiones de los Protocolos
@@ -33,12 +33,18 @@ def protocolos_id(request, id):
 
     # Si es DELETE Borra
     if request.method == 'DELETE':
-        protocolo = Protocolo.objects.get(id=id)
+        try:
+            protocolo = Protocolo.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe protocolo ' + id]})
         protocolo.delete()
         return JsonResponse({"Mensaje":"Protocolo " + id + " borrado"})
     # Si es PUT Actualiza
     elif request.method == 'PUT':
-        protocolo = Protocolo.objects.get(id=id)
+        try:
+            protocolo = Protocolo.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe protocolo ' + id]})
         data = json.loads(request.body)
         algoCambio = False
         if data.has_key("titulo"):
@@ -58,7 +64,10 @@ def protocolos_id(request, id):
         return HttpResponse(serializers.serialize("json", [protocolo]))
     # Si es GET Lista
     elif request.method == 'GET':
-        protocolo = Protocolo.objects.get(id=id)
+        try:
+            protocolo = Protocolo.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe protocolo ' + id]})
         return HttpResponse(serializers.serialize("json", [protocolo]))
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos con metodo " + request.method)

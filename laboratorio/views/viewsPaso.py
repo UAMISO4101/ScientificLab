@@ -15,8 +15,9 @@ def pasos(request):
         data = json.loads(request.body)
         nombre = data["nombre"]
         idProtocolo = data["idProtocolo"]
-        protocolo = Protocolo.objects.get(id=idProtocolo)
-        if protocolo is None:
+        try:
+            protocolo = Protocolo.objects.get(id=idProtocolo)
+        except:
             raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
         paso = Paso(nombre=nombre, protocolo=protocolo)
         paso.save()
@@ -34,12 +35,18 @@ def pasos_id(request, id):
 
     # Si es DELETE Borra
     if request.method == 'DELETE':
-        paso = Paso.objects.get(id=id)
+        try:
+            paso = Paso.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe paso ' + id]})
         paso.delete()
         return JsonResponse({"Mensaje":"Paso " + id + " borrado"})
     # Si es PUT Actualiza
     elif request.method == 'PUT':
-        paso = Paso.objects.get(id=id)
+        try:
+            paso = Paso.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe paso ' + id]})
         data = json.loads(request.body)
         algoCambio = False
         if data.has_key("nombre"):
@@ -48,8 +55,9 @@ def pasos_id(request, id):
         if data.has_key("idProtocolo"):
             idProtocolo = data["idProtocolo"]
             algoCambio = True
-            protocolo = Protocolo.objects.get(id=idProtocolo)
-            if protocolo is None:
+            try:
+                protocolo = Protocolo.objects.get(id=idProtocolo)
+            except:
                 raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
             paso.protocolo = protocolo
         if algoCambio:
@@ -57,7 +65,10 @@ def pasos_id(request, id):
         return HttpResponse(serializers.serialize("json", [paso]))
     # Si es GET Lista
     elif request.method == 'GET':
-        paso = Paso.objects.get(id=id)
+        try:
+            paso = Paso.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe paso ' + id]})
         return HttpResponse(serializers.serialize("json", [paso]))
     else:
         raise NotFound(detail="No se encuentra comando rest pasos con metodo " + request.method)

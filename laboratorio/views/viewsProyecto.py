@@ -29,9 +29,10 @@ def proyectos(request):
         avance = data["avance"]
         estado = data["estado"]
         idPatrocinador = data["idPatrocinador"]
-        patrocinador = Patrocinador.objects.get(id=idPatrocinador)
-        if patrocinador is None:
-            raise ValidationError({'idPatrocinador': ['No existe este patrocinador']})
+        try:
+            patrocinador = Patrocinador.objects.get(id=idPatrocinador)
+        except:
+            raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
         proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal,
                             prioridad=prioridad, avance=avance, estado=estado, patrocinador=patrocinador)
         proyecto.save()
@@ -49,12 +50,18 @@ def proyectos_id(request, id):
 
     # Si es DELETE Borra
     if request.method == 'DELETE':
-        proyecto = Proyecto.objects.get(id=id)
+        try:
+            proyecto = Proyecto.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe Proyecto ' + id]})
         proyecto.delete()
         return JsonResponse({"Mensaje":"Proyecto " + id + " borrado"})
     # Si es PUT Actualiza
     elif request.method == 'PUT':
-        proyecto = Proyecto.objects.get(id=id)
+        try:
+            proyecto = Proyecto.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe Proyecto ' + id]})
         data = json.loads(request.body)
         algoCambio = False
         if data.has_key("nombre"):
@@ -87,16 +94,20 @@ def proyectos_id(request, id):
         if data.has_key("idPatrocinador"):
             idPatrocinador = data["idPatrocinador"]
             algoCambio = True
-            patrocinador = Patrocinador.objects.get(id=idPatrocinador)
-            if patrocinador is None:
-                raise ValidationError({'idPatrocinador': ['No existe este patrocinador']})
+            try:
+                patrocinador = Patrocinador.objects.get(id=idPatrocinador)
+            except:
+                raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
             proyecto.patrocinador = patrocinador
         if algoCambio:
             proyecto.save()
         return HttpResponse(serializers.serialize("json", [proyecto]))
     # Si es GET Lista
     elif request.method == 'GET':
-        proyecto = Proyecto.objects.get(id=id)
+        try:
+            proyecto = Proyecto.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe Proyecto ' + id]})
         return HttpResponse(serializers.serialize("json", [proyecto]))
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)

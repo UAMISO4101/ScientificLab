@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import ValidationError, NotFound
 
 from ..models import Patrocinador
 
@@ -31,12 +31,18 @@ def patrocinadores_id(request, id):
 
     # Si es DELETE Borra
     if request.method == 'DELETE':
-        patrocinador = Patrocinador.objects.get(id=id)
+        try:
+            patrocinador = Patrocinador.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe patrocinador ' + id]})
         patrocinador.delete()
         return JsonResponse({"Mensaje":"Patrocinador " + id + " borrado"})
     # Si es PUT Actualiza
     elif request.method == 'PUT':
-        patrocinador = Patrocinador.objects.get(id=id)
+        try:
+            patrocinador = Patrocinador.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe patrocinador ' + id]})
         data = json.loads(request.body)
         algoCambio = False
         if data.has_key("nombre"):
@@ -47,7 +53,10 @@ def patrocinadores_id(request, id):
         return HttpResponse(serializers.serialize("json", [patrocinador]))
     # Si es GET Lista
     elif request.method == 'GET':
-        patrocinador = Patrocinador.objects.get(id=id)
+        try:
+            patrocinador = Patrocinador.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe patrocinador ' + id]})
         return HttpResponse(serializers.serialize("json", [patrocinador]))
     else:
         raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)

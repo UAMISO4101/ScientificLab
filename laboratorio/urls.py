@@ -8,11 +8,11 @@ urlpatterns = [
     url(r'^patrocinadores/(?P<id>\d+)/$', views.patrocinadores_id, name='patrocinadorId'),
     url(r'^proyectos/$', views.proyectos, name='proyectos'),
     url(r'^proyectos/(?P<id>\d+)/$', views.proyectos_id, name='proyectoId'),
-
     url(r'^responsables/$', views.responsables, name='responsables'),
     url(r'^responsables/(?P<id>\d+)/$', views.responsables_id, name='responsableId'),
     url(r'^experimentos/$', views.experimentos, name='experimentos'),
     url(r'^experimentos/(?P<id>\d+)/$', views.experimentos_id, name='experimentoId'),
+
     url(r'^protocolos/$', views.protocolos, name='protocolos'),
     url(r'^protocolos/(?P<id>\d+)/$', views.protocolos_id, name='protocoloId'),
     url(r'^protocolosExperimento/$', views.protocolosExperimento, name='protocolosExperimento'),

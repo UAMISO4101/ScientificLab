@@ -25,13 +25,15 @@ def experimentos(request):
         estado = data["estado"]
         resultado = data["resultado"]
         idProyecto = data["idProyecto"]
-        proyecto = Proyecto.objects.get(id=idProyecto)
-        if proyecto is None:
-            raise ValidationError({'idProyecto': ['No existe proyecto' + idProyecto]})
+        try:
+            proyecto = Proyecto.objects.get(id=idProyecto)
+        except:
+            raise ValidationError({'idProyecto': ['No existe proyecto ' + idProyecto]})
         idResponsable = data["idResponsable"]
-        responsable = Responsable.objects.get(id=idResponsable)
-        if responsable is None:
-            raise ValidationError({'idResponsable': ['No existe responsable' + idResponsable]})
+        try:
+            responsable = Responsable.objects.get(id=idResponsable)
+        except:
+            raise ValidationError({'idResponsable': ['No existe responsable ' + idResponsable]})
         experimento = Experimento(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, prioridad=prioridad,
                                   estado=estado, resultado=resultado, proyecto=proyecto, responsable=responsable)
         experimento.save()
@@ -49,12 +51,18 @@ def experimentos_id(request, id):
 
     # Si es DELETE Borra
     if request.method == 'DELETE':
-        experimento = Experimento.objects.get(id=id)
+        try:
+            experimento = Experimento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe experimento ' + id]})
         experimento.delete()
         return JsonResponse({"Mensaje":"Experimento " + id + " borrado"})
     # Si es PUT Actualiza
     elif request.method == 'PUT':
-        experimento = Experimento.objects.get(id=id)
+        try:
+            experimento = Experimento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe experimento ' + id]})
         data = json.loads(request.body)
         algoCambio = False
         if data.has_key("nombre"):
@@ -81,15 +89,17 @@ def experimentos_id(request, id):
         if data.has_key("idProyecto"):
             idProyecto = data["idProyecto"]
             algoCambio = True
-            proyecto = Proyecto.objects.get(id=idProyecto)
-            if proyecto is None:
+            try:
+                proyecto = Proyecto.objects.get(id=idProyecto)
+            except:
                 raise ValidationError({'idProyecto': ['No existe proyecto ' + idProyecto]})
             experimento.proyecto = proyecto
         if data.has_key("idResponsable"):
             idResponsable = data["idResponsable"]
             algoCambio = True
-            responsable = Responsable.objects.get(id=idResponsable)
-            if responsable is None:
+            try:
+                responsable = Responsable.objects.get(id=idResponsable)
+            except:
                 raise ValidationError({'idResponsable': ['No existe responsable ' + idResponsable]})
             experimento.responsable = responsable
         if algoCambio:
@@ -97,7 +107,10 @@ def experimentos_id(request, id):
         return HttpResponse(serializers.serialize("json", [experimento]))
     # Si es GET Lista
     elif request.method == 'GET':
-        experimento = Experimento.objects.get(id=id)
+        try:
+            experimento = Experimento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe experimento ' + id]})
         return HttpResponse(serializers.serialize("json", [experimento]))
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
