@@ -23,11 +23,11 @@ def elementos(request):
             raise ValidationError({'idPaso': ['No existe paso ' + idPaso]})
         elemento = Elemento(nombre=nombre, cantidad=cantidad, unidades=unidades, paso=paso)
         elemento.save()
-        return HttpResponse(serializers.serialize("json", [elemento]))
+        return HttpResponse(serializers.serialize("json", [elemento]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         elementos = Elemento.objects.all()
-        return HttpResponse(serializers.serialize("json", elementos))
+        return HttpResponse(serializers.serialize("json", elementos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest elementos con metodo " + request.method)
 
@@ -70,13 +70,14 @@ def elementos_id(request, id):
             elemento.paso = paso
         if algoCambio:
             elemento.save()
-        return HttpResponse(serializers.serialize("json", [elemento]))
+        return HttpResponse(serializers.serialize("json", [elemento]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             elemento = Elemento.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe elemento ' + id]})
-        return HttpResponse(serializers.serialize("json", [elemento]))
+        return HttpResponse(serializers.serialize("json", [elemento]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest elementos con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest elementos/{id} con metodo " + request.method)
+

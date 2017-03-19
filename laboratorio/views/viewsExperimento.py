@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Experimento, Proyecto, Responsable
+from ..models import Experimento, Proyecto, Responsable, Protocolo
 
 #Atiende las peticiones de los Experimentos
 @csrf_exempt
@@ -37,11 +37,11 @@ def experimentos(request):
         experimento = Experimento(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, prioridad=prioridad,
                                   estado=estado, resultado=resultado, proyecto=proyecto, responsable=responsable)
         experimento.save()
-        return HttpResponse(serializers.serialize("json", [experimento]))
+        return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         experimentos = Experimento.objects.all()
-        return HttpResponse(serializers.serialize("json", experimentos))
+        return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
 
@@ -104,13 +104,27 @@ def experimentos_id(request, id):
             experimento.responsable = responsable
         if algoCambio:
             experimento.save()
-        return HttpResponse(serializers.serialize("json", [experimento]))
+        return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             experimento = Experimento.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe experimento ' + id]})
-        return HttpResponse(serializers.serialize("json", [experimento]))
+        return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest experimentos/{id} con metodo " + request.method)
+
+#Atiende las peticiones de un Experimento determinado
+@csrf_exempt
+def experimentos_id_protocolos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            experimento = Experimento.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe experimento ' + id]})
+        protocolos = experimento.protocolo_set.all()
+        return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest experimentos/{id}/protocolos con metodo " + request.method)

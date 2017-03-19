@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
-from ..models import Protocolo
+from ..models import Protocolo, Experimento, Paso
 
 #Atiende las peticiones de los Protocolos
 @csrf_exempt
@@ -19,11 +19,11 @@ def protocolos(request):
         categoria = data["categoria"]
         protocolo = Protocolo(titulo=titulo, descripcion=descripcion, version=version, categoria=categoria)
         protocolo.save()
-        return HttpResponse(serializers.serialize("json", [protocolo]))
+        return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         protocolos = Protocolo.objects.all()
-        return HttpResponse(serializers.serialize("json", protocolos))
+        return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos con metodo " + request.method)
 
@@ -61,13 +61,41 @@ def protocolos_id(request, id):
             algoCambio = True
         if algoCambio:
             protocolo.save()
-        return HttpResponse(serializers.serialize("json", [protocolo]))
+        return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             protocolo = Protocolo.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe protocolo ' + id]})
-        return HttpResponse(serializers.serialize("json", [protocolo]))
+        return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest protocolos con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest protocolos/{id} con metodo " + request.method)
+
+#Atiende las peticiones de un Experimento determinado
+@csrf_exempt
+def protocolos_id_experimentos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            protocolo = Protocolo.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe protocolo ' + id]})
+        experimentos = Experimento.objects.filter(protocolo=protocolo)
+        return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest protocolos/{id}/experimentos con metodo " + request.method)
+
+#Atiende las peticiones de un Experimento determinado
+@csrf_exempt
+def protocolos_id_pasos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            protocolo = Protocolo.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe protocolo ' + id]})
+        pasos = Paso.objects.filter(protocolo=protocolo)
+        return HttpResponse(serializers.serialize("json", pasos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest protocolos/{id}/pasos con metodo " + request.method)

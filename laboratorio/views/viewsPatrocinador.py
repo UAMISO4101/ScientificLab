@@ -4,8 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
-
-from ..models import Patrocinador
+from ..models import Patrocinador, Proyecto
 
 
 #Atiende las peticiones de los Patrocinadores
@@ -18,11 +17,11 @@ def patrocinadores(request):
         nombre = data["nombre"]
         patrocinador = Patrocinador(nombre=nombre)
         patrocinador.save()
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
+        return HttpResponse(serializers.serialize("json", [patrocinador]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         patrocinadores = Patrocinador.objects.all()
-        return HttpResponse(serializers.serialize("json", patrocinadores))
+        return HttpResponse(serializers.serialize("json", patrocinadores), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
 
@@ -52,13 +51,27 @@ def patrocinadores_id(request, id):
             algoCambio = True
         if algoCambio:
             patrocinador.save()
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
+        return HttpResponse(serializers.serialize("json", [patrocinador]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             patrocinador = Patrocinador.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe patrocinador ' + id]})
-        return HttpResponse(serializers.serialize("json", [patrocinador]))
+        return HttpResponse(serializers.serialize("json", [patrocinador]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest patrocinadores con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest patrocinadores/{id} con metodo " + request.method)
+
+#Atiende las peticiones de un Patrocinador determinado
+@csrf_exempt
+def patrocinadores_id_proyectos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            patrocinador = Patrocinador.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe patrocinador ' + id]})
+        proyectos = Proyecto.objects.filter(patrocinador=patrocinador)
+        return HttpResponse(serializers.serialize("json", proyectos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest patrocinadores/{id}/proyectos con metodo " + request.method)

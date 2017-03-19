@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Proyecto, Patrocinador
+from ..models import Proyecto, Patrocinador, Experimento
 from django.shortcuts import render
 
 
@@ -53,8 +53,7 @@ def crear_proyecto(request):
 
         proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal, prioridad=prioridad, avance=avance, estado=estado, patrocinador=patrocinador)
         proyecto.save()
-        return render(request, 'laboratorio/proyectos.html', {"message":"El proyecto fue agregado exitosamente"})
-
+        return HttpResponse(serializers.serialize("json", proyectos))
 
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
@@ -113,13 +112,27 @@ def proyectos_id(request, id):
             proyecto.patrocinador = patrocinador
         if algoCambio:
             proyecto.save()
-        return HttpResponse(serializers.serialize("json", [proyecto]))
+        return HttpResponse(serializers.serialize("json", [proyecto]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
         try:
             proyecto = Proyecto.objects.get(id=id)
         except:
             raise ValidationError({'id': ['No existe Proyecto ' + id]})
-        return HttpResponse(serializers.serialize("json", [proyecto]))
+        return HttpResponse(serializers.serialize("json", [proyecto]), content_type="application/json")
     else:
-        raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
+        raise NotFound(detail="No se encuentra comando rest proyectos/{id} con metodo " + request.method)
+
+#Atiende las peticiones de un Proyecto determinado
+@csrf_exempt
+def proyectos_id_experimentos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            proyecto = Proyecto.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe proyecto ' + id]})
+        experimentos = Experimento.objects.filter(proyecto=proyecto)
+        return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest proyectos/{id}/experimentos con metodo " + request.method)

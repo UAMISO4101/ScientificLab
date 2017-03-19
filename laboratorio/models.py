@@ -88,7 +88,7 @@ class ProtocolosExperimento(models.Model):
 # Clase Paso: Define un paso de un protocolo
 class Paso(models.Model):
     nombre = models.CharField(max_length=250, null=True)
-    protocolos = models.ForeignKey(Protocolo, related_name='pasos', null=True, on_delete=models.CASCADE)
+    protocolo = models.ForeignKey(Protocolo, related_name='pasos', null=True, on_delete=models.CASCADE)
 
 
 # Clase Elemento: Define un elemento del laboratorio
@@ -106,5 +106,5 @@ class Elemento(models.Model):
     nombre = models.CharField(max_length=250, null=True)
     cantidad = models.FloatField(null=True)
     unidades = models.IntegerField(choices=UNIDADES_CHOICES, null=True)
-    pasos = models.ForeignKey(Paso, related_name='elementos', null=True, on_delete=models.CASCADE)
+    paso = models.ForeignKey(Paso, related_name='elementos', null=True, on_delete=models.CASCADE)
 
