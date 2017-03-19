@@ -13,17 +13,11 @@ def agregar_proyecto(request):
     return render(request, 'laboratorio/agregarProyecto.html')
 
 
-def mostrar_proyectos(request):
-    return render(request, 'laboratorio/proyectos.html')
-
-
 #Atiende las peticiones de los Proyectos
-@csrf_exempt
 def proyectos(request):
     # Si es GET Lista
     if request.method == 'GET':
-        proyectos = Proyecto.objects.all()
-        return HttpResponse(serializers.serialize("json", proyectos))
+        return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
 
@@ -31,7 +25,7 @@ def proyectos(request):
 @csrf_exempt
 def crear_proyecto(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
+        data = request.POST
         nombre = data["nombre"]
         descripcion = data["descripcion"]
         fechaInicioUnicode = data["fechaInicio"]
@@ -44,16 +38,20 @@ def crear_proyecto(request):
             fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
         prioridad = data["prioridad"]
         avance = data["avance"]
-        estado = data["estado"]
-        idPatrocinador = data["idPatrocinador"]
+        estado =  0
+        idPatrocinador = (int)(data["patrocinador"])
         try:
             patrocinador = Patrocinador.objects.get(id=idPatrocinador)
         except:
             raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
 
-        proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal, prioridad=prioridad, avance=avance, estado=estado, patrocinador=patrocinador)
+        proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal, prioridad=prioridad, avance=avance, patrocinador=patrocinador, estado=estado)
         proyecto.save()
-        return HttpResponse(serializers.serialize("json", proyectos))
+        return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
+
+    else:
+        return render(request, 'laboratorio/agregarProyecto.html')
+
 
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
@@ -123,6 +121,7 @@ def proyectos_id(request, id):
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos/{id} con metodo " + request.method)
 
+
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
 def proyectos_id_experimentos(request, id):
@@ -136,3 +135,4 @@ def proyectos_id_experimentos(request, id):
         return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos/{id}/experimentos con metodo " + request.method)
+

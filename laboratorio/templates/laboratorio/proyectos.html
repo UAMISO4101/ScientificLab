@@ -8,9 +8,7 @@
     <section id="portfolio" class="bg-light-gray">
         <div class="container">
             <div class="row">
-<a href="{% url 'laboratorio:agregarProyecto' %}" class="portfolio-link" data-toggle="modal"> agregar proyecto</a>
-
-
+            <a href="{% url 'laboratorio:agregarProyecto' %}" class="portfolio-link" data-toggle="modal"> agregar proyecto</a>
                 <div class="datagrid">
                     <table>
                         <thead>
@@ -24,17 +22,18 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                        {% if proyectos %}
-                        {% for proyecto in proyectos %}
-                            <tr>
-                                <td>data</td><td>data</td><td>data</td><td>data</td><td>data</td>
-                            </tr>
-                            <tr class="alt">
-                                <td>data</td><td>data</td><td>data</td><td>data</td><td>data</td>
-                            </tr>
-                        {% endfor %}
+                        {% if proyectos and proyectos.count > 0 %}
+                            {%for proyecto in proyectos%}
+                                <tr class="alt">
+                                     <td>{{ proyecto.nombre }} </td>
+                                     <td>{{ proyecto.avance }}</td>
+                                     <td>{{ proyecto.estado }}</td>
+                                     <td>{{ proyecto.prioridad }}</td>
+                                     <td>{{ proyecto.fechaInicio }}</td>
+                                </tr>
+                            {% endfor %}
                         {%  else %}
-                        <h1>No se han encontrado proyectos</h1>
+                            <h1>No se han encontrado proyectos</h1>
                         {%  endif %}
                         </tbody>
                     </table>

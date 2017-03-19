@@ -6,38 +6,44 @@
     <title>Creación de proyecto</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="../../static/js/ProjectController.js"></script>
-
+    <script type="application/javascript">
+        $("body").ready(function () {
+             $.getJSON("{%url 'laboratorio:patrocinadores'%}").done(showSponsors);
+        });
+    </script>
 </head>
 <body>
 <form method="POST"  action="{%url 'laboratorio:crearProyecto'%}" >
-
+{%csrf_token%}
     <div>
-          <label for="title">Titulo: </label>
-          <input type="text" name="title" id="title" value=""/>
+          <label for="nombre">Titulo: </label>
+          <input type="text" name="nombre" id="nombre" value=""/>
     </div>
     <div>
-          <label for="startDate">Fecha de inicio: </label>
-          <input type="date" name="startDate" id="startDate" value=""/>
+          <label for="fechaInicio">Fecha de inicio: </label>
+          <input type="date" name="fechaInicio" id="fechaInicio" value=""/>
     </div>
     <div>
-          <label for="endDate">Fecha de finalización: </label>
-          <input type="date" name="endDate" id="endDate" value=""/>
+          <label for="fechaFinal">Fecha de finalización: </label>
+          <input type="date" name="fechaFinal" id="fechaFinal" value=""/>
     </div>
     <div>
-          <label for="state">Estado: </label>
-
+          <label for="patrocinador">Patrocinador: </label>
+        <select name="patrocinador" id="selectPatrocinador">
+          <option value="-1">Seleccione un patrocinador</option>
+        </select>
     </div>
     <div>
-          <label for="percentageCompletion">Avance: </label>
-          <input type="number" name="percentageCompletion" id="percentageCompletion" value=""/>
+          <label for="avance">Avance: </label>
+          <input type="number" name="avance" id="avance" value=""/>
     </div>
     <div>
-          <label for="priority">Prioridad: </label>
-          <input type="number" name="priority" id="priority" value=""/>
+          <label for="prioridad">Prioridad: </label>
+          <input type="number" name="prioridad" id="prioridad" value=""/>
     </div>
     <div>
-          <label for="description">Descripción: </label>
-        <textarea name="description"   cols="100" rows="5" id="description"> </textarea>
+          <label for="descripcion">Descripción: </label>
+        <textarea name="descripcion"   cols="100" rows="5" id="descripcion"> </textarea>
     </div>
 
     <input type="submit"  value="Guardar"/>
