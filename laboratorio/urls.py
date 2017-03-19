@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^pasos/$', views.pasos, name='pasos'),
     url(r'^pasos/(?P<id>\d+)/$', views.pasos_id, name='pasoId'),
     url(r'^elementos/$', views.elementos, name='elementos'),
-    url(r'^elementos/(?P<id>\d+)/$', views.elementos_id, name='elementoId')
+    url(r'^elementos/(?P<id>\d+)/$', views.elementos_id, name='elementoId'),
 
     url(r'^patrocinadores/(?P<id>\d+)/proyectos/$', views.patrocinadores_id_proyectos, name='patrocinadoresIdProyectos'),
     url(r'^proyectos/(?P<id>\d+)/experimentos/$', views.proyectos_id_experimentos, name='proyectosIdExperimentos'),
