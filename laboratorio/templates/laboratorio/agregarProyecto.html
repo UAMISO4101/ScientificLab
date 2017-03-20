@@ -1,9 +1,11 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
     <title>Creación de proyecto</title>
+
+{% block header_text %}
+
+{% endblock %}
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="../../static/js/ProjectController.js"></script>
     <script type="application/javascript">
@@ -11,42 +13,76 @@
              $.getJSON("{%url 'laboratorio:patrocinadores'%}").done(showSponsors);
         });
     </script>
-</head>
-<body>
-<form method="POST"  action="{%url 'laboratorio:crearProyecto'%}" >
-{%csrf_token%}
-    <div>
-          <label for="nombre">Titulo: </label>
-          <input type="text" name="nombre" id="nombre" value=""/>
-    </div>
-    <div>
-          <label for="fechaInicio">Fecha de inicio: </label>
-          <input type="date" name="fechaInicio" id="fechaInicio" value=""/>
-    </div>
-    <div>
-          <label for="fechaFinal">Fecha de finalización: </label>
-          <input type="date" name="fechaFinal" id="fechaFinal" value=""/>
-    </div>
-    <div>
-          <label for="patrocinador">Patrocinador: </label>
-        <select name="patrocinador" id="selectPatrocinador">
-          <option value="-1">Seleccione un patrocinador</option>
-        </select>
-    </div>
-    <div>
-          <label for="avance">Avance: </label>
-          <input type="number" name="avance" id="avance" value=""/>
-    </div>
-    <div>
-          <label for="prioridad">Prioridad: </label>
-          <input type="number" name="prioridad" id="prioridad" value=""/>
-    </div>
-    <div>
-          <label for="descripcion">Descripción: </label>
-        <textarea name="descripcion"   cols="100" rows="5" id="descripcion"> </textarea>
-    </div>
-
-    <input type="submit"  value="Guardar"/>
-</form>
-</body>
-</html>
+{% block content %}
+    <section>
+        <div class="container">
+            <h1 class="text-center" style="color:#fed136">Agregar Proyecto</h1>
+            <form class="form-horizontal" method="POST"  action="{%url 'laboratorio:crearProyecto'%}" >
+            {%csrf_token%}
+                <div class="form-group">
+                    <label for="nombre" class="col-sm-2 control-label">Titulo: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="nombre" id="nombre" value="" required autofocus placeholder="Nombre del proyecto"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fechaInicio" class="col-sm-2 control-label">Fecha de inicio: </label>
+                    <div class="col-sm-6">
+                        <input type="date" name="fechaInicio" id="fechaInicio" value="" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fechaFinal"class="col-sm-2 control-label">Fecha de finalización: </label>
+                    <div class="col-sm-6">
+                        <input type="date" name="fechaFinal" id="fechaFinal" value=""/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="patrocinador" class="col-sm-2 control-label">Patrocinador: </label>
+                    <div class="col-sm-6">
+                        <select class="form-control" name="patrocinador" id="selectPatrocinador">
+                            <option value="-1">Seleccione un patrocinador</option>
+                            <option value="1">Universidad de Los Andes</option>
+                            <option value="2">Colciencias</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Estado" class="col-sm-2 control-label">Estado: </label>
+                    <div class="col-sm-6">
+                        <select class="form-control" name="estado" id="selectEstado">
+                            <option value="-1">Seleccione un Estado</option>
+                            <option value="1">Sin iniciar</option>
+                            <option value="2">En ejecución</option>
+                            <option value="3">En pausa</option>
+                            <option value="4">Finalizado</option>
+                            <option value="5">Cancelado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="avance" class="col-sm-2 control-label" >Avance: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="number" name="avance" id="avance" value=""/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prioridad" class="col-sm-2 control-label">Prioridad: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="number" name="prioridad" id="prioridad" value=""/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion" class="col-sm-2 control-label">Descripción: </label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" name="descripcion"   cols="100" rows="5" id="descripcion"> </textarea>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-10">
+                    <input class="btn btn-warning" type="submit"  value="Guardar"/>
+                    <a href="{% url 'laboratorio:index' %}" class="btn btn-warning">Regresar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

@@ -8,10 +8,8 @@ from datetime import datetime
 from ..models import Proyecto, Patrocinador, Experimento
 from django.shortcuts import render
 
-
 def agregar_proyecto(request):
-    return render(request, 'laboratorio/agregarProyecto.html')
-
+    return render(request, 'laboratorio/agregarProyecto.html',{"proyectos": Proyecto.objects.all()})
 
 #Atiende las peticiones de los Proyectos
 def proyectos(request):
@@ -33,17 +31,19 @@ def crear_proyecto(request):
         if fechaInicioUnicode is not None:
             fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
         fechaFinalUnicode = data["fechaFinal"]
+        print("Fecha fin: " , data["fechaFinal"])
         fechaFinal = None
-        if fechaFinalUnicode is not None:
+        if fechaFinalUnicode is not None and fechaFinalUnicode != "" :
             fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
         prioridad = data["prioridad"]
         avance = data["avance"]
+        print(data["estado"])
         estado =  0
         idPatrocinador = (int)(data["patrocinador"])
         try:
             patrocinador = Patrocinador.objects.get(id=idPatrocinador)
         except:
-            raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
+            raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + chr(idPatrocinador)]})
 
         proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal, prioridad=prioridad, avance=avance, patrocinador=patrocinador, estado=estado)
         proyecto.save()
