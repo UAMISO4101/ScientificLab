@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label for="nombre" class="col-sm-2 control-label">Titulo: </label>
                     <div class="col-sm-6">
-                        <input class="form-control" type="text" name="nombre" id="nombre" value="" required autofocus placeholder="Nombre del proyecto"/>
+                        <input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" value="" required autofocus placeholder="Nombre del proyecto">
                     </div>
                 </div>
                 <div class="form-group">
@@ -41,9 +41,9 @@
                     <label for="patrocinador" class="col-sm-2 control-label">Patrocinador: </label>
                     <div class="col-sm-6">
                         <select class="form-control" name="patrocinador" id="selectPatrocinador">
-                            <option value="-1">Seleccione un patrocinador</option>
-                            <option value="1">Universidad de Los Andes</option>
-                            <option value="2">Colciencias</option>
+                            <option value=-1>Seleccione un patrocinador</option>
+                            <option value=1>Universidad de Los Andes</option>
+                            <option value=2>Colciencias</option>
                         </select>
                     </div>
                 </div>
@@ -63,19 +63,19 @@
                 <div class="form-group">
                     <label for="avance" class="col-sm-2 control-label" >Avance: </label>
                     <div class="col-sm-6">
-                        <input class="form-control" type="number" name="avance" id="avance" value=""/>
+                        <input class="form-control" type="number" name="avance" id="avance" value="" min="0" max="100"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="prioridad" class="col-sm-2 control-label">Prioridad: </label>
                     <div class="col-sm-6">
-                        <input class="form-control" type="number" name="prioridad" id="prioridad" value=""/>
+                        <input class="form-control" type="number" min="1" max="100"  maxlength="3" name="prioridad" id="prioridad" value="" pattern="[0-9]{1,5}"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="descripcion" class="col-sm-2 control-label">Descripción: </label>
                     <div class="col-sm-6">
-                        <textarea class="form-control" name="descripcion"   cols="100" rows="5" id="descripcion"> </textarea>
+                        <textarea class="form-control" name="descripcion" maxlength="1000" cols="100" rows="5" id="descripcion"> </textarea>
                     </div>
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">

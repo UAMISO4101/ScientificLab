@@ -21,7 +21,7 @@ class Proyecto(models.Model):
         (CANCELADO, 'Cancelado'),
         (PAUSADO, 'Pausado')
     )
-    nombre = models.CharField(max_length=250, null=True)
+    nombre = models.CharField(max_length=100, null=True)
     descripcion = models.CharField(max_length=1000, null=True)
     fechaInicio = models.DateField(null=True)
     fechaFinal = models.DateField(null=True)
