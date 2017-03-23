@@ -14,8 +14,11 @@ def patrocinadores(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-        nombre = data["nombre"]
-        patrocinador = Patrocinador(nombre=nombre)
+        patrocinador = Patrocinador()
+        if data.has_key("id"):
+            patrocinador.id = data["id"]
+        if data.has_key("nombre"):
+            patrocinador.nombre = data["nombre"]
         patrocinador.save()
         return HttpResponse(serializers.serialize("json", [patrocinador]), content_type="application/json")
     # Si es GET Lista

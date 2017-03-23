@@ -13,13 +13,18 @@ def pasos(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-        nombre = data["nombre"]
-        idProtocolo = data["idProtocolo"]
-        try:
-            protocolo = Protocolo.objects.get(id=idProtocolo)
-        except:
-            raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
-        paso = Paso(nombre=nombre, protocolo=protocolo)
+        paso = Paso()
+        if data.has_key("id"):
+            paso.id = data["id"]
+        if data.has_key("nombre"):
+            paso.nombre = data["nombre"]
+        if data.has_key("idProtocolo"):
+            idProtocolo = data["idProtocolo"]
+            try:
+                protocolo = Protocolo.objects.get(id=idProtocolo)
+            except:
+                raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
+            paso.protocolo = protocolo
         paso.save()
         return HttpResponse(serializers.serialize("json", [paso]), content_type="application/json")
     # Si es GET Lista

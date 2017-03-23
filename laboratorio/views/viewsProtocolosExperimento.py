@@ -13,17 +13,23 @@ def protocolosExperimento(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-        idProtocolo = data["idProtocolo"]
-        try:
-            protocolo = Protocolo.objects.get(id=idProtocolo)
-        except:
-            raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
-        idExperimento = data["idExperimento"]
-        try:
-            experimento = Experimento.objects.get(id=idExperimento)
-        except:
-            raise ValidationError({'idExperimento': ['No existe experimento ' + idExperimento]})
-        protocoloExperimento = ProtocolosExperimento(protocolo=protocolo, experimento=experimento)
+        protocoloExperimento = ProtocolosExperimento()
+        if data.has_key("id"):
+            protocoloExperimento.id = data["id"]
+        if data.has_key("idProtocolo"):
+            idProtocolo = data["idProtocolo"]
+            try:
+                protocolo = Protocolo.objects.get(id=idProtocolo)
+            except:
+                raise ValidationError({'idProtocolo': ['No existe protocolo ' + idProtocolo]})
+            protocoloExperimento.protocolo = protocolo
+        if data.has_key("idExperimento"):
+            idExperimento = data["idExperimento"]
+            try:
+                experimento = Experimento.objects.get(id=idExperimento)
+            except:
+                raise ValidationError({'idExperimento': ['No existe experimento ' + idExperimento]})
+            protocoloExperimento.experimento = experimento
         protocoloExperimento.save()
         return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
     # Si es GET Lista

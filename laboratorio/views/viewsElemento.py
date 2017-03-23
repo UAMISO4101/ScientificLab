@@ -13,15 +13,22 @@ def elementos(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-        nombre = data["nombre"]
-        cantidad = data["cantidad"]
-        unidades = data["unidades"]
-        idPaso = data["idPaso"]
-        try:
-            paso = Paso.objects.get(id=idPaso)
-        except:
-            raise ValidationError({'idPaso': ['No existe paso ' + idPaso]})
-        elemento = Elemento(nombre=nombre, cantidad=cantidad, unidades=unidades, paso=paso)
+        elemento = Elemento()
+        if data.has_key("id"):
+            elemento.id = data["id"]
+        if data.has_key("nombre"):
+            elemento.nombre = data["nombre"]
+        if data.has_key("cantidad"):
+            elemento.cantidad = data["cantidad"]
+        if data.has_key("unidades"):
+            elemento.unidades = data["unidades"]
+        if data.has_key("idPaso"):
+            idPaso = data["idPaso"]
+            try:
+                paso = Paso.objects.get(id=idPaso)
+            except:
+                raise ValidationError({'idPaso': ['No existe paso ' + idPaso]})
+            elemento.paso = paso
         elemento.save()
         return HttpResponse(serializers.serialize("json", [elemento]), content_type="application/json")
     # Si es GET Lista

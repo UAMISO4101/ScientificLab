@@ -13,11 +13,17 @@ def protocolos(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-        titulo = data["titulo"]
-        descripcion = data["descripcion"]
-        version = data["version"]
-        categoria = data["categoria"]
-        protocolo = Protocolo(titulo=titulo, descripcion=descripcion, version=version, categoria=categoria)
+        protocolo = Protocolo()
+        if data.has_key("id"):
+            protocolo.id = data["id"]
+        if data.has_key("titulo"):
+            protocolo.titulo = data["titulo"]
+        if data.has_key("descripcion"):
+            protocolo.descripcion = data["descripcion"]
+        if data.has_key("version"):
+            protocolo.version = data["version"]
+        if data.has_key("categoria"):
+            protocolo.categoria = data["categoria"]
         protocolo.save()
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     # Si es GET Lista

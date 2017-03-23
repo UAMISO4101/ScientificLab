@@ -14,28 +14,38 @@ def experimentos(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-
-        nombre = data["nombre"]
-        descripcion = data["descripcion"]
-        fechaInicioUnicode = data["fechaInicio"]
-        fechaInicio = None
-        if fechaInicioUnicode is not None:
-            fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
-        prioridad = data["prioridad"]
-        estado = data["estado"]
-        resultado = data["resultado"]
-        idProyecto = data["idProyecto"]
-        try:
-            proyecto = Proyecto.objects.get(id=idProyecto)
-        except:
-            raise ValidationError({'idProyecto': ['No existe proyecto ' + idProyecto]})
-        idResponsable = data["idResponsable"]
-        try:
-            responsable = Responsable.objects.get(id=idResponsable)
-        except:
-            raise ValidationError({'idResponsable': ['No existe responsable ' + idResponsable]})
-        experimento = Experimento(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, prioridad=prioridad,
-                                  estado=estado, resultado=resultado, proyecto=proyecto, responsable=responsable)
+        experimento = Experimento()
+        if data.has_key("id"):
+            experimento.id = data["id"]
+        if data.has_key("nombre"):
+            experimento.nombre = data["nombre"]
+        if data.has_key("descripcion"):
+            experimento.descripcion = data["descripcion"]
+        if data.has_key("fechaInicio"):
+            fechaInicioUnicode = data["fechaInicio"]
+            experimento.fechaInicio = None
+            if fechaInicioUnicode is not None:
+                experimento.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
+        if data.has_key("prioridad"):
+            experimento.prioridad = data["prioridad"]
+        if data.has_key("estado"):
+            experimento.estado = data["estado"]
+        if data.has_key("resultado"):
+            experimento.resultado = data["resultado"]
+        if data.has_key("idProyecto"):
+            idProyecto = data["idProyecto"]
+            try:
+                proyecto = Proyecto.objects.get(id=idProyecto)
+            except:
+                raise ValidationError({'idProyecto': ['No existe proyecto ' + idProyecto]})
+            experimento.proyecto = proyecto
+        if data.has_key("idResponsable"):
+            idResponsable = data["idResponsable"]
+            try:
+                responsable = Responsable.objects.get(id=idResponsable)
+            except:
+                raise ValidationError({'idResponsable': ['No existe responsable ' + idResponsable]})
+            experimento.responsable = responsable
         experimento.save()
         return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
     # Si es GET Lista

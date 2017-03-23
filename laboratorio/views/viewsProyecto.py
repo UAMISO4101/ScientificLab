@@ -24,28 +24,36 @@ def proyectos(request):
 def crear_proyecto(request):
     if request.method == 'POST':
         data = request.POST
-        nombre = data["nombre"]
-        descripcion = data["descripcion"]
-        fechaInicioUnicode = data["fechaInicio"]
-        fechaInicio = None
-        if fechaInicioUnicode is not None:
-            fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
-        fechaFinalUnicode = data["fechaFinal"]
-        print("Fecha fin: " , data["fechaFinal"])
-        fechaFinal = None
-        if fechaFinalUnicode is not None and fechaFinalUnicode != "" :
-            fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
-        prioridad = data["prioridad"]
-        avance = data["avance"]
-        print(data["estado"])
-        estado =  0
-        idPatrocinador = (int)(data["patrocinador"])
-        try:
-            patrocinador = Patrocinador.objects.get(id=idPatrocinador)
-        except:
-            raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + chr(idPatrocinador)]})
-
-        proyecto = Proyecto(nombre=nombre, descripcion=descripcion, fechaInicio=fechaInicio, fechaFinal=fechaFinal, prioridad=prioridad, avance=avance, patrocinador=patrocinador, estado=estado)
+        proyecto = Proyecto()
+        if data.has_key("id"):
+            proyecto.id = data["id"]
+        if data.has_key("nombre"):
+            proyecto.nombre = data["nombre"]
+        if data.has_key("descripcion"):
+            proyecto.descripcion = data["descripcion"]
+        if data.has_key("fechaInicio"):
+            fechaInicioUnicode = data["fechaInicio"]
+            proyecto.fechaInicio = None
+            if fechaInicioUnicode is not None:
+                proyecto.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
+        if data.has_key("fechaFinal"):
+            fechaFinalUnicode = data["fechaFinal"]
+            proyecto.fechaFinal = None
+            if fechaFinalUnicode is not None:
+                proyecto.fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
+        if data.has_key("prioridad"):
+            proyecto.prioridad = data["prioridad"]
+        if data.has_key("avance"):
+            proyecto.avance = data["avance"]
+        if data.has_key("estado"):
+            proyecto.estado = data["estado"]
+        if data.has_key("idPatrocinador"):
+            idPatrocinador = data["idPatrocinador"]
+            try:
+                patrocinador = Patrocinador.objects.get(id=idPatrocinador)
+            except:
+                raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
+            proyecto.patrocinador = patrocinador
         proyecto.save()
         return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
 

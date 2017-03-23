@@ -13,8 +13,11 @@ def responsables(request):
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
-        nombre = data["nombre"]
-        responsable = Responsable(nombre=nombre)
+        responsable = Responsable()
+        if data.has_key("id"):
+            responsable.id = data["id"]
+        if data.has_key("nombre"):
+            responsable.nombre = data["nombre"]
         responsable.save()
         return HttpResponse(serializers.serialize("json", [responsable]), content_type="application/json")
     # Si es GET Lista
