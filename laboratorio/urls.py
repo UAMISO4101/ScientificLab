@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'^protocolos/(?P<id>\d+)/experimentos/$', views.protocolos_id_experimentos, name='protocolosIdExperimentos'),
     url(r'^protocolos/(?P<id>\d+)/pasos/$', views.protocolos_id_pasos, name='protocolosIdPasos'),
     url(r'^pasos/(?P<id>\d+)/elementos/$', views.pasos_id_elementos, name='pasosIdElementos'),
-
+    url(r'^protocolos/(?P<id>\d+)/nuevaVersion/$', views.protocolos_id_nueva_version, name='protocoloIdNuevaVersion'),
 ]

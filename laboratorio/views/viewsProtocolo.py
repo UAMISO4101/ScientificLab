@@ -105,3 +105,22 @@ def protocolos_id_pasos(request, id):
         return HttpResponse(serializers.serialize("json", pasos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id}/pasos con metodo " + request.method)
+
+#Atiende las peticiones de un Protocolo determinado duplicandolo sumandole uno a la version
+@csrf_exempt
+def protocolos_id_nueva_version(request, id):
+    # Si es POST crea la nueva version
+    if request.method == 'POST':
+        try:
+            protocolo = Protocolo.objects.get(id=id)
+        except:
+            raise ValidationError({'id': ['No existe protocolo ' + id]})
+        if protocolo.version is None:
+            protocolo.version = 0
+        else:
+            protocolo.version = protocolo.version + 1
+        protocolo.pk = None
+        protocolo.save()
+        return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest protocolos/{id}/nuevaVersion/ con metodo " + request.method)
