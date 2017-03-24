@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Proyecto, Patrocinador, Experimento
+from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto
 from django.shortcuts import render
 
 def agregar_proyecto(request):
@@ -139,4 +139,18 @@ def proyectos_id_experimentos(request, id):
         return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos/{id}/experimentos con metodo " + request.method)
+
+#Atiende las peticiones de Estados de Proyecto
+@csrf_exempt
+def lista_estados_proyecto(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            estados = EstadoProyecto().getDict()
+            print estados
+        except:
+            raise ValidationError({'id': ['No fue posible generar la lista de estados de proyecto']})
+        return HttpResponse(json.dumps(estados), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
 

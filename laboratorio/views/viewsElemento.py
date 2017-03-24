@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
-from ..models import Elemento, Paso
+from ..models import Elemento, Paso, UnidadElemento
 
 #Atiende las peticiones de los Elementos
 @csrf_exempt
@@ -88,3 +88,17 @@ def elementos_id(request, id):
     else:
         raise NotFound(detail="No se encuentra comando rest elementos/{id} con metodo " + request.method)
 
+
+#Atiende las peticiones de Unidades de Elemento
+@csrf_exempt
+def lista_unidades_elemento(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            unidades = UnidadElemento().getDict()
+            print unidades
+        except:
+            raise ValidationError({'id': ['No fue posible generar la lista de unidades de elemento']})
+        return HttpResponse(json.dumps(unidades), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest unidadeselemento/ con metodo " + request.method)

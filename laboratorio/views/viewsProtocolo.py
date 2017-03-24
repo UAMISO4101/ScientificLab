@@ -4,7 +4,7 @@ from django.core import serializers
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
-from ..models import Protocolo, Experimento, Paso
+from ..models import Protocolo, Experimento, Paso, CategoriaProtocolo
 
 #Atiende las peticiones de los Protocolos
 @csrf_exempt
@@ -124,3 +124,18 @@ def protocolos_id_nueva_version(request, id):
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id}/nuevaVersion/ con metodo " + request.method)
+
+
+#Atiende las peticiones de Categorias de Protocolo
+@csrf_exempt
+def lista_categorias_protocolo(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            categorias = CategoriaProtocolo().getDict()
+            print categorias
+        except:
+            raise ValidationError({'id': ['No fue posible generar la lista de categorias de protocolo']})
+        return HttpResponse(json.dumps(categorias), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest categoriasprotocolo/ con metodo " + request.method)

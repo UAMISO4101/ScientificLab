@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Experimento, Proyecto, Responsable, Protocolo
+from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento
 
 #Atiende las peticiones de los Experimentos
 @csrf_exempt
@@ -138,3 +138,17 @@ def experimentos_id_protocolos(request, id):
         return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos/{id}/protocolos con metodo " + request.method)
+    
+#Atiende las peticiones de Resultados de Experimento
+@csrf_exempt
+def lista_resultados_experimento(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            resultados = ResultadoExperimento().getDict()
+            print resultados
+        except:
+            raise ValidationError({'id': ['No fue posible generar la lista de resultados de experimento']})
+        return HttpResponse(json.dumps(resultados), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest resultadosexperimento/ con metodo " + request.method)
