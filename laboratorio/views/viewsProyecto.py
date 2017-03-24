@@ -9,19 +9,15 @@ from ..models import Proyecto, Patrocinador, Experimento
 from django.shortcuts import render
 
 def agregar_proyecto(request):
-    return render(request, 'laboratorio/agregarProyecto.html',{"proyectos": Proyecto.objects.all()})
+    return render(request, 'laboratorio/agregarProyecto.html')
+
+def listar_proyectos(request):
+    return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
+
 
 #Atiende las peticiones de los Proyectos
-def proyectos(request):
-    # Si es GET Lista
-    if request.method == 'GET':
-        return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
-    else:
-        raise NotFound(detail="No se encuentra comando rest proyectos con metodo " + request.method)
-
-
 @csrf_exempt
-def crear_proyecto(request):
+def proyectos(request):
     if request.method == 'POST':
         data = request.POST
         proyecto = Proyecto()
@@ -55,11 +51,11 @@ def crear_proyecto(request):
                 raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + idPatrocinador]})
             proyecto.patrocinador = patrocinador
         proyecto.save()
-        return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
-
-    else:
-        return render(request, 'laboratorio/agregarProyecto.html')
-
+        return HttpResponse(serializers.serialize("json", [proyecto]))
+    # Si es GET Lista
+    elif request.method == 'GET':
+        proyectos = Proyecto.objects.all()
+        return HttpResponse(serializers.serialize("json", proyectos))
 
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt

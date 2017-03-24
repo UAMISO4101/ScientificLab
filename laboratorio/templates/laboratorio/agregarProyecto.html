@@ -3,21 +3,20 @@
     <title>Creación de proyecto</title>
 
 {% block header_text %}
-
-{% endblock %}
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="../../static/js/ProjectController.js"></script>
     <script type="application/javascript">
         $("body").ready(function () {
              $.getJSON("{%url 'laboratorio:patrocinadores'%}").done(showSponsors);
         });
     </script>
+{% endblock %}
+
 {% block content %}
     <section>
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Agregar Proyecto</h1>
-            <form class="form-horizontal" method="POST"  action="{%url 'laboratorio:crearProyecto'%}" >
+            <form class="form-horizontal" method="POST" data-add-project-url="{%url 'laboratorio:proyectos'%}" id="formAddProject">
             {%csrf_token%}
                 <div class="form-group">
                     <label for="nombre" class="col-sm-2 control-label">Titulo: </label>
@@ -40,10 +39,7 @@
                 <div class="form-group">
                     <label for="patrocinador" class="col-sm-2 control-label">Patrocinador: </label>
                     <div class="col-sm-6">
-                        <select class="form-control" name="patrocinador" id="selectPatrocinador">
-                            <option value=-1>Seleccione un patrocinador</option>
-                            <option value=1>Universidad de Los Andes</option>
-                            <option value=2>Colciencias</option>
+                        <select class="form-control" name="patrocinador" id="patrocinador">
                         </select>
                     </div>
                 </div>
@@ -79,8 +75,8 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
-                    <input class="btn btn-warning" type="submit"  value="Guardar"/>
-                    <a href="{% url 'laboratorio:index' %}" class="btn btn-warning">Regresar</a>
+                    <input class="btn btn-warning" type="button" onclick=saveProject();  value="Guardar"/>
+                    <a href="{% url 'laboratorio:listarProyectos' %}" class="btn btn-warning">Regresar</a>
                 </div>
             </form>
         </div>

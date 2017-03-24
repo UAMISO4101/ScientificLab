@@ -5,13 +5,11 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^agregarProyecto/$', views.agregar_proyecto, name='agregarProyecto'),
-    #url(r'^proyectos/$', views.mostrar_proyectos, name='listaProyectos'),
-
+    url(r'^listarProyectos/$', views.listar_proyectos, name='listarProyectos'),
 
     url(r'^patrocinadores/$', views.patrocinadores, name='patrocinadores'),
     url(r'^patrocinadores/(?P<id>\d+)/$', views.patrocinadores_id, name='patrocinadorId'),
     url(r'^proyectos/$', views.proyectos, name='proyectos'),
-    url(r'^crearProyecto/$', views.crear_proyecto, name='crearProyecto'),
     url(r'^proyectos/(?P<id>\d+)/$', views.proyectos_id, name='proyectoId'),
 
     url(r'^responsables/$', views.responsables, name='responsables'),

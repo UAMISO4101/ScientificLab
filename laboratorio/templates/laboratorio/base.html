@@ -33,7 +33,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js" integrity="sha384-0s5Pv64cNZJieYFkXYOTId2HMA2Lfb6q2nAcx2n0RTLUnCAoTTsS0nKEO27XyKcY" crossorigin="anonymous"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
-
+    <script type="application/javascript">
+        var host ="http://{{ request.META.HTTP_HOST }}";
+    </script>
 </head>
 
 <body id="page-top" class="index" style="background-color: #168ccc">
@@ -60,7 +62,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="{% url 'laboratorio:proyectos' %}">Proyectos</a>
+                        <a class="page-scroll" href="{% url 'laboratorio:listarProyectos' %}">Proyectos</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="{% url 'laboratorio:experimentos' %}">Experimentos</a>
@@ -111,7 +113,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-6 portfolio-item">
-                    <a href="{% url 'laboratorio:proyectos' %}" class="portfolio-link" data-toggle="modal">
+                    <a href="{% url 'laboratorio:listarProyectos' %}" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
                                 <i class="fa fa-plus fa-3x"></i>
