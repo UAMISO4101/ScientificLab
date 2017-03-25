@@ -68,7 +68,7 @@
                         <a class="page-scroll" href="{% url 'laboratorio:listarExperimentos' %}">Experimentos</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="{% url 'laboratorio:protocolos' %}">Protocolos</a>
+                        <a class="page-scroll" href="{% url 'laboratorio:listarProtocolos' %}">Protocolos</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#Solicitudes">Solicitudes</a>
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6 portfolio-item">
-                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                    <a href="{% url 'laboratorio:listarProtocolos' %}" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
                                 <i class="fa fa-plus fa-3x"></i>

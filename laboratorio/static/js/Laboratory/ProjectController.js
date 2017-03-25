@@ -4,17 +4,17 @@ function showSponsors(response) {
     sponsorsList.append(new Option("Seleccione un patrocinador", -1));
     for (var i=0; i <response.length; i++){
         sponsor = response[i];
-        sponsorsList.append(new Option(sponsor.fields.nombre, sponsor.pk));
+        sponsorsList.append(new Option(sponsor.fields.nombre, 1));
     }
 }
-
+/*
 function validateData(){
     if(dataIsCorrect())
         saveProject();
 }
 function dataIsCorrect() {
     var result = true;
-    result = result || ("nombre","El nombre es requerido");
+    result = result || requiredField("nombre","El nombre es requerido");
     result = result || requiredField("descripcion","La descripción es requerida");
     result = result || requiredField("prioridad","La prioridad es requerida");
     result = result || requiredField("avance","El avance es requerido");
@@ -58,7 +58,7 @@ function requiredField(id, message) {
         return false;
     }
     return true;
-}
+}*/
 function saveProject() {
     var project = {};
     project.nombre =$("#nombre").val();
@@ -81,8 +81,30 @@ function saveProject() {
     });
 }
 
+function editProject() {
+    var project = {};
+    project.nombre =$("#nombre").val();
+    project.descripcion =$("#descripcion").val();
+    project.fechaInicio =$("#fechaInicio").val();
+    project.fechaFinal =$("#fechaFinal").val();
+    project.prioridad =$("#prioridad").val();
+    project.avance =$("#avance").val();
+    project.estado =$('#estado option:selected').val()
+    project.patrocinador =$('#patrocinador option:selected').val()
+
+    var url = $("#formEditProject").attr("data-edit-project-url");
+    $.ajax({
+        url: host+url,
+        method:"POST",
+        data:project,
+        sucess:successSaveProject,
+        error:errorSaveProject,
+        dataType: 'json'
+    });
+}
+
 function successSaveProject(response) {
-    alertify.success("El proyecto se a guardado correctamente");
+    alertify.success("El proyecto se ha guardado correctamente");
 }
 
 function errorSaveProject(e){

@@ -5,11 +5,14 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from ..models import Protocolo, Experimento, Paso, CategoriaProtocolo
+from django.shortcuts import render
+
+def listar_protocolos(request):
+    return render(request, 'laboratorio/Protocolo/protocolos.html', {"protocolos": Protocolo.objects.all()})
 
 #Atiende las peticiones de los Protocolos
 @csrf_exempt
 def protocolos(request):
-
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)

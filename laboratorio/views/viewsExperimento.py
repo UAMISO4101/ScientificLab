@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento
+from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto
 from django.shortcuts import render
 
 def agregar_experimento(request):
@@ -18,7 +18,7 @@ def detallar_experimento(request):
     return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.first()})
 
 def editar_experimento(request):
-    return render(request, 'laboratorio/Experimento/editarExperimento.html', {"experimentos": Experimento.objects.first()})
+    return render(request, 'laboratorio/Experimento/editarExperimento.html')
 
 
 #Atiende las peticiones de los Experimentos
@@ -165,3 +165,17 @@ def lista_resultados_experimento(request):
         return HttpResponse(json.dumps(resultados), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest resultadosexperimento/ con metodo " + request.method)
+
+#Atiende las peticiones de Estados del Experimento
+@csrf_exempt
+def lista_estados_experimento(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            estados = EstadoProyecto().getDict()
+            print estados
+        except:
+            raise ValidationError({'id': ['No fue posible generar la lista de estados del experimento']})
+        return HttpResponse(json.dumps(estados), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest estadosexperimento/ con metodo " + request.method)

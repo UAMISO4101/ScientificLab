@@ -4,7 +4,14 @@
 
 {% block header_text %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="../../../static/js/ExperimentController.js"></script>
+    <script src="../../../static/js/Laboratory/ExperimentController.js"></script>
+    <script type="application/javascript">
+        $("body").ready(findLists);
+
+        function findLists(){
+             $.getJSON("{%url 'laboratorio:listaEstadosExperimento'%}").done(showExperimentStates);
+        }
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -42,13 +49,7 @@
                 <div class="form-group">
                     <label for="Estado" class="col-sm-2 control-label">Estado: </label>
                     <div class="col-sm-6">
-                        <select class="form-control" name="estado" id="selectEstado">
-                            <option value="-1">Seleccione un Estado</option>
-                            <option value="1">Sin iniciar</option>
-                            <option value="2">En ejecución</option>
-                            <option value="3">En pausa</option>
-                            <option value="4">Finalizado</option>
-                            <option value="5">Cancelado</option>
+                        <select class="form-control" name="estado" id="estado">
                         </select>
                     </div>
                 </div>

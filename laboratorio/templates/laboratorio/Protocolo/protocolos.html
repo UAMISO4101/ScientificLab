@@ -5,18 +5,17 @@
 {% block content %}
     <section id="portfolio" >
         <div class="container">
-            <h1 class="text-center" style="color:#fed136">Proyectos</h1>
+            <h1 class="text-center" style="color:#fed136">Protocolos</h1>
             <div class="row">
-                <a href="{% url 'laboratorio:agregarProyecto' %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
                 <div class="datagrid ">
                     <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Avance</th>
-                                <th>Estado</th>
-                                <th>Prioridad</th>
-                                <th>Fecha Inicio</th>
+                                <th></th>
+                                <th>Título</th>
+                                <th>Descripción</th>
+                                <th>Versión</th>
+                                <th>Categoria</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -39,19 +38,19 @@
                         {% if proyectos and proyectos.count > 0 %}
                             {%for proyecto in proyectos%}
                                 <tr class="alt">
-                                     <td>{{ proyecto.nombre }} </td>
-                                     <td>{{ proyecto.avance }}</td>
-                                     <td>{{ proyecto.estado }}</td>
-                                     <td>{{ proyecto.prioridad }}</td>
-                                     <td>{{ proyecto.fechaInicio }}</td>
+                                     <td> <input type="checkbox"/> </td>
+                                     <td>{{ proyecto.titulo }} </td>
+                                     <td>{{ proyecto.descripcion }} </td>
+                                     <td>{{ proyecto.version }}</td>
+                                     <td>{{ proyecto.categoria }}</td>
                                     <td style="width: 10%" >
-                                        <a href="{% url 'laboratorio:editarProyecto' %}" class="btn btn-info btn-round"><span class="glyphicon glyphicon-pencil"></span></a>
-                                        <a href="{% url 'laboratorio:detallarProyecto' %}" class="btn btn-danger btn-round"><span class="glyphicon glyphicon-minus"></span></a>
+                                        <!--<a href="{% url 'laboratorio:editarProyecto' %}" class="btn btn-info btn-round"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="{% url 'laboratorio:detallarProyecto' %}" class="btn btn-danger btn-round"><span class="glyphicon glyphicon-minus"></span></a>-->
                                     </td>
                                 </tr>
                             {% endfor %}
                         {%  else %}
-                            <h1>No se han encontrado proyectos</h1>
+                            <h1>No se han encontrado protocolos</h1>
                         {%  endif %}
                         </tbody>
                     </table>

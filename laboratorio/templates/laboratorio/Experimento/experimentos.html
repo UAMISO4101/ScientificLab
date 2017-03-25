@@ -49,8 +49,9 @@
                                      <td>{{ experimento.responsable }}</td>
                                      <td>{{ experimento.resultado }}</td>
                                     <td style="width: 10%" >
-                                        <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-info btn-round"><span class="glyphicon glyphicon-pencil"></span></a>
-                                        <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-danger btn-round"><span class="glyphicon glyphicon-minus"></span></a>
+                                        <a href="{% url 'laboratorio:editarExperimento' %}" class="btn btn-info btn-round"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="{% url 'laboratorio:detallarExperimento' %}" class="btn btn-danger btn-round"><span class="glyphicon glyphicon-minus"></span></a>
+
                                     </td>
                                 </tr>
                             {% endfor %}
