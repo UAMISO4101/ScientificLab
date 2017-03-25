@@ -3,12 +3,25 @@
     <title>Creación de proyecto</title>
 
 {% block header_text %}
+<<<<<<< HEAD:laboratorio/templates/laboratorio/Proyecto/agregarProyecto.html
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="../../../static/js/ProjectController.js"></script>
+=======
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../../static/js/alertify.js"></script>
+    <script src="../../static/js/Laboratory/ProjectController.js"></script>
+    <script src="../../static/js/moment.js"></script>
+
+>>>>>>> a6ab08d2d943f541d93508c675fbcccb12cfa1f0:laboratorio/templates/laboratorio/agregarProyecto.html
     <script type="application/javascript">
-        $("body").ready(function () {
+        $("body").ready(findLists);
+
+        function findLists(){
              $.getJSON("{%url 'laboratorio:patrocinadores'%}").done(showSponsors);
-        });
+             $.getJSON("{%url 'laboratorio:listaEstadosProyecto'%}").done(showProjectStates);
+        }
     </script>
 {% endblock %}
 
@@ -46,20 +59,14 @@
                 <div class="form-group">
                     <label for="Estado" class="col-sm-2 control-label">Estado: </label>
                     <div class="col-sm-6">
-                        <select class="form-control" name="estado" id="selectEstado">
-                            <option value="-1">Seleccione un Estado</option>
-                            <option value="1">Sin iniciar</option>
-                            <option value="2">En ejecución</option>
-                            <option value="3">En pausa</option>
-                            <option value="4">Finalizado</option>
-                            <option value="5">Cancelado</option>
+                        <select class="form-control" name="estado" id="estado">
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="avance" class="col-sm-2 control-label" >Avance: </label>
                     <div class="col-sm-6">
-                        <input class="form-control" type="number" name="avance" id="avance" value="" min="0" max="100"/>
+                        <input class="form-control" type="number" name="avance" id="avance" value="0" min="0" max="100"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -75,10 +82,11 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
-                    <input class="btn btn-warning" type="button" onclick=saveProject();  value="Guardar"/>
+                    <input class="btn btn-warning" type="button" onclick=validateData();  value="Guardar"/>
                     <a href="{% url 'laboratorio:listarProyectos' %}" class="btn btn-warning">Regresar</a>
                 </div>
             </form>
+            <div id="error" style="width: 100%; height: 100%;"></div>
         </div>
     </section>
 {% endblock %}
