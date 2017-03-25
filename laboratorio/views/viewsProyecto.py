@@ -9,10 +9,10 @@ from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto
 from django.shortcuts import render
 
 def agregar_proyecto(request):
-    return render(request, 'laboratorio/agregarProyecto.html')
+    return render(request, 'laboratorio/Proyecto/agregarProyecto.html')
 
 def listar_proyectos(request):
-    return render(request, 'laboratorio/proyectos.html', {"proyectos": Proyecto.objects.all()})
+    return render(request, 'laboratorio/Proyecto/proyectos.html', {"proyectos": Proyecto.objects.all()})
 
 
 #Atiende las peticiones de los Proyectos

@@ -6,11 +6,24 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
 from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento
+from django.shortcuts import render
+
+def agregar_experimento(request):
+    return render(request, 'laboratorio/Experimento/agregarExperimento.html')
+
+def listar_experimentos(request):
+    return render(request, 'laboratorio/Experimento/experimentos.html', {"experimentos": Experimento.objects.all()})
+
+def detallar_experimento(request):
+    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.first()})
+
+def editar_experimento(request):
+    return render(request, 'laboratorio/Experimento/editarExperimento.html', {"experimentos": Experimento.objects.first()})
+
 
 #Atiende las peticiones de los Experimentos
 @csrf_exempt
 def experimentos(request):
-
     # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)

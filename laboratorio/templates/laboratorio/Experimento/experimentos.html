@@ -1,0 +1,66 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+{% block header_text %}
+{% endblock %}
+{% block content %}
+    <section id="portfolio" >
+        <div class="container">
+            <h1 class="text-center" style="color:#fed136">Experimentos</h1>
+            <div class="row">
+                <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
+                <div class="datagrid ">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                                <th>Prioridad</th>
+                                <th>Fecha Inicio</th>
+                                <th>Proyecto</th>
+                                <th>Responsable</th>
+                                <th>Resultado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <div id="paging">
+                                        <ul>
+                                            <li><a href="#"><span>Previous</span></a></li>
+                                            <li><a href="#" class="active"><span>1</span></a></li>
+                                            <li><a href="#"><span>2</span></a></li>
+                                            <li><a href="#"><span>3</span></a></li>
+                                            <li><a href="#"><span>Next</span></a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                        {% if experimentos and experimentos.count > 0 %}
+                            {%for experimento in experimentos%}
+                                <tr class="alt">
+                                     <td>{{ experimento.nombre }} </td>
+                                     <td>{{ experimento.estado }}</td>
+                                     <td>{{ experimento.prioridad }}</td>
+                                     <td>{{ experimento.fechaInicio }}</td>
+                                     <td>{{ experimento.proyecto }}</td>
+                                     <td>{{ experimento.responsable }}</td>
+                                     <td>{{ experimento.resultado }}</td>
+                                    <td style="width: 10%" >
+                                        <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-info btn-round"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-danger btn-round"><span class="glyphicon glyphicon-minus"></span></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {%  else %}
+                            <h1>No se han encontrado experimentos</h1>
+                        {%  endif %}
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+         </div>
+    </section>
+{% endblock %}

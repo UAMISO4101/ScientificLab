@@ -61,7 +61,7 @@ class ResultadoExperimento:
 
 # Clase Experimento: Define un experimento dentro de un proyecto
 class Experimento(models.Model):
-    nombre = models.CharField(max_length=250, null=True)
+    nombre = models.CharField(max_length=100, null=True)
     descripcion = models.CharField(max_length=1000, null=True)
     fechaInicio = models.DateField(null=True)
     prioridad = models.IntegerField(null=True)

@@ -1,0 +1,70 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+    <title>Detalle de experimento</title>
+
+{% block header_text %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../../../static/js/ExperimentController.js"></script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <h1 class="text-center" style="color:#fed136">Detalle de Experimento</h1>
+            <form class="form-horizontal" method="POST" data-details-experiment-url="{%url 'laboratorio:detallarExperimento'%}" id="formDetailsExperiment">
+            {%csrf_token%}
+                <div class="form-group">
+                    <label for="nombre" class="col-sm-2 control-label">Titulo: </label>
+                    <div class="col-sm-6">
+                        <strong> {{ experimento.nombre }} </strong>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fechaInicio" class="col-sm-2 control-label">Fecha de inicio: </label>
+                    <div class="col-sm-6">
+                        <strong> {{ experimento.fechaInicio }} </strong>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="proyecto" class="col-sm-2 control-label">Proyecto: </label>
+                    <div class="col-sm-6">
+                        <strong> {{ experimento.proyecto }} </strong>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="responsable" class="col-sm-2 control-label">Responsable: </label>
+                    <div class="col-sm-6">
+                        <strong> {{ experimento.responsable }} </strong>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Estado" class="col-sm-2 control-label">Estado: </label>
+                    <div class="col-sm-6">
+                        <strong> {{ experimento.estado }} </strong>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prioridad" class="col-sm-2 control-label">Prioridad: </label>
+                    <div class="col-sm-6">
+                        <strong> {{ experimento.prioridad }} </strong>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="resultado" class="col-sm-2 control-label">Resultado: </label>
+                    <div class="col-sm-6">
+                       <strong> {{ experimento.resultado }} </strong>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion" class="col-sm-2 control-label">Descripción: </label>
+                    <div class="col-sm-6">
+                       <strong> {{ experimento.descripcion }} </strong>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-10">
+                    <a href="{% url 'laboratorio:listarExperimentos' %}" class="btn btn-warning">Regresar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
