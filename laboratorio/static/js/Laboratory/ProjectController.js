@@ -71,8 +71,6 @@ function saveProject() {
     project.patrocinador =$('#patrocinador option:selected').val()
 
     var url = $("#formAddProject").attr("data-add-project-url");
-    alert (url);
-    alert (host);
     $.ajax({
         url: host+url,
         method:"POST",
