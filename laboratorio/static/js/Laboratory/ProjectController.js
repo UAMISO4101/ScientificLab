@@ -1,11 +1,66 @@
-function showSponsors(response) {
-    var sponsorsList  =$("#patrocinador");
-    var sponsor;
-    sponsorsList.append(new Option("Seleccione un patrocinador", -1));
-    for (var i=0; i <response.length; i++){
-        sponsor = response[i];
-        sponsorsList.append(new Option(sponsor.fields.nombre, sponsor.pk));
+function validateData(createProject){
+    if(dataIsCorrect()) {
+        if(createProject)
+            saveProject();
+        else
+            updateProject();
     }
+}
+
+function dataIsCorrect() {
+
+    if($("#nombre").val().trim() == '') {
+        alertify.error("El nombre es requerido",2);
+        return false;
+    }
+
+    if($("#descripcion").val().trim() == '') {
+        alertify.error("La descripción es requerida",2);
+        return false;
+    }
+
+    if($("#prioridad").val().trim() == '') {
+        alertify.error("La prioridad es requerida",2);
+        return false;
+    }
+
+    if($("#avance").val().trim() == '') {
+        alertify.error("El avance es requerido",2);
+        return false;
+    }
+
+    if($("#avance").val()>100 || $("#avance").val()<0) {
+        alertify.error("El avance debe ser entre 0% y 100%",2);
+        return false;
+    }
+
+    if($("#prioridad").val()>10 || $("#prioridad").val()<1) {
+        alertify.error("La prioridad debe ser entre 1 y 10",2);
+        return false;
+    }
+
+    var startDate = moment($("#fechaInicio").val())
+    var endDate  =moment($("#fechaFinal").val());
+    if(!startDate.isValid() || !endDate.isValid()){
+        alertify.error("Las fechas son requeridas",2);
+        return false;
+    }
+
+    if(startDate.diff(endDate)>=0) {
+        alertify.error("La fecha incial debe ser menor a la fecha final",2);
+        return false;
+    }
+
+    if($('#estado option:selected').val() == -1) {
+        alertify.error("Seleccione un estado",2);
+        return false;
+    }
+
+    if($('#patrocinador option:selected').val() == -1) {
+        alertify.error("Seleccione un patrocinador",2);
+        return false;
+    }
+    return true;
 }
 
 function saveProject() {
@@ -14,25 +69,25 @@ function saveProject() {
         url: host+url,
         method:"POST",
         data:getData(),
-        sucess:successSaveProject,
+        success:successSaveProject,
         error:errorSaveProject,
-        dataType: 'json'
+        dataType: "json"
     });
 }
 
 function updateProject() {
     var url = $("#formProject").attr("data-project-url");
     $.ajax({
-        "url": host + url,
-        "method": "PUT",
-        "data": JSON.stringify(getData()),
-        "sucess": successSaveProject,
-        "error": errorSaveProject,
-        "headers": {
-            "content-type": "application/json"
-        }
+        url: host + url,
+        async:true,
+        method: "PUT",
+        data: JSON.stringify(getData()),
+        success: successSaveProject,
+        error: errorSaveProject,
+
     });
 }
+
 function getData() {
      var project = {};
     project.nombre =$("#nombre").val();
@@ -52,7 +107,7 @@ function successSaveProject(response) {
 }
 
 function errorSaveProject(e){
-    console.log(e);
+    alertify.error("Error al guardar el proyecto");
 }
 
 function showProjectStates(response){
@@ -66,7 +121,18 @@ function showProjectStates(response){
     }
 }
 
+function showSponsors(response) {
+    var sponsorsList  =$("#patrocinador");
+    var sponsor;
+    sponsorsList.append(new Option("Seleccione un patrocinador", -1));
+    for (var i=0; i <response.length; i++){
+        sponsor = response[i];
+        sponsorsList.append(new Option(sponsor.fields.nombre, sponsor.pk));
+    }
+}
+
 function setDate(date, id){
     var dateValue =moment(date).format('YYYY-MM-DD')
     $("#"+id).val(dateValue);
 }
+
