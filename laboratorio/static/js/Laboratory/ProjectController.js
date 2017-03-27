@@ -4,7 +4,8 @@ function showSponsors(response) {
     sponsorsList.append(new Option("Seleccione un patrocinador", -1));
     for (var i=0; i <response.length; i++){
         sponsor = response[i];
-        sponsorsList.append(new Option(sponsor.fields.nombre, 1));
+        console.log(sponsor);
+        sponsorsList.append(new Option(sponsor.fields.nombre, sponsor.pk));
     }
 }
 /*
@@ -67,8 +68,8 @@ function saveProject() {
     project.fechaFinal =$("#fechaFinal").val();
     project.prioridad =$("#prioridad").val();
     project.avance =$("#avance").val();
-    project.estado =$('#estado option:selected').val()
-    project.patrocinador =$('#patrocinador option:selected').val()
+    project.estado =$('#estado option:selected').val();
+    project.patrocinador =$('#patrocinador option:selected').val();
 
     var url = $("#formAddProject").attr("data-add-project-url");
     $.ajax({

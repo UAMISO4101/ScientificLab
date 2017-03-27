@@ -4,13 +4,15 @@
 
 {% block header_text %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="../../../static/js/Laboratory/ExperimentController.js"></script>
+    <script src="{% static 'js/Laboratory/ExperimentController.js' %}"></script>
         <script type="application/javascript">
         $("body").ready(findLists);
-
         function findLists(){
              $.getJSON("{%url 'laboratorio:listaEstadosExperimento'%}").done(showExperimentStates);
+             $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
+             $.getJSON("{%url 'laboratorio:responsables'%}").done(showResponsables);
         }
+
     </script>
 {% endblock %}
 
@@ -63,6 +65,8 @@
                     <label for="resultado" class="col-sm-2 control-label">Resultado: </label>
                     <div class="col-sm-6">
                         <select class="form-control" name="resultado" id="resultado">
+                            <option value=1>Exitoso</option>
+                            <option value=2>Fallido</option>
                         </select>
                     </div>
                 </div>

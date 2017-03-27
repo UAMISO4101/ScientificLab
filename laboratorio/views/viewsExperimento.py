@@ -17,8 +17,8 @@ def listar_experimentos(request):
 def detallar_experimento(request):
     return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.first()})
 
-def editar_experimento(request):
-    return render(request, 'laboratorio/Experimento/editarExperimento.html')
+def editar_experimento(request, id):
+    return render(request, 'laboratorio/Experimento/editarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
 
 
 #Atiende las peticiones de los Experimentos
@@ -26,7 +26,7 @@ def editar_experimento(request):
 def experimentos(request):
     # Si es POST Graba
     if request.method == 'POST':
-        data = json.loads(request.body)
+        data = request.POST
         experimento = Experimento()
         if data.has_key("id"):
             experimento.id = data["id"]
@@ -179,3 +179,16 @@ def lista_estados_experimento(request):
         return HttpResponse(json.dumps(estados), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest estadosexperimento/ con metodo " + request.method)
+
+@csrf_exempt
+def lista_nombre_proyecto(request):
+    # Si es GET Lista
+    if request.method == 'GET':
+        try:
+            Nombre_proyectos = Proyecto.objects.all()
+        except:
+            raise ValidationError({'id': ['No existen proyecto']})
+        return HttpResponse(serializers.serialize("json", Nombre_proyectos), content_type="application/json")
+
+    else:
+        raise NotFound(detail="No se encuentra comando rest nombreProyecto/ con metodo " + request.method)

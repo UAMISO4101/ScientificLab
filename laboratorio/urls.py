@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^Proyecto/editarProyecto/$', views.editar_proyecto, name='editarProyecto'),
     url(r'^Proyecto/detallarProyecto/$', views.detallar_proyecto, name='detallarProyecto'),
     url(r'^Experimento/agregarExperimento/$', views.agregar_experimento, name='agregarExperimento'),
-    url(r'^Experimento/editarExperimento/$', views.editar_experimento, name='editarExperimento'),
+    url(r'^Experimento/editarExperimento/(?P<id>\d+)/$', views.editar_experimento, name='editarExperimento'),
     url(r'^Proyecto/listarProyectos/$', views.listar_proyectos, name='listarProyectos'),
     url(r'^Experimento/listarExperimentos/$', views.listar_experimentos, name='listarExperimentos'),
     url(r'^Experimento/detallarExperimento/$', views.detallar_experimento, name='detallarExperimento'),
@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^protocolos/(?P<id>\d+)/nuevaVersion/$', views.protocolos_id_nueva_version, name='protocoloIdNuevaVersion'),
     url(r'^listaEstadosProyecto/$', views.lista_estados_proyecto, name='listaEstadosProyecto'),
     url(r'^listaEstadosExperimento/$', views.lista_estados_experimento, name='listaEstadosExperimento'),
+    url(r'^listaNombreProyectos/$', views.lista_nombre_proyecto, name='listaNombreProyectos'),
 
     url(r'^listaResultadosExperimento/$', views.lista_resultados_experimento, name='listaResultadosExperimento'),
     url(r'^listaCategoriasProtocolo/$', views.lista_categorias_protocolo, name='listaCategoriasProtocolo'),
