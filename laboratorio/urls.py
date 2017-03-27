@@ -5,9 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^Proyecto/agregarProyecto/$', views.agregar_proyecto, name='agregarProyecto'),
-    url(r'^Proyecto/editarProyecto/(?P<id>\d+)/$', views.editar_proyecto_id, name='editarProyectoId'),
-    url(r'^Proyecto/editarProyecto/$', views.editar_proyecto, name='editarProyecto'),
-    url(r'^Proyecto/detallarProyecto/$', views.detallar_proyecto, name='detallarProyecto'),
+    url(r'^Proyecto/editarProyecto/(?P<id>\d+)/$', views.editar_proyecto, name='editarProyecto'),
     url(r'^Experimento/agregarExperimento/$', views.agregar_experimento, name='agregarExperimento'),
     url(r'^Experimento/editarExperimento/$', views.editar_experimento, name='editarExperimento'),
     url(r'^Proyecto/listarProyectos/$', views.listar_proyectos, name='listarProyectos'),
