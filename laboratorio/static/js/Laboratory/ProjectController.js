@@ -136,3 +136,42 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
+function showAllProjects(urlAll, urlEdit){
+    var nameToFind = $("#name").val();
+    $.ajax({
+        url: urlAll+"?name="+nameToFind,
+        method:"GET",
+        success:function(response){paintProjects(response,urlEdit);},
+        error:errorPaintProjects,
+        async:true,
+        crossDomain:true
+    });
+}
+
+function errorPaintProjects() {
+        alertify.error("No es posible recuperar los proyectos");
+}
+
+function paintProjects(data, urlEdit) {
+    console.log(data)
+    urlEdit = urlEdit.replace("0","{idProject}");
+    var html = "";
+    if(data.length==0) {
+        html="<h1>No se han encontrado proyectos</h1>";
+    }else {
+        var project;
+        for (var i=0; i<data.length;i++)
+        {
+            project = data[i];
+            html += "<tr class='alt'>";
+            html += "<td>" + project.nombre + "</td>";
+            html += "<td>" + project.avance + "</td>";
+            html += "<td>" + project.estado + "</td>";
+            html += "<td>" + project.prioridad + "</td>";
+            html += "<td>" + project.fechaInicio + "</td>";
+            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
+            html += "</tr>";
+        }
+    }
+    $("#projects tbody").html(html);
+}
