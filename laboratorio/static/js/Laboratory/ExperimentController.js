@@ -142,3 +142,48 @@ function setDate(date, id){
     var dateValue =moment(date).format('YYYY-MM-DD')
     $("#"+id).val(dateValue);
 }
+
+function showAllExperiments(urlAll, urlEdit, urlDetails){
+    var nameToFind = $("#name").val();
+    $.ajax({
+        url: urlAll+"?name="+nameToFind,
+        method:"GET",
+        success:function(response){paintExperiments(response,urlEdit,urlDetails);},
+        error:errorPaintExperiments,
+        async:true,
+        crossDomain:true
+    });
+}
+
+function errorPaintExperiments() {
+        alertify.error("No es posible recuperar los experimentos");
+}
+
+function paintExperiments(data, urlEdit, urlDetails) {
+    console.log(data)
+    urlEdit = urlEdit.replace("0","{idExp}");
+    urlDetails = urlDetails.replace("0","{idExp}");
+    var html = "";
+    if(data.length==0) {
+        html="<h1>No se han encontrado experimentos</h1>";
+    }else {
+        var experiment,state;
+        for (var i=0; i<data.length;i++)
+        {
+            experiment = data[i];
+            html += "<tr class='alt'>";
+            html += "<td>" + experiment.nombre + "</td>";
+            html += "<td>" + experiment.estado + "</td>";
+            html += "<td>" + experiment.prioridad + "</td>";
+            html += "<td>" + experiment.fechaInicio + "</td>";
+            html += "<td>" + experiment.proyecto + "</td>";
+            html += "<td>" + experiment.responsable + "</td>";
+            state = experiment.resultado != -1 ? experiment.resultado: "";
+            html += "<td>" + state  + "</td>";
+            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+            html += "<a href=\""+urlDetails.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-cog\"></span></a></td>";
+            html += "</tr>";
+        }
+    }
+    $("#projects tbody").html(html);
+}

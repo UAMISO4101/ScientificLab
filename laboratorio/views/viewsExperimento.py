@@ -7,15 +7,35 @@ from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
 from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto
 from django.shortcuts import render
+from rest_framework import generics
+from ..serializers import ExperimentoSerializer
+
+
+class ExperimentoLista(generics.ListAPIView):
+    serializer_class = ExperimentoSerializer
+
+    def get_queryset(self):
+
+        name = self.request.query_params.get('name')
+        if(name):
+            experimentos = Experimento.objects.filter(nombre__icontains=name)
+        else:
+            experimentos = Experimento.objects.all()
+
+        return experimentos
+
 
 def agregar_experimento(request):
     return render(request, 'laboratorio/Experimento/agregarExperimento.html')
 
-def listar_experimentos(request):
-    return render(request, 'laboratorio/Experimento/experimentos.html', {"experimentos": Experimento.objects.all()})
 
-def detallar_experimento(request):
-    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.first()})
+def listar_experimentos(request):
+    return render(request, 'laboratorio/Experimento/experimentos.html')
+
+
+def detallar_experimento(request, id):
+    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.get(id=id)})
+
 
 def editar_experimento(request, id):
     return render(request, 'laboratorio/Experimento/editarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
@@ -67,6 +87,7 @@ def experimentos(request):
         return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
+
 
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
@@ -138,6 +159,7 @@ def experimentos_id(request, id):
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos/{id} con metodo " + request.method)
 
+
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def experimentos_id_protocolos(request, id):
@@ -151,7 +173,8 @@ def experimentos_id_protocolos(request, id):
         return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos/{id}/protocolos con metodo " + request.method)
-    
+
+
 #Atiende las peticiones de Resultados de Experimento
 @csrf_exempt
 def lista_resultados_experimento(request):
@@ -164,6 +187,7 @@ def lista_resultados_experimento(request):
         return HttpResponse(json.dumps(resultados), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest resultadosexperimento/ con metodo " + request.method)
+
 
 #Atiende las peticiones de Estados del Experimento
 @csrf_exempt
