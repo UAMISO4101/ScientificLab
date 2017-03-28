@@ -6,6 +6,20 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from ..models import Protocolo, Experimento, Paso, CategoriaProtocolo
 from django.shortcuts import render
+from rest_framework import generics
+from ..serializers import ProtocoloSerializer
+from rest_framework import viewsets
+from rest_framework.renderers import JSONRenderer
+
+class ProtocoloList(generics.ListAPIView):
+    serializer_class = ProtocoloSerializer
+    def get_queryset(self):
+        titulo = self.request.query_params.get('titulo')
+        if(titulo) :
+           protocolo = Protocolo.objects.filter(titulo__icontains=titulo)
+        else :
+            protocolo = Protocolo.objects.all()
+        return protocolo
 
 def listar_protocolos(request):
     return render(request, 'laboratorio/Protocolo/protocolos.html', {"protocolos": Protocolo.objects.all()})

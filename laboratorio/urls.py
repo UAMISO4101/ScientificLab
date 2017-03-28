@@ -1,8 +1,10 @@
 from django.conf.urls import url
-
+from .views import  ProtocoloList
 from . import views
 
+
 urlpatterns = [
+    url(r'^protocolofiltro/$', ProtocoloList.as_view(),name='ProtocoloFiltro'),
     url(r'^$', views.index, name='index'),
     url(r'^Proyecto/agregarProyecto/$', views.agregar_proyecto, name='agregarProyecto'),
     url(r'^Proyecto/editarProyecto/(?P<id>\d+)/$', views.editar_proyecto, name='editarProyecto'),
@@ -22,7 +24,7 @@ urlpatterns = [
     url(r'^Experimento/experimentos/$', views.experimentos, name='experimentos'),
     url(r'^Experimento/experimentos/(?P<id>\d+)/$', views.experimentos_id, name='experimentoId'),
     url(r'^protocolos/$', views.protocolos, name='protocolos'),
-    url(r'^listarProtocolos/$', views.listar_protocolos, name='listarProtocolos'),
+    url(r'^Protocolo/listarProtocolos/$', views.listar_protocolos, name='listarProtocolos'),
     url(r'^protocolos/(?P<id>\d+)/$', views.protocolos_id, name='protocoloId'),
     url(r'^protocolosExperimento/$', views.protocolosExperimento, name='protocolosExperimento'),
     url(r'^protocolosExperimento/(?P<id>\d+)/$', views.protocolosExperimento_id, name='protocolosExperimentoId'),
