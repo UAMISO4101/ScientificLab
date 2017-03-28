@@ -57,7 +57,7 @@ def experimentos(request):
         if data.has_key("fechaInicio"):
             fechaInicioUnicode = data["fechaInicio"]
             experimento.fechaInicio = None
-            if fechaInicioUnicode is not None:
+            if fechaInicioUnicode is not None and fechaInicioUnicode is not u'':
                 experimento.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
         if data.has_key("prioridad"):
             experimento.prioridad = data["prioridad"]
@@ -118,7 +118,7 @@ def experimentos_id(request, id):
         if data.has_key("fechaInicio"):
             fechaInicioUnicode = data["fechaInicio"]
             experimento.fechaInicio = None
-            if fechaInicioUnicode is not None:
+            if fechaInicioUnicode is not None and fechaInicioUnicode is not u'':
                 experimento.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
             algoCambio = True
         if data.has_key("prioridad"):

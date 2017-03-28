@@ -15,9 +15,12 @@ function dataIsCorrect() {
     }
 
     var startDate = moment($("#fechaInicio").val())
-    if(!startDate.isValid() ){
-        alertify.error("La fecha inicial es requerida",2);
-        return false;
+    if(startDate.isValid() ){
+        var today = moment({hour:0, minutes:0})
+        if(today.diff(startDate)>=0) {
+            alertify.error("La fecha inicial es del pasado", 2);
+            return false;
+        }
     }
 
     if($('#proyecto option:selected').val() == -1) {
@@ -58,7 +61,7 @@ function saveExperiment(){
         url: host+url,
         method:"POST",
         data:getData(),
-        sucess:successSaveExperiment,
+        success:successSaveExperiment,
         error:errorSaveExperiment,
         dataType: 'json'
     });
@@ -72,8 +75,7 @@ function updateExperiment() {
         method: "PUT",
         data: JSON.stringify(getData()),
         success: successSaveExperiment,
-        error: errorSaveExperiment,
-
+        error: errorSaveExperiment
     });
 }
 
