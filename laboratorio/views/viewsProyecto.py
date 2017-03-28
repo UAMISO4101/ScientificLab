@@ -14,25 +14,10 @@ def agregar_proyecto(request):
 def listar_proyectos(request):
     return render(request, 'laboratorio/Proyecto/proyectos.html', {"proyectos": Proyecto.objects.all()})
 
-def detallar_proyecto(request):
-    return render(request, 'laboratorio/Proyecto/detallarProyecto.html', {"proyectos": Proyecto.objects.first()})
+def editar_proyecto(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Proyecto/editarProyecto.html', {"proyecto": proyecto})
 
-def editar_proyecto(request):
-    return render(request, 'laboratorio/Proyecto/editarProyecto.html', {"proyectos": Proyecto.objects.first()})
-
-def editar_proyecto_id(request, id):
-    # Si es GET Lista
-    if request.method == 'GET':
-        try:
-            proyecto = Proyecto.objects.get(id=id)
-        except:
-            raise ValidationError({'id': ['No existe proyecto ' + id]})
-        return HttpResponse(json.dumps(proyecto), content_type="application/json")
-    else:
-        raise NotFound(detail="No se encuentra comando rest patrocinadores/{id}/proyectos con metodo " + request.method)
-
-
-    #return render(request, 'laboratorio/Proyecto/editarProyecto.html', {"proyectos": Proyecto.objects.first()})
 
 #Atiende las peticiones de los Proyectos
 @csrf_exempt
@@ -166,10 +151,20 @@ def lista_estados_proyecto(request):
     if request.method == 'GET':
         try:
             estados = EstadoProyecto().getDict()
-            print estados
         except:
             raise ValidationError({'id': ['No fue posible generar la lista de estados de proyecto']})
         return HttpResponse(json.dumps(estados), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
 
+@csrf_exempt
+def lista_estados_proyecto(request):
+     # Si es GET Lista
+     if request.method == 'GET':
+         try:
+             estados = EstadoProyecto().getDict()
+         except:
+             raise ValidationError({'id': ['No fue posible generar la lista de estados de proyecto']})
+         return HttpResponse(json.dumps(estados), content_type="application/json")
+     else:
+         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
