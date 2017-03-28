@@ -27,10 +27,31 @@ function listarProtocolos(){
             html+="<td>"+objeto.descripcion+"</td>";
             html+="<td>"+objeto.version+"</td>";
             html+="<td>"+objeto.categoria+"</td>";
-           // html+="<td><a href='url+'laboratorio:editarProyecto' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a></td>";
+            html+="<td><a href='#' class='btn btn-info btn-round'><span class='glyphicon glyphicon-plus' onclick='crearVersion("+objeto.id+")'></span></a></td>";
             html+="</tr>";
        }
        $("#myTable tbody").html(html);
         //console.log(response);
    });
+}
+
+function crearVersion(id)
+{
+    var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": host+"/laboratorio/protocolos/"+id+"/nuevaVersion/",
+    "method": "POST",
+    "headers": {}
+    }
+
+    if(confirm("Esta seguro de crear una nueva version ?")) {
+        // alert("Responde ");
+        $.ajax(settings).done(function (response) {
+            alert("Se registro con exito")
+            location.reload();
+        });
+    }else{
+        return false;
+    }
 }
