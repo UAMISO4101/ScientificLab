@@ -45,8 +45,8 @@ class ResultadoExperimento:
     ACTIVO = 0
     INACTIVO = 1
     RESULTADO_CHOICES = (
-        (ACTIVO, 'Iniciado'),
-        (INACTIVO, 'Terminado')
+        (ACTIVO, 'Activo'),
+        (INACTIVO, 'Inactivo')
     )
     EXITOSO = 0
     FALLIDO = 1
@@ -58,6 +58,9 @@ class ResultadoExperimento:
     def getDict(self):
         return [{'id': resultado[0], 'resultado': resultado[1]} for resultado in self.CHOICES]
 
+    def getDictStates(self):
+        return [{'id': resultado[0], 'estado': resultado[1]} for resultado in self.RESULTADO_CHOICES]
+
 
 # Clase Experimento: Define un experimento dentro de un proyecto
 class Experimento(models.Model):
@@ -65,7 +68,7 @@ class Experimento(models.Model):
     descripcion = models.CharField(max_length=1000, null=True)
     fechaInicio = models.DateField(null=True)
     prioridad = models.IntegerField(null=True)
-    estado = models.IntegerField(choices=EstadoProyecto.CHOICES, null=True)
+    estado = models.IntegerField(choices=ResultadoExperimento.RESULTADO_CHOICES, null=True)
     resultado = models.IntegerField(choices=ResultadoExperimento.CHOICES, null=True)
     proyecto = models.ForeignKey(Proyecto, related_name='experimentos', null=True, on_delete=models.CASCADE)
     responsable = models.ForeignKey(Responsable, related_name='experimentos', null=True, on_delete=models.CASCADE)

@@ -171,7 +171,7 @@ def lista_estados_experimento(request):
     # Si es GET Lista
     if request.method == 'GET':
         try:
-            estados = EstadoProyecto().getDict()
+            estados = ResultadoExperimento().getDictStates()
         except:
             raise ValidationError({'id': ['No fue posible generar la lista de estados del experimento']})
         return HttpResponse(json.dumps(estados), content_type="application/json")
