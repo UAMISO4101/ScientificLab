@@ -1,3 +1,5 @@
+var experiments;
+
 function validateData(createExperiment){
     if(dataIsCorrect()) {
         if(createExperiment){
@@ -119,6 +121,7 @@ function showResponsables(response){
         responsablesList.append(new Option(responsable.fields.nombre, responsable.pk));
     }
 }
+
 function showResultados(response){
     var resultadosList =$("#resultado");
     var resultado;
@@ -139,18 +142,17 @@ function showExperimentStates(response){
     }
 }
 
-
 function setDate(date, id){
     var dateValue =moment(date).format('YYYY-MM-DD')
     $("#"+id).val(dateValue);
 }
 
-function showAllExperiments(urlAll, urlEdit, urlDetails){
+function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
     var nameToFind = $("#name").val();
     $.ajax({
         url: urlAll+"?name="+nameToFind,
         method:"GET",
-        success:function(response){paintExperiments(response,urlEdit,urlDetails);},
+        success:function(response){paintExperiments(response,urlEdit,urlDetails,urlStartExp);},
         error:errorPaintExperiments,
         async:true,
         crossDomain:true
@@ -161,23 +163,43 @@ function errorPaintExperiments() {
         alertify.error("No es posible recuperar los experimentos");
 }
 
-function paintExperiments(data, urlEdit, urlDetails) {
+function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
+    $.ajax({
+        url: urlStartExp.replace("{idExp}", id),
+        method:"POST",
+        data:JSON.stringify({id:id}),
+        success:function () {
+            showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp)
+        },
+        error:errorSaveExperiment,
+        dataType: 'json'
+    });
+}
+function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
     console.log(data)
     urlEdit = urlEdit.replace("0","{idExp}");
     urlDetails = urlDetails.replace("0","{idExp}");
+    urlStartExp = urlStartExp.replace("0","{idExp}");
     var html = "";
     if(data.length==0) {
         html="<h1>No se han encontrado experimentos</h1>";
     }else {
         var experiment,state;
-        for (var i=0; i<data.length;i++)
+        experiments = data;
+        var startExp;
+        for (var i=0; i<experiments.length;i++)
         {
-            experiment = data[i];
+            experiment = experiments[i];
+            if(experiment.fechaInicio!= undefined)
+                startExp = experiment.fechaInicio;
+            else
+                startExp = "<a class=\"btn btn-info\" onclick='startExperiment("+experiment.id+",\""+urlAll+"\",\""+urlEdit+"\", \""+urlDetails+"\",\""+urlStartExp+"\");'>iniciar</a>"
+
             html += "<tr class='alt'>";
             html += "<td>" + experiment.nombre + "</td>";
             html += "<td>" + experiment.estado + "</td>";
             html += "<td>" + experiment.prioridad + "</td>";
-            html += "<td>" + experiment.fechaInicio + "</td>";
+            html += "<td>" + startExp + "</td>";
             html += "<td>" + experiment.proyecto + "</td>";
             html += "<td>" + experiment.responsable + "</td>";
             state = experiment.resultado != -1 ? experiment.resultado: "";

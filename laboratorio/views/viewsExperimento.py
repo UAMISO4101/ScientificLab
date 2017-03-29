@@ -1,4 +1,5 @@
 import json
+import time
 from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
@@ -215,3 +216,18 @@ def lista_nombre_proyecto(request):
 
     else:
         raise NotFound(detail="No se encuentra comando rest nombreProyecto/ con metodo " + request.method)
+
+@csrf_exempt
+def start_experiment(request, id):
+    if request.method == 'POST':
+        try:
+            experimento = Experimento.objects.get(id=id)
+            if experimento.fechaInicio is None:
+                experimento.fechaInicio = datetime.now()
+                experimento.estado = 0
+        except:
+            raise ValidationError({'id': ['No existe experimento ' + id]})
+        experimento.save()
+        return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest experimentos/{id} con metodo " + request.method)

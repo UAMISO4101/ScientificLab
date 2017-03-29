@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^Experimento/listarExperimentos/$', views.listar_experimentos, name='listarExperimentos'),
     url(r'^Experimento/filtrarExperimentos/$', ExperimentoLista.as_view(), name='filtrarExperimentos'),
     url(r'^Experimento/detallarExperimento/(?P<id>\d+)/$', views.detallar_experimento, name='detallarExperimento'),
+    url(r'^Experimento/iniciarExperimento/(?P<id>\d+)/$', views.start_experiment, name='startExperiment'),
 
     url(r'^patrocinadores/$', views.patrocinadores, name='patrocinadores'),
     url(r'^patrocinadores/(?P<id>\d+)/$', views.patrocinadores_id, name='patrocinadorId'),
