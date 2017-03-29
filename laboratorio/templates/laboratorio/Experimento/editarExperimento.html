@@ -46,7 +46,7 @@
 {% block content %}
     <section>
         <div class="container">
-            <h1 class="text-center" style="color:#fed136">Editar Experimento</h1>
+            <h1 class="text-center" style="color:#fed136">Editar Experimento</h1>   <a href="{%url 'laboratorio:agregarExperimentoProtocolo' id=experimento.pk%}" title="Agregar Protocolo" class="btn btn-success btn-round img-crear"> <span title="Agregar Protocolo" class="glyphicon glyphicon-plus"></span></a>
             <form class="form-horizontal" method="POST" data-edit-experiment-url="{%url 'laboratorio:experimentoId' id=experimento.pk %}" id="formEditExperiment">
             {%csrf_token%}
                 <div class="form-group">
