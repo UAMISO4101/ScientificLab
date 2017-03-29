@@ -34,7 +34,7 @@ def listar_experimentos(request):
 
 
 def detallar_experimento(request, id):
-    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.get(id=id)})
+    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
 
 
 def editar_experimento(request, id):
