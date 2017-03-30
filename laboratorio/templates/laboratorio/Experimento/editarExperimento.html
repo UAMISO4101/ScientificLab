@@ -31,8 +31,10 @@
                 $("#responsable option[value=" + responsable +"]").attr("selected","selected");
        }
        function listResultados(response){
-               var resultados  = {{ experimento.resultado }};
+               var resultados  = "{{ experimento.resultado }}";
                 showResultados(response);
+                if(resultados == "None")
+                    resultados=-1;
                 $("#resultado option[value=" + resultados +"]").attr("selected","selected");
        }
        function listStates(response){
