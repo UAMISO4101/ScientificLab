@@ -29,8 +29,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js" integrity="sha384-0s5Pv64cNZJieYFkXYOTId2HMA2Lfb6q2nAcx2n0RTLUnCAoTTsS0nKEO27XyKcY" crossorigin="anonymous"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/alertify.js'%} "></script>
+    <script src="{% static 'js/moment.js'%} "></script>
+    <script src="{% static 'js/Laboratory/UsuarioController.js' %} "></script>
     <script type="application/javascript">
         var host ="http://{{ request.META.HTTP_HOST }}";
+        $(document).ready(function () {
+            showLoginElements();
+        });
     </script>
 </head>
 
@@ -50,7 +59,7 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-left">
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
@@ -73,6 +82,20 @@
                         <a class="page-scroll" href="#Reportes">Reportes</a>
                     </li>
 
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="cerrar_sesion" logout-url="{%url 'laboratorio:cerrarSesion' %}" style="display: none;">
+                        <a class="page-scroll" href="#" id="link_cerrar_sesion" onclick="doLogout();"> Logout</a>
+                    </li>
+                    <li id="usuario_sesion">
+                        <label id="nombre_usuario"></label>
+                    </li>
+                    <li id="registrar_usuario" style="display: none;">
+                        <a class="page-scroll" href="{% url 'laboratorio:agregarUsuario' %}"> Registro</a>
+                    </li>
+                    <li id="iniciar_sesion" is-logged-url="{%url 'laboratorio:estaLogueado' %}" style="display: none;">
+                        <a class="page-scroll" href="{% url 'laboratorio:login' %}"> Login</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
