@@ -1,1 +1,2 @@
-from .test_views import *
+#from .testViewPatrocinador import *
+from .testRESTViewUsuario import *

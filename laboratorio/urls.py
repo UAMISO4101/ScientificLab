@@ -60,6 +60,7 @@ urlpatterns = [
     url(r'^login/$', views.inicio_sesion, name='login'),
     # URL servicios REST
     url(r'^usuarios/$', views.usuarios, name='usuarios'),
+    url(r'^usuarios/(?P<id>\d+)/$', views.usuarios_id, name='usuarioId'),
     url(r'^iniciarSesion/$', views.iniciar_sesion, name='iniciarSesion'),
     url(r'^cerrarSesion/$', views.cerrar_sesion, name='cerrarSesion'),
     url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),

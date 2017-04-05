@@ -159,7 +159,7 @@ function loginUser() {
     $.ajax({
         url: host+url,
         method:"POST",
-        data:getDataLogin(),
+        data:JSON.stringify(getDataLogin()),
         success:successLoginUser,
         error:errorLoginUser,
         dataType: "json"
