@@ -53,4 +53,17 @@ urlpatterns = [
     url(r'^listaCategoriasProtocolo/$', views.lista_categorias_protocolo, name='listaCategoriasProtocolo'),
     url(r'^listaUnidadesElemento/$', views.lista_unidades_elemento, name='listaUnidadesElemento'),
     url(r'^Experimento/agregarExperimentoProtocolo/(?P<id>\d+)/$', views.agregar_expeprotocolo, name='agregarExperimentoProtocolo'),
+
+    # Usuarios
+    # URL paginas usuarios
+    url(r'^agregarUsuario/$', views.agregar_usuario, name='agregarUsuario'),
+    url(r'^login/$', views.inicio_sesion, name='login'),
+    # URL servicios REST
+    url(r'^usuarios/$', views.usuarios, name='usuarios'),
+    url(r'^usuarios/(?P<id>\d+)/$', views.usuarios_id, name='usuarioId'),
+    url(r'^iniciarSesion/$', views.iniciar_sesion, name='iniciarSesion'),
+    url(r'^cerrarSesion/$', views.cerrar_sesion, name='cerrarSesion'),
+    url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),
+
+
 ]

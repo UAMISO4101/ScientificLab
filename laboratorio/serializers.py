@@ -18,3 +18,9 @@ class ExperimentoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experimento
         fields = ('id', 'nombre', 'estado', 'prioridad', 'fechaInicio', 'proyecto', 'responsable', 'resultado')
+
+# Clase serializadora de clase usuario
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'first_name', 'last_name', 'email')
