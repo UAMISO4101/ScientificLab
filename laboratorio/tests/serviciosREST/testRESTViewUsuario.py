@@ -1,7 +1,8 @@
 import json
 
 from rest_framework import status
-from laboratorio.tests.RESTTestCaseBase import RESTTestCaseTest
+
+from laboratorio.tests.serviciosREST.RESTTestCaseBase import RESTTestCaseTest
 
 
 class UserTest(RESTTestCaseTest) :

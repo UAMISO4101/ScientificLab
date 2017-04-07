@@ -80,7 +80,7 @@ function saveUser() {
     $.ajax({
         url: host+url,
         method:"POST",
-        data:getData(),
+        data:JSON.stringify(getData()),
         success:successSaveUser,
         error:errorSaveUser,
         dataType: "json"
@@ -170,7 +170,7 @@ function successLoginUser(response) {
     if (response.mensaje == "ok")
         window.location = $("#formLogin").attr("index-url");
     else
-        alertify.success(data.mensaje);
+        alertify.error(response.mensaje);
 }
 
 function errorLoginUser(e){

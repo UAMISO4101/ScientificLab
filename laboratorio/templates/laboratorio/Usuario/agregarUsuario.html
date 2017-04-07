@@ -52,8 +52,8 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
-                    <input class="btn btn-warning" type="button" onclick="trySaveUser();" value="Guardar"/>
-                    <a href="{% url 'laboratorio:index' %}" class="btn btn-warning">Regresar</a>
+                    <input class="btn btn-warning" id="btn_guardar" type="button" onclick="trySaveUser();" value="Guardar"/>
+                    <a id="link_regresar" href="{% url 'laboratorio:index' %}" class="btn btn-warning">Regresar</a>
                 </div>
             </form>
         </div>

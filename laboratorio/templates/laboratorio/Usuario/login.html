@@ -27,8 +27,8 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
-                    <input class="btn btn-warning" type="button" onclick="tryLoginUser();" value="Iniciar Sesión"/>
-                    <a href="{% url 'laboratorio:index' %}" class="btn btn-warning">Cancelar</a>
+                    <input class="btn btn-warning" id="btn_iniciar_sesion" type="button" onclick="tryLoginUser();" value="Iniciar Sesión"/>
+                    <a id="btn_cancelar" href="{% url 'laboratorio:index' %}" class="btn btn-warning">Cancelar</a>
                 </div>
             </form>
         </div>
