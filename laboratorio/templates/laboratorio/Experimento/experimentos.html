@@ -1,15 +1,49 @@
 {% extends 'laboratorio/base.html' %}
 {% load staticfiles %}
 {% block header_text %}
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/alertify.js'%} "></script>
+    <script src="{% static 'js/moment.js'%} "></script>
+    <script src="{% static 'js/Laboratory/ExperimentController.js'%} "></script>
+    <script type="application/javascript">
+        var urlEdit = "{% url 'laboratorio:editarExperimento' id=0%}";
+        var urlAll = "{% url 'laboratorio:filtrarExperimentos'%}";
+        var urlDetails = "{% url 'laboratorio:detallarExperimento'  id=0%}";
+        var urlStartExperiment = "{% url 'laboratorio:startExperiment'  id=0%}";
+        $(document).ready(function () {
+            showAllExperiments(urlAll,urlEdit,urlDetails, urlStartExperiment);
+        });
+    </script>
 {% endblock %}
 {% block content %}
     <section id="portfolio" >
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Experimentos</h1>
+            <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
-                <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
                 <div class="datagrid ">
-                    <table class="table table-hover table-bordered">
+                    <div class="form-group">
+                        <label for="name" class="col-lg-1">Nombre: </label>
+                        <div class="col-sm-6">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" type="text" name="name" id="name" maxlength="80" value="" required autofocus placeholder="Nombre">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" onclick="showAllExperiments(urlAll,urlEdit, urlDetails,urlStartExperiment);">Consultar</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="datagrid ">
+                    <table id="projects" class="table table-hover table-bordered">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -29,8 +63,6 @@
                                         <ul>
                                             <li><a href="#"><span>Previous</span></a></li>
                                             <li><a href="#" class="active"><span>1</span></a></li>
-                                            <li><a href="#"><span>2</span></a></li>
-                                            <li><a href="#"><span>3</span></a></li>
                                             <li><a href="#"><span>Next</span></a></li>
                                         </ul>
                                     </div>
@@ -38,25 +70,7 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                        {% if experimentos and experimentos.count > 0 %}
-                            {%for experimento in experimentos%}
-                                <tr class="alt">
-                                     <td>{{ experimento.nombre }} </td>
-                                     <td>{{ experimento.estado }}</td>
-                                     <td>{{ experimento.prioridad }}</td>
-                                     <td>{{ experimento.fechaInicio }}</td>
-                                     <td>{{ experimento.proyecto }}</td>
-                                     <td>{{ experimento.responsable }}</td>
-                                     <td>{{ experimento.resultado }}</td>
-                                    <td style="width: 10%" >
-                                        <a href="{% url 'laboratorio:editarExperimento' id=experimento.pk %}" class="btn btn-info btn-round"><span class="glyphicon glyphicon-pencil"></span></a>
-                                        <a href="{% url 'laboratorio:detallarExperimento' %}" class="btn btn-warning btn-round"><span class="glyphicon glyphicon-cog"></span></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {%  else %}
-                            <h1>No se han encontrado experimentos</h1>
-                        {%  endif %}
+
                         </tbody>
                     </table>
                 </div>

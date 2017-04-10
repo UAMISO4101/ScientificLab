@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import  ProtocoloList
+from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento
 from . import views
 
 
@@ -11,8 +11,11 @@ urlpatterns = [
     url(r'^Experimento/agregarExperimento/$', views.agregar_experimento, name='agregarExperimento'),
     url(r'^Experimento/editarExperimento/(?P<id>\d+)/$', views.editar_experimento, name='editarExperimento'),
     url(r'^Proyecto/listarProyectos/$', views.listar_proyectos, name='listarProyectos'),
+    url(r'^Proyecto/filtrarProyectos/$', ProyectosLista.as_view(), name='filtrarProyectos'),
     url(r'^Experimento/listarExperimentos/$', views.listar_experimentos, name='listarExperimentos'),
-    url(r'^Experimento/detallarExperimento/$', views.detallar_experimento, name='detallarExperimento'),
+    url(r'^Experimento/filtrarExperimentos/$', ExperimentoLista.as_view(), name='filtrarExperimentos'),
+    url(r'^Experimento/detallarExperimento/(?P<id>\d+)/$', views.detallar_experimento, name='detallarExperimento'),
+    url(r'^Experimento/iniciarExperimento/(?P<id>\d+)/$', views.start_experiment, name='startExperiment'),
 
     url(r'^patrocinadores/$', views.patrocinadores, name='patrocinadores'),
     url(r'^patrocinadores/(?P<id>\d+)/$', views.patrocinadores_id, name='patrocinadorId'),
@@ -49,4 +52,5 @@ urlpatterns = [
     url(r'^listaResultadosExperimento/$', views.lista_resultados_experimento, name='listaResultadosExperimento'),
     url(r'^listaCategoriasProtocolo/$', views.lista_categorias_protocolo, name='listaCategoriasProtocolo'),
     url(r'^listaUnidadesElemento/$', views.lista_unidades_elemento, name='listaUnidadesElemento'),
+    url(r'^Experimento/agregarExperimentoProtocolo/(?P<id>\d+)/$', views.agregar_expeprotocolo, name='agregarExperimentoProtocolo'),
 ]

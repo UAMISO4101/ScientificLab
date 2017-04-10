@@ -2,25 +2,35 @@
 {% load staticfiles %}
 {% block header_text %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="{% static 'js/Laboratory/ProtocoloController.js' %}"></script>
+    <script src="{% static 'js/Laboratory/ExpeProtoController.js' %}"></script>
     <script>
-$(document).ready(listarProtocolos);
+$(document).ready(listarProtocolosExperimento({{ experimento.id}}));
 </script>
+    <script type="application/javascript">
+        $("body").ready(function (){
+             $.getJSON("{%url 'laboratorio:protocolos'%}").done(showProtocolos);
+        });
+    </script>
 {% endblock %}
 {% block content %}
     <section id="portfolio" >
         <div class="container">
-            <h1 class="text-center" style="color:#fed136">Protocolos</h1>
+            <h1 class="text-center" style="color:#fed136">Protocolos  {{ experimento.nombre }}</h1>
+
             <div class="row">
             <div class="datagrid ">
                 <div class="form-group">
-                    <label for="Titulo" class="col-lg-1">Titulo: </label>
                     <div class="col-sm-6">
                     <table>
                     <tr>
-                    <td><input class="form-control" type="text" name="titulo" id="titulo" maxlength="80" value="" required autofocus placeholder="Titulo"> </td>
                     <td>
-                    <button type="button" class="btn btn-primary" onclick="listarProtocolos()">Consultar</button>
+                        <div class="col-sm-10">
+                        <select class="form-control" name="protocolo" id="protocolo">
+                        </select>
+                    </div>
+                    </td>
+                    <td>
+                    <button type="button" class="btn btn-primary" onclick="agregarExperimentoProtocolo({{ experimento.id}})">Agregar</button>
                     </td>
                     </tr>
                     </table>
@@ -33,12 +43,10 @@ $(document).ready(listarProtocolos);
                     <table id="myTable" class="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Título</th>
                                 <th>Descripción</th>
                                 <th>Versión</th>
                                 <th>Categoria</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tfoot>

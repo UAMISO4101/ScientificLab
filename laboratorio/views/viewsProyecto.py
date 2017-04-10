@@ -7,12 +7,28 @@ from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
 from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto
 from django.shortcuts import render
+from rest_framework import generics
+from ..serializers import ProyectoSerializer
+
+
+class ProyectosLista(generics.ListAPIView):
+    serializer_class = ProyectoSerializer
+    def get_queryset(self):
+        name = self.request.query_params.get('name')
+        if(name):
+           proyectos = Proyecto.objects.filter(nombre__icontains=name)
+        else:
+            proyectos = Proyecto.objects.all()
+        return proyectos
+
 
 def agregar_proyecto(request):
     return render(request, 'laboratorio/Proyecto/agregarProyecto.html')
 
+
 def listar_proyectos(request):
-    return render(request, 'laboratorio/Proyecto/proyectos.html', {"proyectos": Proyecto.objects.all()})
+    return render(request, 'laboratorio/Proyecto/proyectos.html')
+
 
 def editar_proyecto(request, id):
     proyecto = Proyecto.objects.get(id=id)
@@ -144,6 +160,7 @@ def proyectos_id_experimentos(request, id):
     else:
         raise NotFound(detail="No se encuentra comando rest proyectos/{id}/experimentos con metodo " + request.method)
 
+
 #Atiende las peticiones de Estados de Proyecto
 @csrf_exempt
 def lista_estados_proyecto(request):
@@ -156,6 +173,7 @@ def lista_estados_proyecto(request):
         return HttpResponse(json.dumps(estados), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
+
 
 @csrf_exempt
 def lista_estados_proyecto(request):

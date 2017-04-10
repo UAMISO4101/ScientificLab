@@ -1,4 +1,5 @@
 import json
+import time
 from django.http import JsonResponse
 from django.core import serializers
 from django.http import HttpResponse
@@ -7,15 +8,35 @@ from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
 from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto
 from django.shortcuts import render
+from rest_framework import generics
+from ..serializers import ExperimentoSerializer
+
+
+class ExperimentoLista(generics.ListAPIView):
+    serializer_class = ExperimentoSerializer
+
+    def get_queryset(self):
+
+        name = self.request.query_params.get('name')
+        if(name):
+            experimentos = Experimento.objects.filter(nombre__icontains=name)
+        else:
+            experimentos = Experimento.objects.all()
+
+        return experimentos
+
 
 def agregar_experimento(request):
     return render(request, 'laboratorio/Experimento/agregarExperimento.html')
 
-def listar_experimentos(request):
-    return render(request, 'laboratorio/Experimento/experimentos.html', {"experimentos": Experimento.objects.all()})
 
-def detallar_experimento(request):
-    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimentos": Experimento.objects.first()})
+def listar_experimentos(request):
+    return render(request, 'laboratorio/Experimento/experimentos.html')
+
+
+def detallar_experimento(request, id):
+    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
+
 
 def editar_experimento(request, id):
     return render(request, 'laboratorio/Experimento/editarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
@@ -37,7 +58,7 @@ def experimentos(request):
         if data.has_key("fechaInicio"):
             fechaInicioUnicode = data["fechaInicio"]
             experimento.fechaInicio = None
-            if fechaInicioUnicode is not None:
+            if fechaInicioUnicode is not None and fechaInicioUnicode is not u'':
                 experimento.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
         if data.has_key("prioridad"):
             experimento.prioridad = data["prioridad"]
@@ -68,6 +89,7 @@ def experimentos(request):
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
 
+
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def experimentos_id(request, id):
@@ -97,7 +119,7 @@ def experimentos_id(request, id):
         if data.has_key("fechaInicio"):
             fechaInicioUnicode = data["fechaInicio"]
             experimento.fechaInicio = None
-            if fechaInicioUnicode is not None:
+            if fechaInicioUnicode is not None and fechaInicioUnicode is not u'':
                 experimento.fechaInicio = datetime.strptime(fechaInicioUnicode, '%Y-%m-%d')
             algoCambio = True
         if data.has_key("prioridad"):
@@ -138,6 +160,7 @@ def experimentos_id(request, id):
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos/{id} con metodo " + request.method)
 
+
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def experimentos_id_protocolos(request, id):
@@ -151,7 +174,8 @@ def experimentos_id_protocolos(request, id):
         return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos/{id}/protocolos con metodo " + request.method)
-    
+
+
 #Atiende las peticiones de Resultados de Experimento
 @csrf_exempt
 def lista_resultados_experimento(request):
@@ -165,13 +189,14 @@ def lista_resultados_experimento(request):
     else:
         raise NotFound(detail="No se encuentra comando rest resultadosexperimento/ con metodo " + request.method)
 
+
 #Atiende las peticiones de Estados del Experimento
 @csrf_exempt
 def lista_estados_experimento(request):
     # Si es GET Lista
     if request.method == 'GET':
         try:
-            estados = EstadoProyecto().getDict()
+            estados = ResultadoExperimento().getDictStates()
         except:
             raise ValidationError({'id': ['No fue posible generar la lista de estados del experimento']})
         return HttpResponse(json.dumps(estados), content_type="application/json")
@@ -191,3 +216,18 @@ def lista_nombre_proyecto(request):
 
     else:
         raise NotFound(detail="No se encuentra comando rest nombreProyecto/ con metodo " + request.method)
+
+@csrf_exempt
+def start_experiment(request, id):
+    if request.method == 'POST':
+        try:
+            experimento = Experimento.objects.get(id=id)
+            if experimento.fechaInicio is None:
+                experimento.fechaInicio = datetime.now()
+                experimento.estado = 0
+        except:
+            raise ValidationError({'id': ['No existe experimento ' + id]})
+        experimento.save()
+        return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest experimentos/{id} con metodo " + request.method)

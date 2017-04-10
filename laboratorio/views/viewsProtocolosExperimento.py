@@ -5,6 +5,12 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from ..models import ProtocolosExperimento, Protocolo, Experimento
+from django.shortcuts import render
+
+
+def agregar_expeprotocolo(request, id):
+    return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
+                  {"experimento": Experimento.objects.get(id=id)})
 
 #Atiende las peticiones de los ProtocolosExperimento
 @csrf_exempt
@@ -87,3 +93,4 @@ def protocolosExperimento_id(request, id):
         return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolosExperimento/{id} con metodo " + request.method)
+

@@ -3,16 +3,18 @@
     <title>Creación de experimento</title>
 
 {% block header_text %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/alertify.js'%} "></script>
+    <script src="{% static 'js/moment.js'%} "></script>
     <script src="{% static 'js/Laboratory/ExperimentController.js '%} "></script>
     <script type="application/javascript">
-        $("body").ready(findLists);
-
-        function findLists(){
+        $("body").ready(function (){
              $.getJSON("{%url 'laboratorio:listaEstadosExperimento'%}").done(showExperimentStates);
              $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
              $.getJSON("{%url 'laboratorio:responsables'%}").done(showResponsables);
-        }
+        });
     </script>
 {% endblock %}
 
@@ -61,16 +63,6 @@
                         <input class="form-control" type="number" min="1" max="100"  maxlength="3" name="prioridad" id="prioridad" value=""/>
                     </div>
                 </div>
-                 <div class="form-group">
-                    <label for="resultado" class="col-sm-2 control-label">Resultado: </label>
-                    <div class="col-sm-6">
-                        <select class="form-control" name="resultado" id="resultado">
-                            <option value=-1>Seleccione un Resultado</option>
-                            <option value=1>Exitoso</option>
-                            <option value=2>Fallido</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="form-group">
                     <label for="descripcion" class="col-sm-2 control-label">Descripción: </label>
                     <div class="col-sm-6">
@@ -78,7 +70,7 @@
                     </div>
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
-                    <input class="btn btn-warning" type="submit" onclick=saveExperiment();  value="Guardar"/>
+                    <input class="btn btn-warning" type="button" onclick="validateData(true);"  value="Guardar"/>
                     <a href="{% url 'laboratorio:listarExperimentos' %}" class="btn btn-warning">Regresar</a>
                 </div>
             </form>
