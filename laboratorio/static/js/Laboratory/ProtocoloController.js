@@ -2,37 +2,28 @@
  * Created by Lenovo on 26/03/2017.
  */
 url="/laboratorio/protocolofiltro" ;
-function listarProtocolos(){
-    var buscar = $("#titulo").val();
-    if(!buscar)
-    {
-      buscar=""
-    }
-    var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": host+url+"/?titulo="+buscar,
-    "method": "GET",
-    "headers": {}
-    }
-    var html="";
+var table ;
+var data ;
+var  listarProtocolos= function(){
+ var table = $('#myTable').DataTable( {
+        "ajax": {
+            "url":  host+url,
+            "dataSrc": ""
+        },
+        "columns": [
+            { data: "titulo" },
+            { data: "descripcion" },
+            { data: "version" },
+            { data: "categoria" },
+            { "defaultContent": "<a href='#'  id='btn' class='btn btn-info btn-round'><span class='glyphicon glyphicon-plus'></span></a>" },
+        ]
+        } );
 
-     $.ajax(settings).done(function (response) {
+        $('#myTable tbody').on( 'click', '#btn', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            crearVersion(data.id)
 
-       for(var i in response) {
-            var objeto = response[i] ;
-            html+="<tr class='alt'>";
-            html+="<td><input type='checkbox'/></td>";
-            html+="<td>"+objeto.titulo+"</td>";
-            html+="<td>"+objeto.descripcion+"</td>";
-            html+="<td>"+objeto.version+"</td>";
-            html+="<td>"+objeto.categoria+"</td>";
-            html+="<td><a href='#' class='btn btn-info btn-round'><span class='glyphicon glyphicon-plus' onclick='crearVersion("+objeto.id+")'></span></a></td>";
-            html+="</tr>";
-       }
-       $("#myTable tbody").html(html);
-        //console.log(response);
-   });
+        } );
 }
 
 function crearVersion(id)
@@ -46,7 +37,6 @@ function crearVersion(id)
     }
 
     if(confirm("Esta seguro de crear una nueva version ?")) {
-        // alert("Responde ");
         $.ajax(settings).done(function (response) {
             alert("Se registro con exito")
             location.reload();
