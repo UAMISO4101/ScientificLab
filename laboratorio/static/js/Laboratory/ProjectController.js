@@ -136,12 +136,12 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-function showAllProjects(urlAll, urlEdit){
+function showAllProjects(urlAll, urlEdit, urlProgress){
     var nameToFind = $("#name").val();
     $.ajax({
         url: urlAll+"?name="+nameToFind,
         method:"GET",
-        success:function(response){paintProjects(response,urlEdit);},
+        success:function(response){paintProjects(response,urlEdit,urlProgress);},
         error:errorPaintProjects,
         async:true,
         crossDomain:true
@@ -152,16 +152,19 @@ function errorPaintProjects() {
         alertify.error("No es posible recuperar los proyectos");
 }
 
-function paintProjects(data, urlEdit) {
+function paintProjects(data, urlEdit, urlProgess) {
     console.log(data)
     urlEdit = urlEdit.replace("0","{idProject}");
+    urlProgess = urlProgess.replace("0","{idProject}");
     var html = "";
+    var countProjects=0;
     if(data.length==0) {
         html="<h1>No se han encontrado proyectos</h1>";
     }else {
         var project;
         for (var i=0; i<data.length;i++)
         {
+            countProjects++;
             project = data[i];
             html += "<tr class='alt'>";
             html += "<td>" + project.nombre + "</td>";
@@ -169,9 +172,13 @@ function paintProjects(data, urlEdit) {
             html += "<td>" + project.estado + "</td>";
             html += "<td>" + project.prioridad + "</td>";
             html += "<td>" + project.fechaInicio + "</td>";
-            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
+            html += "<td style=\"width: 10%\">" +
+                "<a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
+                "<a href=\""+urlProgess.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
+                "</td>";
             html += "</tr>";
         }
     }
     $("#projects tbody").html(html);
+    //$("#countProjects").html("<input type=\"label\" disabled value=\""+countProjects+"\" hidden>");
 }

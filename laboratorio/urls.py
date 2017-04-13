@@ -65,5 +65,6 @@ urlpatterns = [
     url(r'^cerrarSesion/$', views.cerrar_sesion, name='cerrarSesion'),
     url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),
 
-
+    #reports
+    url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avances'),
 ]

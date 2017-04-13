@@ -19,6 +19,9 @@ class ViewProjectProgressTest(TestCase):
         time.sleep(5)
         linkReport = self.browser.find_element_by_id('report_1')
         linkReport.click()
+        time.sleep(2)
+        self.assertEqual('Avance del Proyecto', self.browser.title)
+
 
     def do_login(self):
         link = self.browser.find_element_by_id('link_iniciar_sesion')

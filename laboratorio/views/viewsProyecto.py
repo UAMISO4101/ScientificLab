@@ -186,3 +186,7 @@ def lista_estados_proyecto(request):
          return HttpResponse(json.dumps(estados), content_type="application/json")
      else:
          raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
+
+
+def list_progress(request, id):
+    return render(request, 'laboratorio/Proyecto/ProjectProgress.html')

@@ -10,8 +10,9 @@
     <script type="application/javascript">
         var urlEdit = "{% url 'laboratorio:editarProyecto' id=0%}";
         var urlAll = "{% url 'laboratorio:filtrarProyectos'%}";
+        var urlProgress = "{% url 'laboratorio:avances' id=0%}";
         $(document).ready(function () {
-            showAllProjects(urlAll,urlEdit);
+            showAllProjects(urlAll,urlEdit,urlProgress);
         });
     </script>
 {% endblock %}
@@ -19,6 +20,7 @@
     <section id="portfolio" >
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Proyectos</h1>
+            <div id="countProjects"></div>
             <a href="{%url 'laboratorio:agregarProyecto'%}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
@@ -31,7 +33,7 @@
                                         <input class="form-control" type="text" name="name" id="name" maxlength="80" value="" required autofocus placeholder="Nombre">
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" onclick="showAllProjects(urlAll,urlEdit);">Consultar</button>
+                                        <button type="button" class="btn btn-primary" onclick="showAllProjects(urlAll,urlEdit,urlProgress);">Consultar</button>
                                     </td>
                                 </tr>
                             </table>
