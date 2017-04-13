@@ -1,0 +1,12 @@
+1492111524550	geckodriver	INFO	Listening on 127.0.0.1:56089
+1492111526592	mozprofile::profile	INFO	Using profile path C:\Users\paula\AppData\Local\Temp\rust_mozprofile.tyHMhoKVydq0
+1492111526602	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
+1492111526614	geckodriver::marionette	INFO	Connecting to Marionette on localhost:56099
+1492111529239	Marionette	INFO	Listening on port 56099
+1492111531546	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/login/
+JavaScript error: http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Proyecto/listarProyectos/
+1492111549565	Marionette	INFO	New connections will no longer be accepted
+[Child 3860] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+ 512
+[Child 10468] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
