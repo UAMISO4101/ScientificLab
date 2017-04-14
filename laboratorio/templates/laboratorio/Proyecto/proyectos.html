@@ -10,7 +10,6 @@
     <script type="application/javascript">
         var urlEdit = "{% url 'laboratorio:editarProyecto' id=0%}";
         var urlAll = "{% url 'laboratorio:filtrarProyectos'%}";
-        //var urlExperimentos = "{% url 'laboratorio:proyectoIdExperimentos' id=0%}";
         var urlExperimentos = "{% url 'laboratorio:listaExperimentos' id=0 %}";
         $(document).ready(function () {
             showAllProjects(urlAll,urlEdit,urlExperimentos);

@@ -149,8 +149,9 @@ function setDate(date, id){
 
 function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
     var nameToFind = $("#name").val();
+    console.log(urlAll+"&name="+nameToFind);
     $.ajax({
-        url: urlAll+"?name="+nameToFind,
+        url: urlAll+"&name="+nameToFind,
         method:"GET",
         success:function(response){paintExperiments(response,urlEdit,urlDetails,urlStartExp);},
         error:errorPaintExperiments,

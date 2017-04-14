@@ -16,8 +16,12 @@ class ExperimentoLista(generics.ListAPIView):
     serializer_class = ExperimentoSerializer
     def get_queryset(self):
         name = self.request.query_params.get('name')
-        if(name):
-            experimentos = Experimento.objects.filter(nombre__icontains=name)
+        proyecto = self.request.query_params.get('proyecto')
+        print(proyecto)
+        if(proyecto !=0 and name ==''):
+            experimentos = Experimento.objects.filter(proyecto = proyecto)
+        elif(proyecto!=0 and name):
+            experimentos = Experimento.objects.filter(proyecto = proyecto, nombre__icontains=name)
         else:
             experimentos = Experimento.objects.all()
         return experimentos
@@ -28,8 +32,7 @@ def agregar_experimento(request):
 
 
 def listar_experimentos(request, id):
-    print("Hola")
-    return render(request, 'laboratorio/Experimento/experimentos.html', {"proyecto": id})
+    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": id})
 
 def agregar_expeprotocolo(request, id):
     return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
