@@ -15,9 +15,11 @@ class ViewProjectProgressTest(TestCase):
         self.browser.get('http://localhost:8000/laboratorio')
         self.do_login()
         self.go_to_project_progress()
-        self.assertEqual('Avance del Proyecto', self.browser.title)
+        self.assertEqual('Laboratorio Uniandes', self.browser.title)
         btnAddProgress = self.browser.find_element_by_id('btnAddProgress')
-        lblTotalReportedProgress = self.browser.find_element_by_id('totalReportedProgress')
+        lblTotalReportedProgress = self.browser.find_element_by_id('counterProgress')
+        totalReportedProgress = lblTotalReportedProgress.get_attribute("value")
+
 
     def go_to_project_progress(self):
         linkProjects = self.browser.find_element_by_id('linkProjects')

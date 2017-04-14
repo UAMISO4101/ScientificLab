@@ -8,9 +8,9 @@
     <script src="{% static 'js/moment.js'%} "></script>
     <script src="{% static 'js/Laboratory/ProjectController.js'%} "></script>
     <script type="application/javascript">
-        var urlEdit = "{% url 'laboratorio:editarProyecto' id=0%}";
+        var urlEdit = "{% url 'laboratorio:editarProyecto' id=0 %}";
         var urlAll = "{% url 'laboratorio:filtrarProyectos'%}";
-        var urlProgress = "{% url 'laboratorio:avances' id=0%}";
+        var urlProgress = "{% url 'laboratorio:avance' id=0 %}";
         $(document).ready(function () {
             showAllProjects(urlAll,urlEdit,urlProgress);
         });
@@ -20,7 +20,6 @@
     <section id="portfolio" >
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Proyectos</h1>
-            <div id="countProjects"></div>
             <a href="{%url 'laboratorio:agregarProyecto'%}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">

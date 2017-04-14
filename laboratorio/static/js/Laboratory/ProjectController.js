@@ -180,5 +180,4 @@ function paintProjects(data, urlEdit, urlProgess) {
         }
     }
     $("#projects tbody").html(html);
-    //$("#countProjects").html("<input type=\"label\" disabled value=\""+countProjects+"\" hidden>");
 }

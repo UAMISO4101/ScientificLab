@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento
+from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList
 from . import views
 
 
@@ -66,5 +66,6 @@ urlpatterns = [
     url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),
 
     #reports
-    url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avances'),
+    url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avance'),
+    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados')
 ]

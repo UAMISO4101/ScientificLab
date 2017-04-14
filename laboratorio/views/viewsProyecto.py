@@ -5,10 +5,10 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto
+from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto, Avance
 from django.shortcuts import render
 from rest_framework import generics
-from ..serializers import ProyectoSerializer
+from ..serializers import ProyectoSerializer, AvanceSerializer
 
 
 class ProyectosLista(generics.ListAPIView):
@@ -21,6 +21,12 @@ class ProyectosLista(generics.ListAPIView):
             proyectos = Proyecto.objects.all()
         return proyectos
 
+class ProjectProgressList(generics.ListAPIView):
+    serializer_class = AvanceSerializer
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        project = Proyecto.objects.get(id=id)
+        return Avance.objects.filter(proyecto=project)
 
 def agregar_proyecto(request):
     return render(request, 'laboratorio/Proyecto/agregarProyecto.html')
@@ -189,4 +195,6 @@ def lista_estados_proyecto(request):
 
 
 def list_progress(request, id):
-    return render(request, 'laboratorio/Proyecto/ProjectProgress.html')
+    return render(request, 'laboratorio/Proyecto/ProjectProgress.html', {'projectId': id})
+
+

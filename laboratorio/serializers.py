@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+
+from laboratorio.models import Avance
 from .models import Protocolo, Proyecto, Experimento
 
 class ProtocoloSerializer(serializers.ModelSerializer):
@@ -24,3 +26,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'password', 'first_name', 'last_name', 'email')
+
+# Clase serializadora de clase de avance del proyecto
+class AvanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Avance
+        fields = ('id', 'fecha', 'reporte', 'comentario')
