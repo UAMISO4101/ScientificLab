@@ -136,12 +136,12 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-function showAllProjects(urlAll, urlEdit){
+function showAllProjects(urlAll, urlEdit,urlExperimentos){
     var nameToFind = $("#name").val();
     $.ajax({
         url: urlAll+"?name="+nameToFind,
         method:"GET",
-        success:function(response){paintProjects(response,urlEdit);},
+        success:function(response){paintProjects(response,urlEdit,urlExperimentos);},
         error:errorPaintProjects,
         async:true,
         crossDomain:true
@@ -152,9 +152,10 @@ function errorPaintProjects() {
         alertify.error("No es posible recuperar los proyectos");
 }
 
-function paintProjects(data, urlEdit) {
-    console.log(data)
+function paintProjects(data, urlEdit,urlExperimentos) {
+    //console.log(data)
     urlEdit = urlEdit.replace("0","{idProject}");
+    urlExperimentos = urlExperimentos.replace("0","{idProject}");
     var html = "";
     if(data.length==0) {
         html="<h1>No se han encontrado proyectos</h1>";
@@ -169,7 +170,9 @@ function paintProjects(data, urlEdit) {
             html += "<td>" + project.estado + "</td>";
             html += "<td>" + project.prioridad + "</td>";
             html += "<td>" + project.fechaInicio + "</td>";
-            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
+            html += "<td style=\"width: 10%\">" +
+                "<a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
+                "<a href=\""+urlExperimentos.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-glass\"></span></a></td>";
             html += "</tr>";
         }
     }

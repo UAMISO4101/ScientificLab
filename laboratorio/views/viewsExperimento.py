@@ -14,15 +14,12 @@ from ..serializers import ExperimentoSerializer
 
 class ExperimentoLista(generics.ListAPIView):
     serializer_class = ExperimentoSerializer
-
     def get_queryset(self):
-
         name = self.request.query_params.get('name')
         if(name):
             experimentos = Experimento.objects.filter(nombre__icontains=name)
         else:
             experimentos = Experimento.objects.all()
-
         return experimentos
 
 
@@ -30,8 +27,13 @@ def agregar_experimento(request):
     return render(request, 'laboratorio/Experimento/agregarExperimento.html')
 
 
-def listar_experimentos(request):
-    return render(request, 'laboratorio/Experimento/experimentos.html')
+def listar_experimentos(request, id):
+    print("Hola")
+    return render(request, 'laboratorio/Experimento/experimentos.html', {"proyecto": id})
+
+def agregar_expeprotocolo(request, id):
+    return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
+                  {"experimento": Experimento.objects.get(id=id)})
 
 
 def detallar_experimento(request, id):
@@ -159,6 +161,12 @@ def experimentos_id(request, id):
         return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest experimentos/{id} con metodo " + request.method)
+
+@csrf_exempt
+def proyecto_id_experimentos(request, id):
+    # Si es GET Lista
+    if request.method == 'GET':
+        return render(request, 'laboratorio/Experimento/experimentos.html', {"proy": Proyecto.objects.get(proyecto=id)})
 
 
 #Atiende las peticiones de un Experimento determinado

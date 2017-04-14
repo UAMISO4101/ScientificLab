@@ -15,6 +15,8 @@ class ProyectosLista(generics.ListAPIView):
     serializer_class = ProyectoSerializer
     def get_queryset(self):
         name = self.request.query_params.get('name')
+        id= self.request.query_params.get('id')
+        print("holasss")
         if(name):
            proyectos = Proyecto.objects.filter(nombre__icontains=name)
         else:

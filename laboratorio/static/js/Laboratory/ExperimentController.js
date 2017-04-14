@@ -176,7 +176,7 @@ function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     });
 }
 function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
-    console.log(data)
+    //console.log(data)
     urlEdit = urlEdit.replace("0","{idExp}");
     urlDetails = urlDetails.replace("0","{idExp}");
     urlStartExp = urlStartExp.replace("0","{idExp}");
