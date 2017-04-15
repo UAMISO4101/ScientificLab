@@ -24,11 +24,6 @@ function dataIsCorrect() {
         return false;
     }
 
-    if($("#avance").val().trim() == '') {
-        alertify.error("El avance es requerido",2);
-        return false;
-    }
-
     if($("#avance").val()>100 || $("#avance").val()<0) {
         alertify.error("El avance debe ser entre 0% y 100%",2);
         return false;
@@ -95,7 +90,6 @@ function getData() {
     project.fechaInicio =$("#fechaInicio").val();
     project.fechaFinal =$("#fechaFinal").val();
     project.prioridad =$("#prioridad").val();
-    project.avance =$("#avance").val();
     project.estado =$('#estado option:selected').val();
     project.idPatrocinador =$('#patrocinador option:selected').val();
 

@@ -19,6 +19,7 @@ class ProyectosLista(generics.ListAPIView):
            proyectos = Proyecto.objects.filter(nombre__icontains=name)
         else:
             proyectos = Proyecto.objects.all()
+        calculateProgress(proyectos)
         return proyectos
 
 class ProjectProgressList(generics.ListAPIView):
@@ -65,8 +66,6 @@ def proyectos(request):
                 proyecto.fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
         if data.has_key("prioridad"):
             proyecto.prioridad = data["prioridad"]
-        if data.has_key("avance"):
-            proyecto.avance = data["avance"]
         if data.has_key("estado"):
             proyecto.estado = data["estado"]
         if data.has_key("idPatrocinador"):
@@ -81,7 +80,19 @@ def proyectos(request):
     # Si es GET Lista
     elif request.method == 'GET':
         proyectos = Proyecto.objects.all()
+        calculateProgress(proyectos)
         return HttpResponse(serializers.serialize("json", proyectos))
+
+
+def calculateProgress(projects):
+    for project in projects:
+        progressList = project.avances.all().order_by('-fecha')
+        if progressList is not None and len(progressList) > 0:
+            project.avance = progressList[0].reporte
+        else:
+            project.avance = 0
+    return projects
+
 
 
 #Atiende las peticiones de un Proyecto determinado
@@ -196,7 +207,8 @@ def lista_estados_proyecto(request):
 
 
 def list_progress(request, id):
-    return render(request, 'laboratorio/Proyecto/ProjectProgress.html', {'projectId': id})
+    project = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Proyecto/ProjectProgress.html', {'projectId': id, 'projectName':project.nombre})
 
 
 def add_progress(request, id):
