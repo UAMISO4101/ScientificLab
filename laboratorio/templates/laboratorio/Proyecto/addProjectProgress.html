@@ -1,0 +1,58 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+    <title>Creación de proyecto</title>
+
+{% block header_text %}
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/alertify.js'%} "></script>
+    <script src="{% static 'js/moment.js'%} "></script>
+    <script src="{% static 'js/Laboratory/ProgressController.js'%} "></script>
+
+    <script type="application/javascript">
+        var idProject = {{ idProject }};
+        $("#divContainer").ready(function () {
+            var currentDate = moment().format('YYYY-MM-DD');
+            $("#currentDate").val(currentDate);
+        })
+    </script>
+{% endblock %}
+{% block content %}
+    <section>
+        <div id="divContainer" class="container">
+            <h1 class="text-center" style="color:#fed136">Adicionar avance al Proyecto</h1>
+            <form class="form-horizontal" method="POST" data-add-progress-url="{%url 'laboratorio:guardarAvance'%}" id="formProgress">
+            {%csrf_token%}
+                <div class="form-group">
+                    <label for="project" class="col-sm-2 control-label">Proyecto: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="label" disabled name="project" id="projectName" value="{{ projectName }}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="currentDate" class="col-sm-2 control-label">Fecha de registro: </label>
+                    <div class="col-sm-6">
+                        <input type="date" name="currentDate" id="currentDate" value="" disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="projectProgress"class="col-sm-2 control-label">Porcentaje de Avance: </label>
+                    <div class="col-sm-6">
+                        <input type="number" name="projectProgress" id="projectProgress" value="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comment" class="col-sm-2 control-label">Comentario: </label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" name="comment"  cols="90" rows="5" id="comment" > </textarea>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-10">
+                    <input class="btn btn-warning" id="btnSave" type="button" onclick="saveProgress(idProject)" value="Guardar"/>
+                    <a href="{% url 'laboratorio:avance' id=idProject %}" id="btnReturn" class="btn btn-warning">Regresar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
