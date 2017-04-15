@@ -13,6 +13,7 @@
     <script type="application/javascript">
     var urlReportedProgress = "{% url 'laboratorio:avancesReportados'%}";
     urlReportedProgress += "?id="+{{ projectId }};
+
     $(document).ready( function () {
         listProgress(urlReportedProgress);
     });
@@ -24,7 +25,7 @@
         <div class="container">
             <div id="countProjectReportedProgress"></div>
             <h1 class="text-center" style="color:#fed136">Avance del proyecto</h1>
-            <a href="#" id="btnAddProgress" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
+            <a href= "{%url 'laboratorio:agregarAvance' id=projectId%}" id="btnAddProgress" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
                     <table id="listReportedProgress" class="table table-hover table-bordered">

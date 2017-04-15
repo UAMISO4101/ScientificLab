@@ -67,5 +67,7 @@ urlpatterns = [
 
     #reports
     url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avance'),
+    url(r'^Proyecto/AgregarAvance/(?P<id>\d+)/$', views.add_progress, name='agregarAvance'),
+    url(r'^Proyecto/GuardarAvance/$', views.save_progress, name='guardarAvance'),
     url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados')
 ]

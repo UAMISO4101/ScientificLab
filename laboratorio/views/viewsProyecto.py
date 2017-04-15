@@ -83,6 +83,7 @@ def proyectos(request):
         proyectos = Proyecto.objects.all()
         return HttpResponse(serializers.serialize("json", proyectos))
 
+
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
 def proyectos_id(request, id):
@@ -198,3 +199,34 @@ def list_progress(request, id):
     return render(request, 'laboratorio/Proyecto/ProjectProgress.html', {'projectId': id})
 
 
+def add_progress(request, id):
+    project = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Proyecto/addProjectProgress.html', {'idProject': id, 'projectName':project.nombre})
+
+
+@csrf_exempt
+def save_progress(request):
+    if request.method == 'POST':
+        data = request.POST
+        progress = Avance()
+        if data.has_key("comment"):
+            progress.comentario= data["comment"]
+
+        if data.has_key("progress"):
+            progress.reporte = data["progress"]
+
+        if data.has_key("date"):
+            dateUnicode = data["date"]
+            if dateUnicode is not None:
+                progress.fecha= datetime.strptime(dateUnicode, '%Y-%m-%d')
+
+        if data.has_key("projectId"):
+            projectId = data["projectId"]
+            try:
+                project = Proyecto.objects.get(id=projectId)
+            except:
+                raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + projectId]})
+            progress.proyecto = project
+
+        progress.save()
+        return HttpResponse(serializers.serialize("json", [progress]))

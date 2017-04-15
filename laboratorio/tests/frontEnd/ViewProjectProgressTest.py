@@ -58,9 +58,10 @@ class ViewProjectProgressTest(TestCase):
         btnSave = self.browser.find_element_by_id('btnSave')
         btnSave.click()
 
+        time.sleep(3)
         btnReturn = self.browser.find_element_by_id('btnReturn')
         btnReturn.click()
 
         totalReportedProgressAfterSave = self.browser.find_element_by_id('counterProgress').get_attribute("value")
-
-        self.assertEqual(totalReportedProgressAfterSave, totalReportedProgressBeforeSave+1)
+        expectedProgress = int(totalReportedProgressBeforeSave) +1
+        self.assertEqual(int(totalReportedProgressAfterSave), expectedProgress)
