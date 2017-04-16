@@ -32,7 +32,8 @@ def agregar_experimento(request):
 
 
 def listar_experimentos(request, id):
-    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": id})
+    proyecto = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": id, "nombreProyecto": proyecto.nombre})
 
 def agregar_expeprotocolo(request, id):
     return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
