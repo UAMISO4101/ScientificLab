@@ -9,6 +9,7 @@
     <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="{% static 'js/Laboratory/ReportController.js' %}"></script>
     <script type="application/javascript">
      var urlReportedProgress = "{% url 'laboratorio:avancesReportados'%}";
@@ -33,7 +34,7 @@
                     <input class="btn btn-warning" type="button" onclick="paintChart(urlReportedProgress);" style="margin:10px 10px 10px 0px;" value="Generar"/>
                 </div>
             </div>
-
+            <div id="progressChart" style="min-width: 310px; height: 400px;margin: 10px 10px 10px 10px;"></div>
             <div class="row" id="listProgress" hidden>
                 <div class="datagrid ">
                     <table id="listReportedProgress" class="table table-hover table-bordered">
