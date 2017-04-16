@@ -24,11 +24,6 @@ function dataIsCorrect() {
         return false;
     }
 
-    if($("#avance").val().trim() == '') {
-        alertify.error("El avance es requerido",2);
-        return false;
-    }
-
     if($("#avance").val()>100 || $("#avance").val()<0) {
         alertify.error("El avance debe ser entre 0% y 100%",2);
         return false;
@@ -95,7 +90,6 @@ function getData() {
     project.fechaInicio =$("#fechaInicio").val();
     project.fechaFinal =$("#fechaFinal").val();
     project.prioridad =$("#prioridad").val();
-    project.avance =$("#avance").val();
     project.estado =$('#estado option:selected').val();
     project.idPatrocinador =$('#patrocinador option:selected').val();
 
@@ -136,12 +130,12 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-function showAllProjects(urlAll, urlEdit,urlExperimentos){
+function showAllProjects(urlAll, urlEdit, urlExperimentos, urlProgress){
     var nameToFind = $("#name").val();
     $.ajax({
         url: urlAll+"?name="+nameToFind,
         method:"GET",
-        success:function(response){paintProjects(response,urlEdit,urlExperimentos);},
+        success:function(response){paintProjects(response,urlEdit ,urlExperimentos, urlProgress);},
         error:errorPaintProjects,
         async:true,
         crossDomain:true
@@ -152,17 +146,20 @@ function errorPaintProjects() {
         alertify.error("No es posible recuperar los proyectos");
 }
 
-function paintProjects(data, urlEdit,urlExperimentos) {
-    //console.log(data)
+function paintProjects(data, urlEdit, urlProgess) {
+    console.log(data)
     urlEdit = urlEdit.replace("0","{idProject}");
     urlExperimentos = urlExperimentos.replace("0","{idProject}");
+    urlProgess = urlProgess.replace("0","{idProject}");
     var html = "";
+    var countProjects=0;
     if(data.length==0) {
         html="<h1>No se han encontrado proyectos</h1>";
     }else {
         var project;
         for (var i=0; i<data.length;i++)
         {
+            countProjects++;
             project = data[i];
             html += "<tr class='alt'>";
             html += "<td>" + project.nombre + "</td>";
@@ -173,6 +170,8 @@ function paintProjects(data, urlEdit,urlExperimentos) {
             html += "<td style=\"width: 10%\">" +
                 "<a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
                 "<a href=\""+urlExperimentos.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-glass\"></span></a></td>";
+                "<a href=\""+urlProgess.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
+                "</td>";
             html += "</tr>";
         }
     }

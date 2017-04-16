@@ -9,32 +9,34 @@
     <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
-    <script src="{% static 'js/Laboratory/ProtocoloController.js' %}"></script>
-    <script>
-    $(document).ready( function () {
-        listarProtocolos();
-    } );
+    <script src="{% static 'js/Laboratory/ProgressController.js' %}"></script>
+    <script type="application/javascript">
+    var urlReportedProgress = "{% url 'laboratorio:avancesReportados'%}";
+    urlReportedProgress += "?id="+{{ projectId }};
 
+    $(document).ready( function () {
+        listProgress(urlReportedProgress);
+    });
     </script>
+
 {% endblock %}
 {% block content %}
     <section id="portfolio" >
         <div class="container">
-            <h1 class="text-center" style="color:#fed136">Protocolos</h1>
+            <div id="countProjectReportedProgress"></div>
+            <h1 class="text-center" style="color:#fed136">Avance del proyecto {{ projectName }}</h1>
+            <a href= "{%url 'laboratorio:agregarAvance' id=projectId%}" id="btnAddProgress" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
-                    <table id="myTable" class="table table-hover table-bordered">
+                    <table id="listReportedProgress" class="table table-hover table-bordered">
                         <thead>
                             <tr>
-                                <th>Título</th>
-                                <th>Descripción</th>
-                                <th>Versión</th>
-                                <th>Categoria</th>
-                                <th>Acciones</th>
+                                <th>Fecha</th>
+                                <th>Reporte</th>
+                                <th>Comentario</th>
                             </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
              </div>

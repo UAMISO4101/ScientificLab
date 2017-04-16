@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Patrocinador
+from models import Patrocinador, Avance
 from models import Proyecto
 from models import Responsable
 from models import Experimento
@@ -18,4 +18,5 @@ admin.site.register(Protocolo)
 admin.site.register(ProtocolosExperimento)
 admin.site.register(Paso)
 admin.site.register(Elemento)
+admin.site.register(Avance)
 
