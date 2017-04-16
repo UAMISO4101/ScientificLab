@@ -146,11 +146,11 @@ function errorPaintProjects() {
         alertify.error("No es posible recuperar los proyectos");
 }
 
-function paintProjects(data, urlEdit, urlProgess) {
-    console.log(data)
+function paintProjects(data, urlEdit, urlExperimentos, urlProgess) {
     urlEdit = urlEdit.replace("0","{idProject}");
     urlExperimentos = urlExperimentos.replace("0","{idProject}");
     urlProgess = urlProgess.replace("0","{idProject}");
+
     var html = "";
     var countProjects=0;
     if(data.length==0) {
@@ -167,9 +167,9 @@ function paintProjects(data, urlEdit, urlProgess) {
             html += "<td>" + project.estado + "</td>";
             html += "<td>" + project.prioridad + "</td>";
             html += "<td>" + project.fechaInicio + "</td>";
-            html += "<td style=\"width: 10%\">" +
+            html += "<td style=\"width: 15%\">" +
                 "<a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
-                "<a href=\""+urlExperimentos.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-glass\"></span></a></td>";
+                "<a href=\""+urlExperimentos.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-glass\"></span></a>" +
                 "<a href=\""+urlProgess.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
                 "</td>";
             html += "</tr>";
