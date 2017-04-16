@@ -176,15 +176,3 @@ def lista_estados_proyecto(request):
     else:
         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
 
-
-@csrf_exempt
-def lista_estados_proyecto(request):
-     # Si es GET Lista
-     if request.method == 'GET':
-         try:
-             estados = EstadoProyecto().getDict()
-         except:
-             raise ValidationError({'id': ['No fue posible generar la lista de estados de proyecto']})
-         return HttpResponse(json.dumps(estados), content_type="application/json")
-     else:
-         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
