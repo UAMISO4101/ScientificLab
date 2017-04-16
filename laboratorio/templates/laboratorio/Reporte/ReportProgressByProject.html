@@ -11,7 +11,11 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="{% static 'js/Laboratory/ReportController.js' %}"></script>
     <script type="application/javascript">
+     var urlReportedProgress = "{% url 'laboratorio:avancesReportados'%}";
+
+    $(document).ready( function () {
         $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
+    });
     </script>
 
 {% endblock %}
@@ -21,12 +25,12 @@
             <div id="countProjectReportedProgress"></div>
             <h1 class="text-center" style="color:#fed136">Reporte de avance</h1>
 
-             <div class="form-group">
+             <div class="form-group" style="display: flex;">
                 <label for="projects" class="col-sm-2 control-label">Proyecto: </label>
                 <div class="col-sm-6">
                     <select class="form-control" name="projects" id="projects">
                     </select>
-                    <input class="btn btn-warning" type="button" onclick="" style="margin:10px 10px 10px 0px;" value="Generar"/>
+                    <input class="btn btn-warning" type="button" onclick="paintChart(urlReportedProgress);" style="margin:10px 10px 10px 0px;" value="Generar"/>
                 </div>
             </div>
 
