@@ -1,27 +1,28 @@
 # -*- coding: utf-8 -*-
-
-from django.test import LiveServerTestCase
+import random
+from unittest import TestCase
+import time
+import sys
 from selenium import webdriver
 
 
-class FunctionalTest(LiveServerTestCase):
+class FunctionalTest(TestCase):
 
     def setUp(self):
         self.browser= webdriver.Chrome()
-        self.baseUrl = self.live_server_url + '/laboratorio/';
-        self.nombreUsuario = 'usuarioprueba';
-        self.nombre = 'Usuario Prueba';
-        self.password = 'agiles123';
+        self.baseUrl = 'http://localhost:8000/laboratorio'
+        self.nombreUsuario = 'usuarioprueba' + str(random.randint(1, 9999999))
+        self.nombre = 'Usuario Prueba'
+        self.password = 'agiles123'
 
-    def tearDown(self):
-        self.browser.quit()
+    #def tearDown(self):
+        #self.browser.quit()
 
     def atest_title(self):
         self.browser.get(self.baseUrl)
         self.assertIn('Laboratorio Uniandes', self.browser.title)
 
     def test_login(self):
-        print self.live_server_url
         # Crear el usuario
         self.browser.get(self.baseUrl)
         self.browser.implicitly_wait(10)
@@ -49,6 +50,7 @@ class FunctionalTest(LiveServerTestCase):
         botonGuardar = self.browser.find_element_by_id('btn_guardar')
         botonGuardar.click()
         self.browser.implicitly_wait(3)
+        time.sleep(2)
 
         # Regresar a la pagina principal
         linkRegresar = self.browser.find_element_by_id('link_regresar')
@@ -57,6 +59,7 @@ class FunctionalTest(LiveServerTestCase):
         self.assertIn('Laboratorio Uniandes', self.browser.title)
 
         # Iniciar Sesion
+        time.sleep(2)
         link = self.browser.find_element_by_id('link_iniciar_sesion')
         link.click()
         self.browser.implicitly_wait(3)
@@ -70,8 +73,8 @@ class FunctionalTest(LiveServerTestCase):
         btn = self.browser.find_element_by_id('btn_iniciar_sesion')
         btn.click()
         self.browser.implicitly_wait(10)
-
         self.assertIn('Laboratorio Uniandes', self.browser.title)
 
+        time.sleep(2)
         element = self.browser.find_element_by_id('nombre_usuario')
         self.assertIn(self.nombre, element.text)
