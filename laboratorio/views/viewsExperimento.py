@@ -15,13 +15,13 @@ from ..serializers import ExperimentoSerializer
 class ExperimentoLista(generics.ListAPIView):
     serializer_class = ExperimentoSerializer
     def get_queryset(self):
-        name = self.request.query_params.get('name')
+        #name = self.request.query_params.get('name')
         proyecto = self.request.query_params.get('proyecto')
         print(proyecto)
-        if(proyecto !=0 and name ==''):
+        if(proyecto !=0 ):
             experimentos = Experimento.objects.filter(proyecto = proyecto)
-        elif(proyecto!=0 and name):
-            experimentos = Experimento.objects.filter(proyecto = proyecto, nombre__icontains=name)
+        #elif(proyecto!=0 and name):
+         #   experimentos = Experimento.objects.filter(proyecto = proyecto, nombre__icontains=name)
         else:
             experimentos = Experimento.objects.all()
         return experimentos

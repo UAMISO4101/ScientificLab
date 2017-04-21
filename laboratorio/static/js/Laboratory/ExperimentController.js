@@ -148,15 +148,42 @@ function setDate(date, id){
 }
 
 function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
-    var nameToFind = $("#name").val();
-    $.ajax({
-        url: urlAll+"&name="+nameToFind,
-        method:"GET",
-        success:function(response){paintExperiments(response,urlEdit,urlDetails,urlStartExp);},
-        error:errorPaintExperiments,
-        async:true,
-        crossDomain:true
-    });
+      console.log(urlEdit);
+     var table = $('#projects').DataTable( {
+        "ajax": {
+            "url": urlAll,
+            "dataSrc": "",
+             "method":"GET",
+        },
+        "columns": [
+            { data: "nombre" },
+            { data: "estado" },
+            { data: "prioridad" },
+            { data: "fechaInicio" },
+            { data: "fechaInicio" },
+            { data: "proyecto" },
+            { data: "responsable" },
+            { "defaultContent": "" +
+            "<a href='#'  id= 'btnIniciar' class=\"btn btn-info\" title='Iniciar' >Iniciar</a> " +
+            "<a href='#'  id= 'btnEdit'   class=\"btn btn-info btn-round\" title='Editar'><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
+            "<a href='#'  id= 'btnDetail'  class=\"btn btn-info btn-round\" title='Ver Detalle'><span class=\"glyphicon glyphicon-cog\"></span></a>" },
+        ]
+        } );
+
+        $('#projects tbody').on( 'click', '#btnIniciar', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            startExperiment(data.id,urlAll,urlEdit,urlDetails,urlStartExp)
+        } );
+
+         $('#projects tbody').on( 'click', '#btnEdit', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            window.location = urlEdit.replace("0",data.id);
+        } );
+
+        $('#projects tbody').on( 'click', '#btnDetail', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            window.location = urlDetails.replace("0",data.id);
+        } );
 }
 
 function errorPaintExperiments() {
@@ -165,11 +192,12 @@ function errorPaintExperiments() {
 
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
-        url: urlStartExp.replace("{idExp}", id),
+        url: urlStartExp.replace("0", id),
         method:"POST",
         data:JSON.stringify({id:id}),
         success:function () {
-            showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp)
+            location.reload();
+            //showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp)
         },
         error:errorSaveExperiment,
         dataType: 'json'
@@ -179,6 +207,8 @@ function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
     urlEdit = urlEdit.replace("0","{idExp}");
     urlDetails = urlDetails.replace("0","{idExp}");
     urlStartExp = urlStartExp.replace("0","{idExp}");
+
+
     var html = "";
     if(data.length==0) {
         html="<h1>No se han encontrado experimentos</h1>";
@@ -192,7 +222,11 @@ function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
             if(experiment.fechaInicio!= undefined)
                 startExp = experiment.fechaInicio;
             else
-                startExp = "<a class=\"btn btn-info\" onclick='startExperiment("+experiment.id+",\""+urlAll+"\",\""+urlEdit+"\", \""+urlDetails+"\",\""+urlStartExp+"\");'>iniciar</a>"
+                startExp = "<a class=\"btn btn-info\" " +
+                    "onclick='" +
+                    "startExperiment("+experiment.id+",\""+urlAll+"\"," +
+                    "\""+urlEdit+"\", \""+urlDetails+"\",\""+urlStartExp+"\");'>" +
+                    "iniciar</a>"
 
             html += "<tr class='alt'>";
             html += "<td>" + experiment.nombre + "</td>";
@@ -203,7 +237,8 @@ function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
             html += "<td>" + experiment.responsable + "</td>";
             state = experiment.resultado != -1 ? experiment.resultado: "";
             html += "<td>" + state  + "</td>";
-            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+            html += "<td style=\"width: 10%\">" +
+                "<a href=\""+urlEdit.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
             html += "<a href=\""+urlDetails.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-cog\"></span></a></td>";
             html += "</tr>";
         }
