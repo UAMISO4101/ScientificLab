@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'laboratorio',
     'bootstrap3',
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [
