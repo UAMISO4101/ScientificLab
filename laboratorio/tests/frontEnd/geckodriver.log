@@ -1,13 +1,50 @@
-1492230807530	geckodriver	INFO	Listening on 127.0.0.1:49866
-1492230809586	mozprofile::profile	INFO	Using profile path C:\Users\paula\AppData\Local\Temp\rust_mozprofile.AmQleXCd3LEJ
-1492230809598	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
-1492230809612	geckodriver::marionette	INFO	Connecting to Marionette on localhost:49872
-1492230811862	Marionette	INFO	Listening on port 49872
-1492230813108	Marionette	WARN	TLS certificate errors will be ignored for this session
-JavaScript error: http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/login/
-JavaScript error: http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Proyecto/listarProyectos/
-1492230835365	Marionette	INFO	New connections will no longer be accepted
-[Child 11844] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
-12
-[Child 8772] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
-2143
+1492824914967	geckodriver	INFO	Listening on 127.0.0.1:64188
+1492824916985	mozprofile::profile	INFO	Using profile path C:\Users\paula\AppData\Local\Temp\rust_mozprofile.Shcm2vG4n2TV
+1492824917018	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
+1492824917034	geckodriver::marionette	INFO	Connecting to Marionette on localhost:64195
+1492824918452	Marionette	INFO	Listening on port 64195
+1492824919767	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/login/
+JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Reportes/AvanceProyectos/
+1492824937497	Marionette	INFO	New connections will no longer be accepted
+[Child 11948] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+sgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 10404] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+: cannot send/recv
+
+[Child 18904] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
