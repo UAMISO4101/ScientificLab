@@ -23,7 +23,7 @@ class ViewProjectProgressTest(TestCase):
         linkProjects = self.browser.find_element_by_id('linkProjects')
         linkProjects.click()
         time.sleep(5)
-        linkReport = self.browser.find_element_by_id('report_1')
+        linkReport = self.browser.find_element_by_xpath('//*[@id="myTable"]/tbody/tr[1]/td[6]/a[3]')
         linkReport.click()
         time.sleep(2)
         self.assertEqual('Laboratorio Uniandes', self.browser.title)

@@ -130,50 +130,33 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-function showAllProjects(urlAll, urlEdit, urlExperimentos, urlProgress){
-    var nameToFind = $("#name").val();
-    $.ajax({
-        url: urlAll+"?name="+nameToFind,
-        method:"GET",
-        success:function(response){paintProjects(response,urlEdit ,urlExperimentos, urlProgress);},
-        error:errorPaintProjects,
-        async:true,
-        crossDomain:true
-    });
-}
+var table;
+var data;
+function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress) {
+        console.log(urlAll);
 
-function errorPaintProjects() {
-        alertify.error("No es posible recuperar los proyectos");
-}
+    var btnEditar = "<a href='"+ urlEdit +" ' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
+    var btnExperimentos = "<a href='"+ urlExperimentos + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-glass'></span></a>"
+    var btnProgress = "<a href='"+urlProgress+"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-list-alt'></span></a>"
+    var table = $('#myTable').DataTable( {
+        "ajax": {
+            "url":  host+urlAll,
+            "dataSrc": ""
+        },
+        "columns": [
+            { data: "nombre" },
+            { data: "avance" },
+            { data: "estado" },
+            { data: "prioridad" },
+            { data: "fechaInicio" },
+            { sortable: false,
+              "render": function ( data, type, row, meta ) {
+               return btnEditar.replace ('0',row.pk)+
+                      btnExperimentos.replace ('0',row.pk)+
+                      btnProgress.replace('0',row.pk);
+                 }
+             },
+        ]
+        } );
 
-function paintProjects(data, urlEdit, urlExperimentos, urlProgess) {
-    urlEdit = urlEdit.replace("0","{idProject}");
-    urlExperimentos = urlExperimentos.replace("0","{idProject}");
-    urlProgess = urlProgess.replace("0","{idProject}");
-
-    var html = "";
-    var countProjects=0;
-    if(data.length==0) {
-        html="<h1>No se han encontrado proyectos</h1>";
-    }else {
-        var project;
-        for (var i=0; i<data.length;i++)
-        {
-            countProjects++;
-            project = data[i];
-            html += "<tr class='alt'>";
-            html += "<td>" + project.nombre + "</td>";
-            html += "<td>" + project.avance + "</td>";
-            html += "<td>" + project.estado + "</td>";
-            html += "<td>" + project.prioridad + "</td>";
-            html += "<td>" + project.fechaInicio + "</td>";
-            html += "<td style=\"width: 15%\">" +
-                "<a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
-                "<a href=\""+urlExperimentos.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-glass\"></span></a>" +
-                "<a href=\""+urlProgess.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
-                "</td>";
-            html += "</tr>";
-        }
-    }
-    $("#projects tbody").html(html);
 }

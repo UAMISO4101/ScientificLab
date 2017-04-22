@@ -3,9 +3,16 @@
 {% block header_text %}
     <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
     <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'js/alertify.js'%} "></script>
     <script src="{% static 'js/moment.js'%} "></script>
+    <script
+    		   src="https://code.jquery.com/jquery-3.2.1.js"
+    		   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+    		   crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="{% static 'js/Laboratory/ProjectController.js'%} "></script>
     <script type="application/javascript">
         var urlEdit = "{% url 'laboratorio:editarProyecto' id=0 %}";
@@ -13,7 +20,7 @@
         var urlExperimentos = "{% url 'laboratorio:listaExperimentos' id=0 %}";
         var urlProgress = "{% url 'laboratorio:avance' id=0 %}";
         $(document).ready(function () {
-            showAllProjects(urlAll,urlEdit,urlExperimentos,urlProgress);
+            listarProyectos(urlAll,urlEdit,urlExperimentos,urlProgress);
         });
     </script>
 {% endblock %}
@@ -24,26 +31,7 @@
             <a href="{%url 'laboratorio:agregarProyecto'%}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
-                    <div class="form-group">
-                        <label for="name" class="col-lg-1">Nombre: </label>
-                        <div class="col-sm-6">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input class="form-control" type="text" name="name" id="name" maxlength="80" value="" required autofocus placeholder="Nombre">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" onclick="showAllProjects(urlAll,urlEdit,urlProgress);">Consultar</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="datagrid ">
-                    <table id="projects" class="table table-hover table-bordered">
+                    <table id="myTable" class="table table-hover table-bordered">
                         <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -54,21 +42,7 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div id="paging">
-                                        <ul>
-                                            <li><a href="#"><span>Previous</span></a></li>
-                                            <li><a href="#" class="active"><span>1</span></a></li>
-                                            <li><a href="#"><span>Next</span></a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
                         <tbody>
-
                         </tbody>
                     </table>
                 </div>
