@@ -69,9 +69,13 @@ urlpatterns = [
     url(r'^cerrarSesion/$', views.cerrar_sesion, name='cerrarSesion'),
     url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),
 
-    #reports
+    #Project Progress
     url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avance'),
     url(r'^Proyecto/AgregarAvance/(?P<id>\d+)/$', views.add_progress, name='agregarAvance'),
     url(r'^Proyecto/GuardarAvance/$', views.save_progress, name='guardarAvance'),
-    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados')
+    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados'),
+
+    #reports
+    url(r'^Reportes/AvanceProyectos/', views.reports, name='reporteAvance')
+
 ]
