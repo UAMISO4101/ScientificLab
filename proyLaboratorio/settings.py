@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from django.db import models
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -75,20 +74,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'proyLaboratorio.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ScientificLab',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5433',
-    }
-}
+        'NAME': 'd17pvf4i71ihi7',
+        'USER': 'bxlxaarrdsduhx',
+        'PASSWORD': 'c2247b3ffb946ceb5a8e61d9a3e92380117b2f08490ae26999b1b36ff6847e4f',
+        'HOST': 'ec2-54-225-182-108.compute-1.amazonaws.com',
+     }
+ }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
