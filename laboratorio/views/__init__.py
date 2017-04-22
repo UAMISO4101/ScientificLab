@@ -9,3 +9,4 @@ from .viewsPaso import *
 from .viewsElemento import *
 # Para Usuario
 from .viewsUsuario import *
+from .viewsReports import *

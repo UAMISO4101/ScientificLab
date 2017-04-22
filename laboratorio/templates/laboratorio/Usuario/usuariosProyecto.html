@@ -1,0 +1,45 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+{% block header_text %}
+    <script
+   		   src="https://code.jquery.com/jquery-3.2.1.js"
+   		   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+   		   crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="{% static 'js/Laboratory/UsuarioController.js' %}"></script>
+    <script type="application/javascript">
+        var urlListUsers = "{% url 'laboratorio:listaUsuariosProy'%}";
+        urlListUsers += "?id="+{{ projectId }};
+        $(document).ready( function () {
+            ListUsersProject(urlListUsers);
+        });
+    </script>
+
+{% endblock %}
+{% block content %}
+    <section id="portfolio" >
+        <div class="container">
+            <h1 class="text-center" style="color:#fed136"> Usuarios del proyecto:  {{ projectName }}</h1>
+            <!--<a href= "{//%url 'laboratorio:agregarUsuario' id=projectId%}" id="btnAgregarUsuario" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>-->
+            <div class="row">
+                <div class="datagrid ">
+                    <table id="listUserProject" class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre Completo</th>
+                                <th>Usuario</th>
+                                <th>Correo electrónico</th>
+                                <th>Número Celular</th>
+                                <th>Cargo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+             </div>
+         </div>
+    </section>
+{% endblock %}

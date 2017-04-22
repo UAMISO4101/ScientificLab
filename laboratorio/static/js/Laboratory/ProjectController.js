@@ -135,7 +135,7 @@ function showAllProjects(urlAll, urlEdit, urlExperimentos, urlProgress){
     $.ajax({
         url: urlAll+"?name="+nameToFind,
         method:"GET",
-        success:function(response){paintProjects(response,urlEdit ,urlExperimentos, urlProgress);},
+        success:function(response){paintProjects(response ,urlEdit ,urlExperimentos, urlProgress, urlUsuarios);},
         error:errorPaintProjects,
         async:true,
         crossDomain:true
@@ -146,11 +146,7 @@ function errorPaintProjects() {
         alertify.error("No es posible recuperar los proyectos");
 }
 
-function paintProjects(data, urlEdit, urlExperimentos, urlProgess) {
-    urlEdit = urlEdit.replace("0","{idProject}");
-    urlExperimentos = urlExperimentos.replace("0","{idProject}");
-    urlProgess = urlProgess.replace("0","{idProject}");
-
+function paintProjects(data, urlEdit, urlExperimentos, urlProgress, urlUsuarios) {
     var html = "";
     var countProjects=0;
     if(data.length==0) {
@@ -168,9 +164,10 @@ function paintProjects(data, urlEdit, urlExperimentos, urlProgess) {
             html += "<td>" + project.prioridad + "</td>";
             html += "<td>" + project.fechaInicio + "</td>";
             html += "<td style=\"width: 15%\">" +
-                "<a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
-                "<a href=\""+urlExperimentos.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-glass\"></span></a>" +
-                "<a href=\""+urlProgess.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
+                "<a href=\""+urlEdit.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
+                "<a href=\""+urlExperimentos.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-filter\"></span></a>" +
+                "<a href=\""+urlProgress.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
+                "<a href=\""+urlUsuarios.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-user\"></span></a>" +
                 "</td>";
             html += "</tr>";
         }

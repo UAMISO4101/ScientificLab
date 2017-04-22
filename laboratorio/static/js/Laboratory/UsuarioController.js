@@ -139,10 +139,6 @@ function dataUserIsCorrect() {
     return true;
 }
 
-
-
-
-
 function tryLoginUser() {
     if(dataLoginIsCorrect()) {
         loginUser();
@@ -179,8 +175,6 @@ function errorLoginUser(e){
     alertify.error("Error al iniciar sesion el usuario");
 }
 
-
-
 function dataLoginIsCorrect() {
 
     if($("#username").val().trim() == '') {
@@ -194,4 +188,34 @@ function dataLoginIsCorrect() {
     }
 
     return true;
+}
+
+function ListUsersProject(urlListUsers) {
+     $.ajax({
+        url:host+urlListUsers,
+        method:"GET",
+        success:function(response){paintUsers(response);},
+        error:errorListUsers,
+        async:true,
+        crossDomain:true
+    });
+
+}
+
+function errorListUsers(response) {
+        console.log(response);
+}
+
+function  paintUsers(data) {
+        $('#listUserProject').DataTable({
+        data: data,
+        searching:false,
+        columns: [
+            { data: "nombre"},
+            { data: "username" },
+            { data: "email" },
+            { data: "celular" },
+            { data: "cargo" }
+        ]
+        });
 }

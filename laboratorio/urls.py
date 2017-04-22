@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList
+from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList, UsuariosLista
 from . import views
 
 
@@ -62,6 +62,9 @@ urlpatterns = [
     # URL paginas usuarios
     url(r'^agregarUsuario/$', views.agregar_usuario, name='agregarUsuario'),
     url(r'^login/$', views.inicio_sesion, name='login'),
+    url(r'^usuarios/usuariosProyecto/(?P<id>\d+)/$', views.listar_usuariosProyecto, name='usuariosProyecto'),
+    url(r'^usuarios/ListUserProject/', UsuariosLista.as_view(), name='listaUsuariosProy'),
+
     # URL servicios REST
     url(r'^usuarios/$', views.usuarios, name='usuarios'),
     url(r'^usuarios/(?P<id>\d+)/$', views.usuarios_id, name='usuarioId'),
@@ -69,9 +72,13 @@ urlpatterns = [
     url(r'^cerrarSesion/$', views.cerrar_sesion, name='cerrarSesion'),
     url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),
 
-    #reports
+    #Project Progress
     url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avance'),
     url(r'^Proyecto/AgregarAvance/(?P<id>\d+)/$', views.add_progress, name='agregarAvance'),
     url(r'^Proyecto/GuardarAvance/$', views.save_progress, name='guardarAvance'),
-    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados')
+    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados'),
+
+    #reports
+    url(r'^Reportes/AvanceProyectos/', views.reports, name='reporteAvance')
+
 ]
