@@ -133,8 +133,6 @@ function setDate(date, id){
 var table;
 var data;
 function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress) {
-        console.log(urlAll);
-
     var btnEditar = "<a href='"+ urlEdit +" ' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
     var btnExperimentos = "<a href='"+ urlExperimentos + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-glass'></span></a>"
     var btnProgress = "<a href='"+urlProgress+"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-list-alt'></span></a>"
