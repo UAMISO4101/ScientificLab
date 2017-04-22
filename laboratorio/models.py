@@ -35,6 +35,11 @@ class Proyecto(models.Model):
     estado = models.IntegerField(choices=EstadoProyecto.CHOICES, null=True)
     patrocinador = models.ForeignKey(Patrocinador, related_name='proyectos', null=True, on_delete=models.CASCADE)
 
+class Avance(models.Model):
+    fecha = models.DateField(null=False)
+    reporte = models.FloatField(null=False)
+    comentario = models.CharField(max_length=4000, null=True)
+    proyecto = models.ForeignKey(Proyecto, related_name="avances", null=False, on_delete=models.CASCADE)
 
 # Clase Responsable: Define un responsable de proyecto
 class Responsable(models.Model):

@@ -6,24 +6,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'js/alertify.js'%} "></script>
     <script src="{% static 'js/moment.js'%} "></script>
-    <script src="{% static 'js/Laboratory/ExperimentController.js'%} "></script>
+    <script src="{% static 'js/Laboratory/ProjectController.js'%} "></script>
     <script type="application/javascript">
-        console.log("hola");
-        var urlEdit = "{% url 'laboratorio:editarExperimento' id=0%}";
-        var urlAll = "{% url 'laboratorio:filtrarExperimentos' %}" + "?proyecto={{idProy}}";
-        var urlDetails = "{% url 'laboratorio:detallarExperimento'  id=0%}";
-        var urlStartExperiment = "{% url 'laboratorio:startExperiment'  id=0%}";
+        var urlEdit = "{% url 'laboratorio:editarProyecto' id=0 %}";
+        var urlAll = "{% url 'laboratorio:filtrarProyectos'%}";
+        var urlExperimentos = "{% url 'laboratorio:listaExperimentos' id=0 %}";
+        var urlProgress = "{% url 'laboratorio:avance' id=0 %}";
         $(document).ready(function () {
-            showAllExperiments(urlAll,urlEdit,urlDetails, urlStartExperiment);
+            showAllProjects(urlAll,urlEdit,urlExperimentos,urlProgress);
         });
     </script>
 {% endblock %}
 {% block content %}
     <section id="portfolio" >
         <div class="container">
-            <h1 class="text-center" style="color:#fed136">Proyecto: {{nombreProyecto}}</h1>
-            <h2 class="text-center" style="color:#fed136">Experimentos</h2>
-            <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
+            <h1 class="text-center" style="color:#fed136">Proyectos</h1>
+            <a href="{%url 'laboratorio:agregarProyecto'%}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
                     <div class="form-group">
@@ -35,7 +33,7 @@
                                         <input class="form-control" type="text" name="name" id="name" maxlength="80" value="" required autofocus placeholder="Nombre">
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" onclick="showAllExperiments(urlAll,urlEdit, urlDetails,urlStartExperiment);">Consultar</button>
+                                        <button type="button" class="btn btn-primary" onclick="showAllProjects(urlAll,urlEdit,urlProgress);">Consultar</button>
                                     </td>
                                 </tr>
                             </table>
@@ -49,18 +47,16 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
+                                <th>Avance</th>
                                 <th>Estado</th>
                                 <th>Prioridad</th>
                                 <th>Fecha Inicio</th>
-                                <th>Proyecto</th>
-                                <th>Responsable</th>
-                                <th>Resultado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="8">
+                                <td colspan="6">
                                     <div id="paging">
                                         <ul>
                                             <li><a href="#"><span>Previous</span></a></li>

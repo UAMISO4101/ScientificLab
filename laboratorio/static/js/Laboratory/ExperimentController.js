@@ -150,7 +150,7 @@ function setDate(date, id){
 function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
     var nameToFind = $("#name").val();
     $.ajax({
-        url: urlAll+"?name="+nameToFind,
+        url: urlAll+"&name="+nameToFind,
         method:"GET",
         success:function(response){paintExperiments(response,urlEdit,urlDetails,urlStartExp);},
         error:errorPaintExperiments,
@@ -176,7 +176,6 @@ function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     });
 }
 function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
-    console.log(data)
     urlEdit = urlEdit.replace("0","{idExp}");
     urlDetails = urlDetails.replace("0","{idExp}");
     urlStartExp = urlStartExp.replace("0","{idExp}");
