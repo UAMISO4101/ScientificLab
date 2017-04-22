@@ -13,6 +13,7 @@ function showLoginElements(){
 function paintLoginElements(data) {
     console.log(data)
     if (data.mensaje == 'no') {
+        $("#lst_menu").hide();
         $("#cerrar_sesion").hide();
         $("#registrar_usuario").show();
         $("#iniciar_sesion").show();
@@ -20,6 +21,7 @@ function paintLoginElements(data) {
         $("#nombre_usuario").text('');
     }
     else {
+        $("#lst_menu").show();
         $("#cerrar_sesion").show();
         $("#registrar_usuario").hide();
         $("#iniciar_sesion").hide();

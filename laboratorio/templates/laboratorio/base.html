@@ -59,7 +59,7 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-left">
+                <ul id="lst_menu" class="nav navbar-nav navbar-left" style="display: none;">
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
@@ -76,7 +76,7 @@
                         <a class="page-scroll" href="#Solicitudes">Solicitudes</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#Reportes">Reportes</a>
+                        <a class="page-scroll" href="{% url 'laboratorio:reporteAvance' %}">Reportes</a>
                     </li>
 
                 </ul>
