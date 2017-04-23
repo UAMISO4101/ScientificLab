@@ -24,8 +24,9 @@ class ExperimentoLista(generics.ListAPIView):
         return experimentos
 
 
-def agregar_experimento(request):
-    return render(request, 'laboratorio/Experimento/agregarExperimento.html')
+def agregar_experimento(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Experimento/agregarExperimento.html', {"idProy": id, "nombreProyecto": proyecto.nombre})
 
 
 def listar_experimentos(request, id):
@@ -42,7 +43,10 @@ def detallar_experimento(request, id):
 
 
 def editar_experimento(request, id):
-    return render(request, 'laboratorio/Experimento/editarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
+    experimento= Experimento.objects.get(id=id)
+    proy = Proyecto.objects.get(id=experimento.proyecto.id)
+    return render(request, 'laboratorio/Experimento/editarExperimento.html',
+                  {"experimento": Experimento.objects.get(id=id),"nombreProyecto": proy.nombre})
 
 
 #Atiende las peticiones de los Experimentos

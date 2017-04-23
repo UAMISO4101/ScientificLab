@@ -12,16 +12,17 @@
     <script type="application/javascript">
         $("body").ready(function (){
              $.getJSON("{%url 'laboratorio:listaEstadosExperimento'%}").done(showExperimentStates);
-             $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
              $.getJSON("{%url 'laboratorio:responsables'%}").done(showResponsables);
         });
+
     </script>
 {% endblock %}
 
 {% block content %}
     <section>
         <div class="container">
-            <h1 class="text-center" style="color:#fed136">Crear Experimento</h1>
+            <h1 class="text-center" style="color:#fed136">Proyecto: {{nombreProyecto}}</h1>
+            <h2 class="text-center" style="color:#fed136">Crear Experimento</h2>
                 <form class="form-horizontal" method="POST" data-add-experiment-url="{%url 'laboratorio:experimentos'%}" id="formAddExperiment">
             {%csrf_token%}
                 <div class="form-group">
@@ -39,8 +40,8 @@
                 <div class="form-group">
                     <label for="proyecto" class="col-sm-2 control-label">Proyecto: </label>
                     <div class="col-sm-6">
-                        <select class="form-control" name="proyecto" id="proyecto">
-                        </select>
+                        <input type="text" class="form-control" name="nombreProyecto" id="nombrePproyecto" readonly value="{{nombreProyecto}}"></input>
+                        <input type="hidden" class="form-control" name="proyecto" id="proyecto" value="{{idProy}}"></input>
                     </div>
                 </div>
                 <div class="form-group">
@@ -71,7 +72,7 @@
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
                     <input class="btn btn-warning" type="button" onclick="validateData(true);"  value="Guardar"/>
-                    <a href="{% url 'laboratorio:index' %}" class="btn btn-warning">Regresar</a>
+                    <a href="{% url 'laboratorio:listaExperimentos' id=idProy%}" class="btn btn-warning">Regresar</a>
                 </div>
             </form>
         </div>
