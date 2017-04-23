@@ -166,8 +166,8 @@ function paintProjects(data, urlEdit, urlExperimentos, urlProgress, urlUsuarios)
             html += "<td style=\"width: 15%\">" +
                 "<a href=\""+urlEdit.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
                 "<a href=\""+urlExperimentos.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-filter\"></span></a>" +
-                "<a href=\""+urlProgress.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"  id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
-                "<a href=\""+urlUsuarios.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-user\"></span></a>" +
+                "<a href=\""+urlProgress.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\" id=\"report_"+countProjects+"\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
+                "<a href=\""+urlUsuarios.replace("0",project.pk)+ "\" class=\"btn btn-info btn-round\" id=\"Users_"+countProjects+"\"><span class=\"glyphicon glyphicon-user\"></span></a>" +
                 "</td>";
             html += "</tr>";
         }
