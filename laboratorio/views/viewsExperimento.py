@@ -19,7 +19,10 @@ class ExperimentoLista(generics.ListAPIView):
         proyecto = self.request.query_params.get('proyecto')
         print(proyecto)
         if(proyecto !=0 ):
-            experimentos = Experimento.objects.filter(proyecto = proyecto)
+            experimentos = Experimento.objects.filter(proyecto = proyecto).order_by('responsable')
+            for experimento in experimentos:
+                print (experimento.nombre, experimento.responsable.nombre)
+            print("ingresa a listar ...")
         #elif(proyecto!=0 and name):
          #   experimentos = Experimento.objects.filter(proyecto = proyecto, nombre__icontains=name)
         else:

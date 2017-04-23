@@ -44,6 +44,7 @@ class Avance(models.Model):
 # Clase Responsable: Define un responsable de proyecto
 class Responsable(models.Model):
     nombre = models.CharField(max_length=250, null=True)
+    def __unicode__(self): return self.nombre
 
 # Clase ResultadoExperimento: Define los posibles resultados de un Experimento
 class ResultadoExperimento:

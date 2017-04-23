@@ -16,9 +16,7 @@
     <script src="{% static 'js/moment.js'%} "></script>
     <script src="{% static 'js/Laboratory/ExperimentController.js'%} "></script>
     <script type="application/javascript">
-        console.log("hola");
         var urlEdit = "{% url 'laboratorio:editarExperimento' id=0%}";
-         console.log("url Edit "+urlEdit);
         var urlAll = "{% url 'laboratorio:filtrarExperimentos' %}" + "?proyecto={{idProy}}";
         var urlDetails = "{% url 'laboratorio:detallarExperimento'  id=0%}";
         var urlStartExperiment = "{% url 'laboratorio:startExperiment'  id=0%}";

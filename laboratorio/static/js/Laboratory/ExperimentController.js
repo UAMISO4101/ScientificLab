@@ -148,7 +148,6 @@ function setDate(date, id){
 }
 
 function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
-      console.log(urlEdit);
      var table = $('#projects').DataTable( {
         "ajax": {
             "url": urlAll,
@@ -160,9 +159,9 @@ function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
             { data: "estado" },
             { data: "prioridad" },
             { data: "fechaInicio" },
-            { data: "fechaInicio" },
             { data: "proyecto" },
             { data: "responsable" },
+            { data: "resultado" },
             { "defaultContent": "" +
             "<a href='#'  id= 'btnIniciar' class=\"btn btn-info\" title='Iniciar' >Iniciar</a> " +
             "<a href='#'  id= 'btnEdit'   class=\"btn btn-info btn-round\" title='Editar'><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
@@ -172,7 +171,11 @@ function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
 
         $('#projects tbody').on( 'click', '#btnIniciar', function () {
             var data = table.row( $(this).parents('tr') ).data();
-            startExperiment(data.id,urlAll,urlEdit,urlDetails,urlStartExp)
+            if(data.fechaInicio!='') {
+                alert("Ya esta iniciado el proyecto. No puede cambiar la fecha ")
+            }else {
+                startExperiment(data.id, urlAll, urlEdit, urlDetails, urlStartExp)
+            }
         } );
 
          $('#projects tbody').on( 'click', '#btnEdit', function () {
