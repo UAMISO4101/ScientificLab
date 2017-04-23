@@ -25,7 +25,7 @@ function dataIsCorrect() {
         }
     }
 
-    if($('#proyecto option:selected').val() == -1) {
+    if($('#proyecto').val() == "") {
         alertify.error("Seleccione un proyecto",2);
         return false;
     }
@@ -93,7 +93,7 @@ function getData() {
     var experiment = {};
     experiment.nombre =$("#nombre").val();
     experiment.fechaInicio =$("#fechaInicio").val();
-    experiment.idProyecto =$('#proyecto option:selected').val();
+    experiment.idProyecto =$('#proyecto').val();
     experiment.idResponsable =$('#responsable option:selected').val();
     experiment.estado =$('#estado option:selected').val();
     experiment.prioridad =$("#prioridad").val();
@@ -101,16 +101,6 @@ function getData() {
     experiment.descripcion =$("#descripcion").val();
     return experiment;
 }
-
-function showProyectsNames(response){
-    var nameProyectList =$("#proyecto");
-    var proyecto;
-    nameProyectList.append(new Option("Seleccione un proyecto", -1));
-    for (var i=0; i <response.length; i++){
-        proyecto = response[i];
-        nameProyectList.append(new Option(proyecto.fields.nombre, proyecto.pk));
-    }
- }
 
 function showResponsables(response){
     var responsablesList =$("#responsable");
@@ -150,9 +140,9 @@ function setDate(date, id){
 var table;
 var data;
 function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
-    var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
+var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
     var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>"
-    var btnIniciar = "<a href='"+urlStartExp +"'  class='btn btn-info' >Iniciar</a>"
+    var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info' >Iniciar</a>"
     var table = $('#myTable').DataTable( {
         "ajax": {
             "url":  host+urlAll,
@@ -183,6 +173,10 @@ function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
              },
         ]
         } );
+}
+function iniciar(id) {
+    alert("hola "+ urlStartExp  );
+    startExperiment(id, urlAll ,urlEdit.replace('0',id), urlDetails.replace('0',id),urlStartExp.replace('0',id))
 }
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
