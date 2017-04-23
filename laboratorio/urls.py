@@ -24,7 +24,7 @@ urlpatterns = [
 
     url(r'^responsables/$', views.responsables, name='responsables'),
     url(r'^responsables/(?P<id>\d+)/$', views.responsables_id, name='responsableId'),
-    #url(r'^Experimento/experimentos/$', views.experimentos, name='experimentos'),
+    url(r'^Experimento/experimentos/$', views.experimentos, name='experimentos'),
     url(r'^Proyecto/proyectos/(?P<id>\d+)/experimentos/$', views.proyectos_id_experimentos, name='proyectoListExperimentos'),
     url(r'^Proyecto/proyectos/(?P<id>\d+)/experimentos/$', views.listar_experimentos, name='proyectoIdExperimentos'),
     url(r'^Experimento/experimentos/(?P<id>\d+)/experimentos/$', views.listar_experimentos, name='listaExperimentos'),
@@ -69,9 +69,13 @@ urlpatterns = [
     url(r'^cerrarSesion/$', views.cerrar_sesion, name='cerrarSesion'),
     url(r'^estaLogueado/$', views.esta_logueado, name='estaLogueado'),
 
-    #reports
+    #Project Progress
     url(r'^Proyecto/Avances/(?P<id>\d+)/$', views.list_progress, name='avance'),
     url(r'^Proyecto/AgregarAvance/(?P<id>\d+)/$', views.add_progress, name='agregarAvance'),
     url(r'^Proyecto/GuardarAvance/$', views.save_progress, name='guardarAvance'),
-    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados')
+    url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados'),
+
+    #reports
+    url(r'^Reportes/AvanceProyectos/', views.reports, name='reporteAvance')
+
 ]

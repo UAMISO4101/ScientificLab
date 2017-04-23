@@ -147,22 +147,43 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
-    var nameToFind = $("#name").val();
-    $.ajax({
-        url: urlAll+"&name="+nameToFind,
-        method:"GET",
-        success:function(response){paintExperiments(response,urlEdit,urlDetails,urlStartExp);},
-        error:errorPaintExperiments,
-        async:true,
-        crossDomain:true
-    });
+var table;
+var data;
+function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
+    var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
+    var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>"
+    var btnIniciar = "<a href='"+urlStartExp +"'  class='btn btn-info' >Iniciar</a>"
+    var table = $('#myTable').DataTable( {
+        "ajax": {
+            "url":  host+urlAll,
+            "dataSrc": ""
+        },
+        "columns": [
+            { data: "nombre" },
+            { data: "estado" },
+            { data: "prioridad" },
+            { "render": function(data, type, row, meta){
+                if(row.fechaInicio == null){
+                    btnIniciar= btnIniciar.replace (0,row.id);
+                     return btnIniciar
+                    }
+                    else {
+                        return row.fechaInicio;
+                    }
+                }
+            },
+            { data: "proyecto" },
+            { data: "responsable" },
+            { data: "resultado" },
+            { sortable: false,
+              "render": function ( data, type, row, meta ) {
+               return btnEditar.replace ('0',row.id)+
+                      btnDetallar.replace ('0',row.id);
+                 }
+             },
+        ]
+        } );
 }
-
-function errorPaintExperiments() {
-        alertify.error("No es posible recuperar los experimentos");
-}
-
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
         url: urlStartExp.replace("{idExp}", id),
@@ -174,39 +195,4 @@ function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
         error:errorSaveExperiment,
         dataType: 'json'
     });
-}
-function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
-    urlEdit = urlEdit.replace("0","{idExp}");
-    urlDetails = urlDetails.replace("0","{idExp}");
-    urlStartExp = urlStartExp.replace("0","{idExp}");
-    var html = "";
-    if(data.length==0) {
-        html="<h1>No se han encontrado experimentos</h1>";
-    }else {
-        var experiment,state;
-        experiments = data;
-        var startExp;
-        for (var i=0; i<experiments.length;i++)
-        {
-            experiment = experiments[i];
-            if(experiment.fechaInicio!= undefined)
-                startExp = experiment.fechaInicio;
-            else
-                startExp = "<a class=\"btn btn-info\" onclick='startExperiment("+experiment.id+",\""+urlAll+"\",\""+urlEdit+"\", \""+urlDetails+"\",\""+urlStartExp+"\");'>iniciar</a>"
-
-            html += "<tr class='alt'>";
-            html += "<td>" + experiment.nombre + "</td>";
-            html += "<td>" + experiment.estado + "</td>";
-            html += "<td>" + experiment.prioridad + "</td>";
-            html += "<td>" + startExp + "</td>";
-            html += "<td>" + experiment.proyecto + "</td>";
-            html += "<td>" + experiment.responsable + "</td>";
-            state = experiment.resultado != -1 ? experiment.resultado: "";
-            html += "<td>" + state  + "</td>";
-            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
-            html += "<a href=\""+urlDetails.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-cog\"></span></a></td>";
-            html += "</tr>";
-        }
-    }
-    $("#projects tbody").html(html);
 }

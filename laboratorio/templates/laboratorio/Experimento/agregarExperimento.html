@@ -22,7 +22,7 @@
     <section>
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Crear Experimento</h1>
-            <form class="form-horizontal" method="POST" data-add-experiment-url="{%url 'laboratorio:experimentos'%}" id="formAddExperiment">
+                <form class="form-horizontal" method="POST" data-add-experiment-url="{%url 'laboratorio:experimentos'%}" id="formAddExperiment">
             {%csrf_token%}
                 <div class="form-group">
                     <label for="nombre" class="col-sm-2 control-label">Titulo: </label>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
                     <input class="btn btn-warning" type="button" onclick="validateData(true);"  value="Guardar"/>
-                    <a href="{% url 'laboratorio:listarExperimentos' %}" class="btn btn-warning">Regresar</a>
+                    <a href="{% url 'laboratorio:index' %}" class="btn btn-warning">Regresar</a>
                 </div>
             </form>
         </div>

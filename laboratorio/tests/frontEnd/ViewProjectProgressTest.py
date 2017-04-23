@@ -2,6 +2,9 @@ from unittest import TestCase
 from selenium import webdriver
 import time
 
+from selenium.webdriver.support.select import Select
+
+
 class ViewProjectProgressTest(TestCase):
 
     def setUp(self):
@@ -17,13 +20,11 @@ class ViewProjectProgressTest(TestCase):
         self.go_to_project_progress()
         self.add_progress()
 
-
-
     def go_to_project_progress(self):
         linkProjects = self.browser.find_element_by_id('linkProjects')
         linkProjects.click()
         time.sleep(5)
-        linkReport = self.browser.find_element_by_id('report_1')
+        linkReport = self.browser.find_element_by_xpath('//*[@id="myTable"]/tbody/tr[1]/td[6]/a[3]')
         linkReport.click()
         time.sleep(2)
         self.assertEqual('Laboratorio Uniandes', self.browser.title)
@@ -65,3 +66,19 @@ class ViewProjectProgressTest(TestCase):
         totalReportedProgressAfterSave = self.browser.find_element_by_id('counterProgress').get_attribute("value")
         expectedProgress = int(totalReportedProgressBeforeSave) +1
         self.assertEqual(int(totalReportedProgressAfterSave), expectedProgress)
+
+    def test_report_by_proyect(self):
+        self.browser.get('http://localhost:8000/laboratorio')
+        self.do_login()
+        linkProjects = self.browser.find_element_by_id('linkReports')
+        linkProjects.click()
+        time.sleep(3)
+        select = Select(self.browser.find_element_by_id('projects'))
+        select.select_by_index(1)
+
+        btnGenerate = self.browser.find_element_by_id('btnGenerate')
+        btnGenerate.click()
+
+        self.assertNotEqual(select.first_selected_option, "Seleccione un proyecto")
+        time.sleep(3)
+
