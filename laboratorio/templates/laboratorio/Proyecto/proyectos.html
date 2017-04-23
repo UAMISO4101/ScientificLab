@@ -19,8 +19,9 @@
         var urlAll = "{% url 'laboratorio:filtrarProyectos'%}";
         var urlExperimentos = "{% url 'laboratorio:listaExperimentos' id=0 %}";
         var urlProgress = "{% url 'laboratorio:avance' id=0 %}";
+        var urlUsuarios = "{% url 'laboratorio:usuariosProyecto' id=0 %}";
         $(document).ready(function () {
-            listarProyectos(urlAll,urlEdit,urlExperimentos,urlProgress);
+            listarProyectos(urlAll,urlEdit,urlExperimentos,urlProgress,urlUsuarios);
         });
     </script>
 {% endblock %}

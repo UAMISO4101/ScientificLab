@@ -70,6 +70,7 @@ class ViewProjectProgressTest(TestCase):
     def test_report_by_proyect(self):
         self.browser.get('http://localhost:8000/laboratorio')
         self.do_login()
+        time.sleep(3)
         linkProjects = self.browser.find_element_by_id('linkReports')
         linkProjects.click()
         time.sleep(3)

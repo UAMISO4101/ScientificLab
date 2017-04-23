@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList
+from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList, UsuariosLista
 from . import views
 
 
@@ -62,6 +62,9 @@ urlpatterns = [
     # URL paginas usuarios
     url(r'^agregarUsuario/$', views.agregar_usuario, name='agregarUsuario'),
     url(r'^login/$', views.inicio_sesion, name='login'),
+    url(r'^usuarios/usuariosProyecto/(?P<id>\d+)/$', views.listar_usuariosProyecto, name='usuariosProyecto'),
+    url(r'^usuarios/ListUserProject/', UsuariosLista.as_view(), name='listaUsuariosProy'),
+
     # URL servicios REST
     url(r'^usuarios/$', views.usuarios, name='usuarios'),
     url(r'^usuarios/(?P<id>\d+)/$', views.usuarios_id, name='usuarioId'),

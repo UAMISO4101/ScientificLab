@@ -8,7 +8,6 @@ from models import ProtocolosExperimento
 from models import Paso
 from models import Elemento
 
-
 # Register your models here.
 admin.site.register(Patrocinador)
 admin.site.register(Proyecto)
@@ -19,4 +18,3 @@ admin.site.register(ProtocolosExperimento)
 admin.site.register(Paso)
 admin.site.register(Elemento)
 admin.site.register(Avance)
-

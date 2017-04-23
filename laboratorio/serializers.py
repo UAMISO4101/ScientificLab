@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 from laboratorio.models import Avance
-from .models import Protocolo, Proyecto, Experimento
+from .models import Protocolo, Proyecto, Experimento, Responsable
 
 class ProtocoloSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,3 +32,8 @@ class AvanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Avance
         fields = ('id', 'fecha', 'reporte', 'comentario')
+
+class ResponsableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Responsable
+        fields = ('id', 'nombre', 'username', 'email', 'celular', 'cargo')
