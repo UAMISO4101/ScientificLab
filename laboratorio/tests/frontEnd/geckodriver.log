@@ -1,13 +1,13 @@
-1492230807530	geckodriver	INFO	Listening on 127.0.0.1:49866
-1492230809586	mozprofile::profile	INFO	Using profile path C:\Users\paula\AppData\Local\Temp\rust_mozprofile.AmQleXCd3LEJ
-1492230809598	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
-1492230809612	geckodriver::marionette	INFO	Connecting to Marionette on localhost:49872
-1492230811862	Marionette	INFO	Listening on port 49872
-1492230813108	Marionette	WARN	TLS certificate errors will be ignored for this session
-JavaScript error: http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/login/
-JavaScript error: http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Proyecto/listarProyectos/
-1492230835365	Marionette	INFO	New connections will no longer be accepted
-[Child 11844] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
-12
-[Child 8772] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
-2143
+1492960750570	geckodriver	INFO	Listening on 127.0.0.1:60322
+1492960752657	mozprofile::profile	INFO	Using profile path C:\Users\Lenovo\AppData\Local\Temp\rust_mozprofile.MByUZVikWTPM
+1492960752673	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
+1492960752725	geckodriver::marionette	INFO	Connecting to Marionette on localhost:60328
+[GFX1]: Potential driver version mismatch ignored due to missing DLLs 0.0.0.0 and 0.0.0.0
+1492960754935	Marionette	INFO	Listening on port 60328
+1492960756258	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1]: Potential driver version mismatch ignored due to missing DLLs 0.0.0.0 and 0.0.0.0
+JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/login/
+JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Proyecto/listarProyectos/
+1492960774916	Marionette	INFO	New connections will no longer be accepted
+[Child 5752] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
+
