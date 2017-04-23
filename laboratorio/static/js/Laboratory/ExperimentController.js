@@ -139,7 +139,7 @@ function setDate(date, id){
 
 var table;
 var data;
-function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
+function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExperiment){
 var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
     var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>"
     var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info' >Iniciar</a>"
@@ -175,8 +175,7 @@ var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span c
         } );
 }
 function iniciar(id) {
-    alert("hola "+ urlStartExp  );
-    startExperiment(id, urlAll ,urlEdit.replace('0',id), urlDetails.replace('0',id),urlStartExp.replace('0',id))
+    startExperiment(id, urlAll ,urlEdit.replace('0',id), urlDetails.replace('0',id),urlStartExperiment.replace('0',id))
 }
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
