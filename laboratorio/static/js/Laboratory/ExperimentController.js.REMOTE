@@ -25,7 +25,7 @@ function dataIsCorrect() {
         }
     }
 
-    if($('#proyecto').val() == "") {
+    if($('#proyecto option:selected').val() == -1) {
         alertify.error("Seleccione un proyecto",2);
         return false;
     }
@@ -93,7 +93,7 @@ function getData() {
     var experiment = {};
     experiment.nombre =$("#nombre").val();
     experiment.fechaInicio =$("#fechaInicio").val();
-    experiment.idProyecto =$('#proyecto').val();
+    experiment.idProyecto =$('#proyecto option:selected').val();
     experiment.idResponsable =$('#responsable option:selected').val();
     experiment.estado =$('#estado option:selected').val();
     experiment.prioridad =$("#prioridad").val();
@@ -101,6 +101,16 @@ function getData() {
     experiment.descripcion =$("#descripcion").val();
     return experiment;
 }
+
+function showProyectsNames(response){
+    var nameProyectList =$("#proyecto");
+    var proyecto;
+    nameProyectList.append(new Option("Seleccione un proyecto", -1));
+    for (var i=0; i <response.length; i++){
+        proyecto = response[i];
+        nameProyectList.append(new Option(proyecto.fields.nombre, proyecto.pk));
+    }
+ }
 
 function showResponsables(response){
     var responsablesList =$("#responsable");
@@ -137,55 +147,104 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-var table;
-var data;
-function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExperiment){
-var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
-    var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>"
-    var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info' >Iniciar</a>"
-    var table = $('#myTable').DataTable( {
+function showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp){
+     var table = $('#projects').DataTable( {
         "ajax": {
-            "url":  host+urlAll,
-            "dataSrc": ""
+            "url": urlAll,
+            "dataSrc": "",
+             "method":"GET",
         },
         "columns": [
             { data: "nombre" },
             { data: "estado" },
             { data: "prioridad" },
-            { "render": function(data, type, row, meta){
-                if(row.fechaInicio == null){
-                    btnIniciar= btnIniciar.replace (0,row.id);
-                     return btnIniciar
-                    }
-                    else {
-                        return row.fechaInicio;
-                    }
-                }
-            },
+            { data: "fechaInicio" },
             { data: "proyecto" },
             { data: "responsable" },
             { data: "resultado" },
-            { sortable: false,
-              "render": function ( data, type, row, meta ) {
-               return btnEditar.replace ('0',row.id)+
-                      btnDetallar.replace ('0',row.id);
-                 }
-             },
+            { "defaultContent": "" +
+            "<a href='#'  id= 'btnIniciar' class=\"btn btn-info\" title='Iniciar' >Iniciar</a> " +
+            "<a href='#'  id= 'btnEdit'   class=\"btn btn-info btn-round\" title='Editar'><span class=\"glyphicon glyphicon-pencil\"></span></a>" +
+            "<a href='#'  id= 'btnDetail'  class=\"btn btn-info btn-round\" title='Ver Detalle'><span class=\"glyphicon glyphicon-cog\"></span></a>" },
         ]
         } );
+
+        $('#projects tbody').on( 'click', '#btnIniciar', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            if(data.fechaInicio!='') {
+                alert("Ya esta iniciado el proyecto. No puede cambiar la fecha ")
+            }else {
+                startExperiment(data.id, urlAll, urlEdit, urlDetails, urlStartExp)
+            }
+        } );
+
+         $('#projects tbody').on( 'click', '#btnEdit', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            window.location = urlEdit.replace("0",data.id);
+        } );
+
+        $('#projects tbody').on( 'click', '#btnDetail', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            window.location = urlDetails.replace("0",data.id);
+        } );
 }
-function iniciar(id) {
-    startExperiment(id, urlAll ,urlEdit.replace('0',id), urlDetails.replace('0',id),urlStartExperiment.replace('0',id))
+
+function errorPaintExperiments() {
+        alertify.error("No es posible recuperar los experimentos");
 }
+
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
-        url: urlStartExp.replace("{idExp}", id),
+        url: urlStartExp.replace("0", id),
         method:"POST",
         data:JSON.stringify({id:id}),
         success:function () {
-            showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp)
+            location.reload();
+            //showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp)
         },
         error:errorSaveExperiment,
         dataType: 'json'
     });
+}
+function paintExperiments(data, urlEdit, urlDetails, urlStartExp) {
+    urlEdit = urlEdit.replace("0","{idExp}");
+    urlDetails = urlDetails.replace("0","{idExp}");
+    urlStartExp = urlStartExp.replace("0","{idExp}");
+
+
+    var html = "";
+    if(data.length==0) {
+        html="<h1>No se han encontrado experimentos</h1>";
+    }else {
+        var experiment,state;
+        experiments = data;
+        var startExp;
+        for (var i=0; i<experiments.length;i++)
+        {
+            experiment = experiments[i];
+            if(experiment.fechaInicio!= undefined)
+                startExp = experiment.fechaInicio;
+            else
+                startExp = "<a class=\"btn btn-info\" " +
+                    "onclick='" +
+                    "startExperiment("+experiment.id+",\""+urlAll+"\"," +
+                    "\""+urlEdit+"\", \""+urlDetails+"\",\""+urlStartExp+"\");'>" +
+                    "iniciar</a>"
+
+            html += "<tr class='alt'>";
+            html += "<td>" + experiment.nombre + "</td>";
+            html += "<td>" + experiment.estado + "</td>";
+            html += "<td>" + experiment.prioridad + "</td>";
+            html += "<td>" + startExp + "</td>";
+            html += "<td>" + experiment.proyecto + "</td>";
+            html += "<td>" + experiment.responsable + "</td>";
+            state = experiment.resultado != -1 ? experiment.resultado: "";
+            html += "<td>" + state  + "</td>";
+            html += "<td style=\"width: 10%\">" +
+                "<a href=\""+urlEdit.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a>";
+            html += "<a href=\""+urlDetails.replace("{idExp}",experiment.id)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-cog\"></span></a></td>";
+            html += "</tr>";
+        }
+    }
+    $("#projects tbody").html(html);
 }

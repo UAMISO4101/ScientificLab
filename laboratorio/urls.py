@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^Proyecto/agregarProyecto/$', views.agregar_proyecto, name='agregarProyecto'),
     url(r'^Proyecto/editarProyecto/(?P<id>\d+)/$', views.editar_proyecto, name='editarProyecto'),
-    url(r'^Experimento/agregarExperimento/$', views.agregar_experimento, name='agregarExperimento'),
+    url(r'^Experimento/agregarExperimento/(?P<id>\d+)/$', views.agregar_experimento, name='agregarExperimento'),
     url(r'^Experimento/editarExperimento/(?P<id>\d+)/$', views.editar_experimento, name='editarExperimento'),
     url(r'^Proyecto/listarProyectos/$', views.listar_proyectos, name='listarProyectos'),
     url(r'^Proyecto/filtrarProyectos/$', ProyectosLista.as_view(), name='filtrarProyectos'),
@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^responsables/$', views.responsables, name='responsables'),
     url(r'^responsables/(?P<id>\d+)/$', views.responsables_id, name='responsableId'),
     url(r'^Experimento/experimentos/$', views.experimentos, name='experimentos'),
+
     url(r'^Proyecto/proyectos/(?P<id>\d+)/experimentos/$', views.proyectos_id_experimentos, name='proyectoListExperimentos'),
     url(r'^Proyecto/proyectos/(?P<id>\d+)/experimentos/$', views.listar_experimentos, name='proyectoIdExperimentos'),
     url(r'^Experimento/experimentos/(?P<id>\d+)/experimentos/$', views.listar_experimentos, name='listaExperimentos'),

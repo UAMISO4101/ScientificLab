@@ -17,7 +17,6 @@
     <script type="application/javascript">
         var urlEdit = "{% url 'laboratorio:editarExperimento' id=0%}";
         var urlAll = "{% url 'laboratorio:filtrarExperimentos' %}" + "?proyecto={{idProy}}";
-        console.log(urlAll);
         var urlDetails = "{% url 'laboratorio:detallarExperimento'  id=0%}";
         var urlStartExperiment = "{% url 'laboratorio:startExperiment'  id=0%}";
         $(document).ready(function () {
@@ -30,7 +29,7 @@
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Proyecto: {{nombreProyecto}}</h1>
             <h2 class="text-center" style="color:#fed136">Experimentos</h2>
-            <a href="{% url 'laboratorio:agregarExperimento' %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
+            <a href="{% url 'laboratorio:agregarExperimento' id=idProy %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
                     <table id="myTable" class="table table-hover table-bordered">
