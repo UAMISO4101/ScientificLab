@@ -14,7 +14,7 @@ function errorGetProgress(response) {
 }
 
 function  paintProgress(data) {
-     $("#countProjectReportedProgress").html("<input type=\"label\" id=\"counterProgress\" disabled value=\""+data.length+"\" hidden>");
+      $("#countProjectReportedProgress").html("<input type=\"label\" id=\"counterProgress\" value=\""+data.length+"\" hidden>");
       $('#listReportedProgress').DataTable({
         data: data,
         searching:false,

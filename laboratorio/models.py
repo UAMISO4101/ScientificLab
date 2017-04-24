@@ -1,10 +1,27 @@
 from __future__ import unicode_literals
 from django.db import models
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
+# Clase Roles: Define el rol de un usuario
+class RolesUsuario:
+    CIENTIFICO = 0
+    ASISTENTE = 1
+    CHOICES = (
+        (CIENTIFICO, 'Cientifico'),
+        (ASISTENTE, 'Asistente')
+    )
+
+    def getDict(self):
+        return [{'id': rol[0], 'estado': rol[1]} for rol in self.CHOICES]
+
+# Clase Usuario: Adicionando el campo rol
+"""class User(AbstractUser):
+    rol = models.IntegerField(choices=RolesUsuario.CHOICES, null=True)"""
 
 # Clase Patrocinador: Define un Patrocinador de proyectos
 class Patrocinador(models.Model):
-    nombre = models.CharField(max_length=250, null=True)
+    nombre = models.CharField(max_length=100, null=False)
 
 # Clase EstadoProyecto: Define los posibles estados de un Proyecto
 class EstadoProyecto:
@@ -43,7 +60,11 @@ class Avance(models.Model):
 
 # Clase Responsable: Define un responsable de proyecto
 class Responsable(models.Model):
-    nombre = models.CharField(max_length=250, null=True)
+    nombre = models.CharField(max_length=100, null=False, default="")
+    username = models.CharField(max_length=30, null=False, default="")
+    email = models.CharField(max_length=200, null=False, default="")
+    cargo = models.CharField(max_length=60, null=True)
+    celular = models.BigIntegerField(null=True)
     def __unicode__(self): return self.nombre
 
 # Clase ResultadoExperimento: Define los posibles resultados de un Experimento
@@ -99,7 +120,7 @@ class CategoriaProtocolo:
 
 # Clase Protocolo: Define los protocolos que pueden ir en un experimento
 class Protocolo(models.Model):
-    titulo = models.CharField(max_length=250, null=True)
+    titulo = models.CharField(max_length=100, null=True)
     descripcion = models.CharField(max_length=1000, null=True)
     version = models.IntegerField(null=True)
     categoria = models.IntegerField(choices=CategoriaProtocolo.CHOICES, null=True)
@@ -134,11 +155,9 @@ class UnidadElemento:
     def getDict(self):
         return [{'id': unidad[0], 'estado': unidad[1]} for unidad in self.CHOICES]
 
-
 # Clase Elemento: Define un elemento del laboratorio
 class Elemento(models.Model):
-    nombre = models.CharField(max_length=250, null=True)
+    nombre = models.CharField(max_length=100, null=True)
     cantidad = models.FloatField(null=True)
     unidades = models.IntegerField(choices=UnidadElemento.CHOICES, null=True)
     paso = models.ForeignKey(Paso, related_name='elementos', null=True, on_delete=models.CASCADE)
-

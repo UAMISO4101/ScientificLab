@@ -132,10 +132,11 @@ function setDate(date, id){
 
 var table;
 var data;
-function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress) {
-    var btnEditar = "<a href='"+ urlEdit +" ' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
-    var btnExperimentos = "<a href='"+ urlExperimentos + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-glass'></span></a>"
-    var btnProgress = "<a href='"+urlProgress+"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-list-alt'></span></a>"
+function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress,urlUsuarios) {
+    var btnEditar = "<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>"
+    var btnExperimentos = "<a href='"+ urlExperimentos + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-filter'></span></a>"
+    var btnProgress = "<a href='"+urlProgress+"' class='btn btn-info btn-round' id='report_0'><span class='glyphicon glyphicon-list-alt'></span></a>"
+    var btnUsuarios = "<a href='"+urlUsuarios+"' class='btn btn-info btn-round' id='Users_0'><span class='glyphicon glyphicon-user'></span></a>"
     var table = $('#myTable').DataTable( {
         "ajax": {
             "url":  host+urlAll,
@@ -151,10 +152,10 @@ function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress) {
               "render": function ( data, type, row, meta ) {
                return btnEditar.replace ('0',row.pk)+
                       btnExperimentos.replace ('0',row.pk)+
-                      btnProgress.replace('0',row.pk);
+                      btnProgress.replace('0',row.pk).replace('0',row.pk)+
+                      btnUsuarios.replace('0',row.pk).replace('0',row.pk);
                  }
              },
         ]
         } );
-
 }
