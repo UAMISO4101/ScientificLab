@@ -17,9 +17,18 @@ class ProyectoSerializer(serializers.ModelSerializer):
 
 
 class ExperimentoSerializer(serializers.ModelSerializer):
+    responsable = serializers.StringRelatedField(many=False)
+    estado =  serializers.SerializerMethodField()
+    resultado = serializers.SerializerMethodField()
     class Meta:
         model = Experimento
         fields = ('id', 'nombre', 'estado', 'prioridad', 'fechaInicio', 'proyecto', 'responsable', 'resultado')
+
+    def get_estado(self, obj):
+        return obj.get_estado_display()
+
+    def get_resultado(self, obj):
+        return obj.get_resultado_display()
 
 # Clase serializadora de clase usuario
 class UserSerializer(serializers.ModelSerializer):
