@@ -22,9 +22,10 @@ class UsersProjectTest(TestCase):
     def test_links_project_Users(self):
         self.browser.get('http://localhost:8000/laboratorio')
         self.do_login()
+        time.sleep(2)
         linkProjects = self.browser.find_element_by_id('linkProjects')
         linkProjects.click()
-        time.sleep(4)
+        time.sleep(8)
         numProject = self.Rows_table_Project()
         print(numProject)
         i = 0
@@ -32,11 +33,11 @@ class UsersProjectTest(TestCase):
             linkProjectSel = "Users_" + str(random.randint(1, numProject))
             linkUsers = self.browser.find_element_by_id(linkProjectSel)
             linkUsers.click()
-            time.sleep(2)
+            time.sleep(4)
             tableUser = self.browser.find_element_by_id('listUserProject')
             tableUser.click()
             self.browser.execute_script("window.history.go(-1)")
-            time.sleep(2)
+            time.sleep(8)
             i+=3
 
     def test_go_to_project_Users(self):
@@ -45,17 +46,17 @@ class UsersProjectTest(TestCase):
         time.sleep(2)
         linkProjects = self.browser.find_element_by_id('linkProjects')
         linkProjects.click()
-        time.sleep(4)
+        time.sleep(8)
         linkProjectSel = "Users_" + str(random.randint(1, self.Rows_table_Project()))
         linkUsers = self.browser.find_element_by_id(linkProjectSel)
         linkUsers.click()
-        time.sleep(2)
+        time.sleep(4)
         print(self.Rows_table_Users())
         titlePage = self.browser.find_element_by_id('titlePage').text
         titleProject = self.browser.find_element_by_id('titleProject').text
         print(titlePage)
         self.assertEqual('USUARIOS DEL PROYECTO: ' + titleProject, titlePage)
-        time.sleep(2)
+
 
     def do_login(self):
         link = self.browser.find_element_by_id('link_iniciar_sesion')

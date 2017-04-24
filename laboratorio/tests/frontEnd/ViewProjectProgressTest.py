@@ -17,6 +17,7 @@ class ViewProjectProgressTest(TestCase):
     def test_add_progress(self):
         self.browser.get('http://localhost:8000/laboratorio')
         self.do_login()
+        time.sleep(3)
         self.go_to_project_progress()
         self.add_progress()
 
@@ -58,13 +59,14 @@ class ViewProjectProgressTest(TestCase):
 
         btnSave = self.browser.find_element_by_id('btnSave')
         btnSave.click()
-
         time.sleep(3)
+
         btnReturn = self.browser.find_element_by_id('btnReturn')
         btnReturn.click()
+        time.sleep(5)
 
         totalReportedProgressAfterSave = self.browser.find_element_by_id('counterProgress').get_attribute("value")
-        expectedProgress = int(totalReportedProgressBeforeSave) +1
+        expectedProgress = int(totalReportedProgressBeforeSave) + 1
         self.assertEqual(int(totalReportedProgressAfterSave), expectedProgress)
 
     def test_report_by_proyect(self):
