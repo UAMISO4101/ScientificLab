@@ -5,22 +5,35 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto
+from ..models import Proyecto, Patrocinador, Experimento, EstadoProyecto, Avance
 from django.shortcuts import render
 from rest_framework import generics
-from ..serializers import ProyectoSerializer
+from ..serializers import ProyectoSerializer, AvanceSerializer
 
 
 class ProyectosLista(generics.ListAPIView):
     serializer_class = ProyectoSerializer
     def get_queryset(self):
         name = self.request.query_params.get('name')
+        id= self.request.query_params.get('id')
         if(name):
            proyectos = Proyecto.objects.filter(nombre__icontains=name)
         else:
             proyectos = Proyecto.objects.all()
+        calculateProgress(proyectos)
         return proyectos
 
+class ProjectProgressList(generics.ListAPIView):
+    serializer_class = AvanceSerializer
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        order = self.request.query_params.get('orderBy')
+        project = Proyecto.objects.get(id=id)
+        if order is not None and order == 'DESC':
+            orderBy = '-fecha'
+        else:
+            orderBy = 'fecha'
+        return Avance.objects.filter(proyecto=project).order_by(orderBy)
 
 def agregar_proyecto(request):
     return render(request, 'laboratorio/Proyecto/agregarProyecto.html')
@@ -59,8 +72,6 @@ def proyectos(request):
                 proyecto.fechaFinal = datetime.strptime(fechaFinalUnicode, '%Y-%m-%d')
         if data.has_key("prioridad"):
             proyecto.prioridad = data["prioridad"]
-        if data.has_key("avance"):
-            proyecto.avance = data["avance"]
         if data.has_key("estado"):
             proyecto.estado = data["estado"]
         if data.has_key("idPatrocinador"):
@@ -75,7 +86,20 @@ def proyectos(request):
     # Si es GET Lista
     elif request.method == 'GET':
         proyectos = Proyecto.objects.all()
+        calculateProgress(proyectos)
         return HttpResponse(serializers.serialize("json", proyectos))
+
+
+def calculateProgress(projects):
+    for project in projects:
+        progressList = project.avances.all().order_by('-fecha')
+        if progressList is not None and len(progressList) > 0:
+            project.avance = progressList[0].reporte
+        else:
+            project.avance = 0
+    return projects
+
+
 
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
@@ -175,14 +199,39 @@ def lista_estados_proyecto(request):
         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
 
 
+def list_progress(request, id):
+    project = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Proyecto/ProjectProgress.html', {'projectId': id, 'projectName':project.nombre})
+
+
+def add_progress(request, id):
+    project = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Proyecto/addProjectProgress.html', {'idProject': id, 'projectName':project.nombre})
+
+
 @csrf_exempt
-def lista_estados_proyecto(request):
-     # Si es GET Lista
-     if request.method == 'GET':
-         try:
-             estados = EstadoProyecto().getDict()
-         except:
-             raise ValidationError({'id': ['No fue posible generar la lista de estados de proyecto']})
-         return HttpResponse(json.dumps(estados), content_type="application/json")
-     else:
-         raise NotFound(detail="No se encuentra comando rest estadosproyecto/ con metodo " + request.method)
+def save_progress(request):
+    if request.method == 'POST':
+        data = request.POST
+        progress = Avance()
+        if data.has_key("comment"):
+            progress.comentario= data["comment"]
+
+        if data.has_key("progress"):
+            progress.reporte = data["progress"]
+
+        if data.has_key("date"):
+            dateUnicode = data["date"]
+            if dateUnicode is not None:
+                progress.fecha= datetime.strptime(dateUnicode, '%Y-%m-%d')
+
+        if data.has_key("projectId"):
+            projectId = data["projectId"]
+            try:
+                project = Proyecto.objects.get(id=projectId)
+            except:
+                raise ValidationError({'idPatrocinador': ['No existe patrocinador ' + projectId]})
+            progress.proyecto = project
+
+        progress.save()
+        return HttpResponse(serializers.serialize("json", [progress]))

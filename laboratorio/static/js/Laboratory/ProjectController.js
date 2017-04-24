@@ -24,11 +24,6 @@ function dataIsCorrect() {
         return false;
     }
 
-    if($("#avance").val().trim() == '') {
-        alertify.error("El avance es requerido",2);
-        return false;
-    }
-
     if($("#avance").val()>100 || $("#avance").val()<0) {
         alertify.error("El avance debe ser entre 0% y 100%",2);
         return false;
@@ -95,7 +90,6 @@ function getData() {
     project.fechaInicio =$("#fechaInicio").val();
     project.fechaFinal =$("#fechaFinal").val();
     project.prioridad =$("#prioridad").val();
-    project.avance =$("#avance").val();
     project.estado =$('#estado option:selected').val();
     project.idPatrocinador =$('#patrocinador option:selected').val();
 
@@ -136,42 +130,32 @@ function setDate(date, id){
     $("#"+id).val(dateValue);
 }
 
-function showAllProjects(urlAll, urlEdit){
-    var nameToFind = $("#name").val();
-    $.ajax({
-        url: urlAll+"?name="+nameToFind,
-        method:"GET",
-        success:function(response){paintProjects(response,urlEdit);},
-        error:errorPaintProjects,
-        async:true,
-        crossDomain:true
-    });
-}
-
-function errorPaintProjects() {
-        alertify.error("No es posible recuperar los proyectos");
-}
-
-function paintProjects(data, urlEdit) {
-    console.log(data)
-    urlEdit = urlEdit.replace("0","{idProject}");
-    var html = "";
-    if(data.length==0) {
-        html="<h1>No se han encontrado proyectos</h1>";
-    }else {
-        var project;
-        for (var i=0; i<data.length;i++)
-        {
-            project = data[i];
-            html += "<tr class='alt'>";
-            html += "<td>" + project.nombre + "</td>";
-            html += "<td>" + project.avance + "</td>";
-            html += "<td>" + project.estado + "</td>";
-            html += "<td>" + project.prioridad + "</td>";
-            html += "<td>" + project.fechaInicio + "</td>";
-            html += "<td style=\"width: 10%\"><a href=\""+urlEdit.replace("{idProject}",project.pk)+ "\" class=\"btn btn-info btn-round\"><span class=\"glyphicon glyphicon-pencil\"></span></a></td>";
-            html += "</tr>";
-        }
-    }
-    $("#projects tbody").html(html);
+var table;
+var data;
+function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress,urlUsuarios) {
+    var btnEditar = "<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>"
+    var btnExperimentos = "<a href='"+ urlExperimentos + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-filter'></span></a>"
+    var btnProgress = "<a href='"+urlProgress+"' class='btn btn-info btn-round' id='report_0'><span class='glyphicon glyphicon-list-alt'></span></a>"
+    var btnUsuarios = "<a href='"+urlUsuarios+"' class='btn btn-info btn-round' id='Users_0'><span class='glyphicon glyphicon-user'></span></a>"
+    var table = $('#myTable').DataTable( {
+        "ajax": {
+            "url":  host+urlAll,
+            "dataSrc": ""
+        },
+        "columns": [
+            { data: "nombre" },
+            { data: "avance" },
+            { data: "estado" },
+            { data: "prioridad" },
+            { data: "fechaInicio" },
+            { sortable: false,
+              "render": function ( data, type, row, meta ) {
+               return btnEditar.replace ('0',row.pk)+
+                      btnExperimentos.replace ('0',row.pk)+
+                      btnProgress.replace('0',row.pk).replace('0',row.pk)+
+                      btnUsuarios.replace('0',row.pk).replace('0',row.pk);
+                 }
+             },
+        ]
+        } );
 }

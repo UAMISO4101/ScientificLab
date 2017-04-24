@@ -1,0 +1,54 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+{% block header_text %}
+    <script
+   		   src="https://code.jquery.com/jquery-3.2.1.js"
+   		   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+   		   crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{% static 'js/Laboratory/ReportController.js' %}"></script>
+    <script type="application/javascript">
+     var urlReportedProgress = "{% url 'laboratorio:avancesReportados'%}";
+
+    $(document).ready( function () {
+        $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
+    });
+    </script>
+
+{% endblock %}
+{% block content %}
+    <section id="portfolio" >
+        <div class="container">
+            <div id="countProjectReportedProgress"></div>
+            <h1 class="text-center" style="color:#fed136">Reporte de avance</h1>
+
+             <div class="form-group" style="display: flex;">
+                <label for="projects" class="col-sm-2 control-label">Proyecto: </label>
+                <div class="col-sm-6">
+                    <select class="form-control" name="projects" id="projects">
+                    </select>
+                    <input class="btn btn-warning" id="btnGenerate" type="button" onclick="paintChart(urlReportedProgress);" style="margin:10px 10px 10px 0px;" value="Generar"/>
+                </div>
+            </div>
+            <div id="progressChart" style="min-width: 310px; height: 400px;margin: 10px 10px 10px 10px;"></div>
+            <div class="row" id="listProgress" hidden>
+                <div class="datagrid ">
+                    <table id="listReportedProgress" class="table table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Reporte</th>
+                                <th>Comentario</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+             </div>
+         </div>
+    </section>
+{% endblock %}

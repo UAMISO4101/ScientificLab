@@ -13,18 +13,12 @@
        $("body").ready( function (){
            var startDate  ="{{ experimento.fechaInicio|date:"SHORT_DATE_FORMAT" }}";
            setDate(startDate, "fechaInicio");
-           $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(listProyectsName);
            $.getJSON("{%url 'laboratorio:responsables'%}").done(listResponsables);
            $.getJSON("{%url 'laboratorio:listaResultadosExperimento'%}").done(listResultados);
            $.getJSON("{%url 'laboratorio:listaEstadosExperimento'%}").done(listStates);
 
         });
 
-       function listProyectsName(response){
-               var proyectsName  = {{ experimento.proyecto.pk }};
-                showProyectsNames(response);
-                $("#proyecto option[value=" + proyectsName +"]").attr("selected","selected");
-       }
        function listResponsables(response){
                var responsable  = {{ experimento.responsable.pk }};
                 showResponsables(response);
@@ -66,8 +60,9 @@
                 <div class="form-group">
                     <label for="proyecto" class="col-sm-2 control-label">Proyecto: </label>
                     <div class="col-sm-6">
-                        <select class="form-control" name="proyecto" id="proyecto">
-                        </select>
+                        <input type="text" class="form-control" name="nombreProyecto" id="nombrePproyecto" readonly value="{{nombreProyecto}}"></input>
+                        <input type="hidden" class="form-control" name="proyecto" id="proyecto" value="{{experimento.proyecto.id}}">
+                        </input>
                     </div>
                 </div>
                 <div class="form-group">
@@ -105,7 +100,7 @@
                 </div>
                 <div class="col-sm-offset-4 col-sm-10">
                     <input class="btn btn-warning" type="button" onclick=validateData(false);  value="Guardar"/>
-                    <a href="{% url 'laboratorio:listarExperimentos' %}" class="btn btn-warning">Regresar</a>
+                    <a href="{% url 'laboratorio:listaExperimentos' experimento.proyecto.id%}" class="btn btn-warning">Regresar</a>
                 </div>
 
             </form>
