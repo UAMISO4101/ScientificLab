@@ -17,7 +17,6 @@
     <script type="application/javascript">
         var urlEdit = "{% url 'laboratorio:editarExperimento' id=0%}";
         var urlAll = "{% url 'laboratorio:filtrarExperimentos' %}" + "?proyecto={{idProy}}";
-        console.log(urlAll);
         var urlDetails = "{% url 'laboratorio:detallarExperimento'  id=0%}";
         var urlStartExperiment = "{% url 'laboratorio:startExperiment'  id=0%}";
         $(document).ready(function () {

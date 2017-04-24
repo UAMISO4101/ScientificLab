@@ -16,9 +16,8 @@ class ExperimentoLista(generics.ListAPIView):
     serializer_class = ExperimentoSerializer
     def get_queryset(self):
         proyecto = self.request.query_params.get('proyecto')
-        print(proyecto)
-        if(proyecto !=0):
-            experimentos = Experimento.objects.filter(proyecto = proyecto)
+        if(proyecto !=0 ):
+            experimentos = Experimento.objects.filter(proyecto = proyecto).order_by('responsable')
         else:
             experimentos = Experimento.objects.all()
         return experimentos

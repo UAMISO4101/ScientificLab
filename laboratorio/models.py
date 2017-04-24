@@ -65,6 +65,7 @@ class Responsable(models.Model):
     email = models.CharField(max_length=200, null=False, default="")
     cargo = models.CharField(max_length=60, null=True)
     celular = models.BigIntegerField(null=True)
+    def __unicode__(self): return self.nombre
 
 # Clase ResultadoExperimento: Define los posibles resultados de un Experimento
 class ResultadoExperimento:
