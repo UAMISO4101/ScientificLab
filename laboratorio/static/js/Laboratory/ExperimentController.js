@@ -15,12 +15,12 @@ function dataIsCorrect() {
         }
     }
 
-    if($("#responsable option:selected").val() === -1) {
+    if($("#responsable option:selected").val() ==="-1") {
         alertify.error("Seleccione un responsable",2);
         return false;
     }
 
-    if($("#estado option:selected").val() === -1) {
+    if($("#estado option:selected").val() === "-1") {
         alertify.error("Seleccione un estado",2);
         return false;
     }

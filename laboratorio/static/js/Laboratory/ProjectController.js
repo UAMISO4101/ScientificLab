@@ -14,8 +14,25 @@ function dataIsCorrect() {
         return false;
     }
 
-    if($("#descripcion").val().trim() === "") {
-        alertify.error("La descripción es requerida",2);
+    var startDate = moment($("#fechaInicio").val());
+    var endDate  =moment($("#fechaFinal").val());
+    if(!startDate.isValid() || !endDate.isValid()){
+        alertify.error("Las fechas son requeridas",2);
+        return false;
+    }
+
+    if(startDate.diff(endDate)>=0) {
+        alertify.error("La fecha incial debe ser menor a la fecha final",2);
+        return false;
+    }
+
+    if($("#patrocinador option:selected").val() === "-1") {
+        alertify.error("Seleccione un patrocinador",2);
+        return false;
+    }
+
+    if($("#estado option:selected").val() === "-1") {
+        alertify.error("Seleccione un estado",2);
         return false;
     }
 
@@ -34,25 +51,8 @@ function dataIsCorrect() {
         return false;
     }
 
-    var startDate = moment($("#fechaInicio").val());
-    var endDate  =moment($("#fechaFinal").val());
-    if(!startDate.isValid() || !endDate.isValid()){
-        alertify.error("Las fechas son requeridas",2);
-        return false;
-    }
-
-    if(startDate.diff(endDate)>=0) {
-        alertify.error("La fecha incial debe ser menor a la fecha final",2);
-        return false;
-    }
-
-    if($('#estado option:selected').val() === -1) {
-        alertify.error("Seleccione un estado",2);
-        return false;
-    }
-
-    if($('#patrocinador option:selected').val() === -1) {
-        alertify.error("Seleccione un patrocinador",2);
+    if($("#descripcion").val().trim() === "") {
+        alertify.error("La descripción es requerida",2);
         return false;
     }
     return true;

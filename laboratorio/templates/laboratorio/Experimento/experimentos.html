@@ -15,7 +15,7 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="{% static 'js/Laboratory/ExperimentController.js'%} "></script>
     <script type="application/javascript">
-        var urlEdit = "{% url 'laboratorio:editarExperimento' id=0%}";
+        var urlEdit = "{% url 'laboratorio:editarExperimento' idExp=0%}";
         var urlAll = "{% url 'laboratorio:filtrarExperimentos' %}" + "?proyecto={{idProy}}";
         var urlDetails = "{% url 'laboratorio:detallarExperimento'  id=0%}";
         var urlStartExperiment = "{% url 'laboratorio:startExperiment'  id=0%}";
@@ -29,7 +29,7 @@
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Proyecto: {{nombreProyecto}}</h1>
             <h2 class="text-center" style="color:#fed136">Experimentos</h2>
-            <a href="{% url 'laboratorio:agregarExperimento' id=idProy %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
+            <a href="{% url 'laboratorio:agregarExperimento' idProy=idProy %}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
                     <table id="myTable" class="table table-hover table-bordered">
