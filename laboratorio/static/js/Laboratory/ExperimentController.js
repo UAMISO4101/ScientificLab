@@ -15,12 +15,12 @@ function dataIsCorrect() {
         }
     }
 
-    if($('#responsable option:selected').val() === -1) {
+    if($("#responsable option:selected").val() === -1) {
         alertify.error("Seleccione un responsable",2);
         return false;
     }
 
-    if($('#estado option:selected').val() === -1) {
+    if($("#estado option:selected").val() === -1) {
         alertify.error("Seleccione un estado",2);
         return false;
     }
@@ -47,10 +47,10 @@ function getData() {
     experiment.nombre =$("#nombre").val();
     experiment.fechaInicio =$("#fechaInicio").val();
     experiment.idProyecto =$('#proyecto').val();
-    experiment.idResponsable =$('#responsable option:selected').val();
-    experiment.estado =$('#estado option:selected').val();
+    experiment.idResponsable =$("#responsable option:selected").val();
+    experiment.estado =$("#estado option:selected").val();
     experiment.prioridad =$("#prioridad").val();
-    experiment.resultado =$('#resultado option:selected').val();
+    experiment.resultado =$("#resultado option:selected").val();
     experiment.descripcion =$("#descripcion").val();
     return experiment;
 }
@@ -63,7 +63,7 @@ function saveExperiment(){
         data:getData(),
         success:successSaveExperiment,
         error:errorSaveExperiment,
-        dataType: 'json'
+        dataType: "json"
     });
 }
 
@@ -128,7 +128,7 @@ function showExperimentStates(response){
 }
 
 function setDate(date, id){
-    var dateValue =moment(date).format('YYYY-MM-DD');
+    var dateValue =moment(date).format("YYYY-MM-DD");
     $("#"+id).val(dateValue);
 }
 
@@ -149,7 +149,7 @@ var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span c
             { data: "prioridad" },
             { "render": function(data, type, row, meta){
                 if(row.fechaInicio == null){
-                    btnIniciar= btnIniciar.replace (0,row.id);
+                    btnIniciar= btnIniciar.replace ("0",row.id);
                      return btnIniciar
                     }
                     else {
@@ -162,15 +162,15 @@ var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span c
             { data: "resultado" },
             { sortable: false,
               "render": function ( data, type, row, meta ) {
-               return btnEditar.replace ('0',row.id)+
-                      btnDetallar.replace ('0',row.id);
+               return btnEditar.replace ("0",row.id)+
+                      btnDetallar.replace ("0",row.id);
                  }
              },
         ]
         } );
 }
 function iniciar(id) {
-    startExperiment(id, urlAll ,urlEdit.replace('0',id), urlDetails.replace('0',id),urlStartExperiment.replace('0',id));
+    startExperiment(id, urlAll ,urlEdit.replace("0",id), urlDetails.replace("0",id),urlStartExperiment.replace("0",id));
 }
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
@@ -181,6 +181,6 @@ function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
             showAllExperiments(urlAll, urlEdit, urlDetails,urlStartExp)
         },
         error:errorSaveExperiment,
-        dataType: 'json'
+        dataType: "json"
     });
 }

@@ -9,17 +9,17 @@ function validateData(createProject){
 
 function dataIsCorrect() {
 
-    if($("#nombre").val().trim() == '') {
+    if($("#nombre").val().trim() === "") {
         alertify.error("El nombre es requerido",2);
         return false;
     }
 
-    if($("#descripcion").val().trim() == '') {
+    if($("#descripcion").val().trim() === "") {
         alertify.error("La descripción es requerida",2);
         return false;
     }
 
-    if($("#prioridad").val().trim() == '') {
+    if($("#prioridad").val().trim() === "") {
         alertify.error("La prioridad es requerida",2);
         return false;
     }
@@ -46,12 +46,12 @@ function dataIsCorrect() {
         return false;
     }
 
-    if($('#estado option:selected').val() == -1) {
+    if($('#estado option:selected').val() === -1) {
         alertify.error("Seleccione un estado",2);
         return false;
     }
 
-    if($('#patrocinador option:selected').val() == -1) {
+    if($('#patrocinador option:selected').val() === -1) {
         alertify.error("Seleccione un patrocinador",2);
         return false;
     }
@@ -90,8 +90,8 @@ function getData() {
     project.fechaInicio =$("#fechaInicio").val();
     project.fechaFinal =$("#fechaFinal").val();
     project.prioridad =$("#prioridad").val();
-    project.estado =$('#estado option:selected').val();
-    project.idPatrocinador =$('#patrocinador option:selected').val();
+    project.estado =$("#estado option:selected").val();
+    project.idPatrocinador =$("#patrocinador option:selected").val();
 
     return project;
 }
@@ -126,7 +126,7 @@ function showSponsors(response) {
 }
 
 function setDate(date, id){
-    var dateValue =moment(date).format('YYYY-MM-DD');
+    var dateValue =moment(date).format("YYYY-MM-DD");
     $("#"+id).val(dateValue);
 }
 
