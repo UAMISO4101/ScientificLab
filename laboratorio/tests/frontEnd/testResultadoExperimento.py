@@ -115,8 +115,6 @@ class testConsultaExperimentos(TestCase):
         element = Select(self.browser.find_element_by_id('resultado'))
         element.select_by_index(1)
 
-
-
         element = self.browser.find_element_by_xpath('//*[@id="formEditExperiment"]/div[9]/input')
 
         element.click()

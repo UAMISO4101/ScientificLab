@@ -34,7 +34,8 @@ class testConsultaExperimentos(TestCase):
         link = self.browser.find_element_by_id('linkProjects')
         link.click()
         time.sleep(3)
-        self.browser.get('http://localhost:8000/laboratorio/Experimento/experimentos/4/experimentos/')
+        link = self.browser.find_element_by_xpath('//*[@id="myTable"]/tbody/tr[1]/td[6]/a[2]')
+        link.click()
         time.sleep(3)
 
 

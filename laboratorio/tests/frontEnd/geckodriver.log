@@ -1,21 +1,15 @@
-1493082724656	geckodriver	INFO	Listening on 127.0.0.1:55913
-1493082726790	mozprofile::profile	INFO	Using profile path C:\Users\ENVYM6~1\AppData\Local\Temp\rust_mozprofile.ffXjhsxJeSeF
-1493082726817	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
-1493082726849	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55923
-1493082730223	Marionette	INFO	Listening on port 55923
-1493082731850	Marionette	WARN	TLS certificate errors will be ignored for this session
+1493675090586	geckodriver	INFO	Listening on 127.0.0.1:55078
+1493675092635	mozprofile::profile	INFO	Using profile path C:\Users\ENVYM6~1\AppData\Local\Temp\rust_mozprofile.DbP5UL1v3PPg
+1493675092667	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe with args []
+1493675092682	geckodriver::marionette	INFO	Connecting to Marionette on localhost:55087
+1493675095280	Marionette	INFO	Listening on port 55087
+1493675097163	Marionette	WARN	TLS certificate errors will be ignored for this session
 JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/login/
-JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Proyecto/listarProyectos/
-1493082789426	Marionette	INFO	New connections will no longer be accepted
-[Child 11024] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
-sgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
+JavaScript error: https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js, line 2: Error: Syntax error, unrecognized expression: /laboratorio/Reportes/AvanceProyectos/
+1493675120857	Marionette	INFO	New connections will no longer be accepted
+[Child 2696] ###!!! ABORT: Aborting on channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
 
-
-###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
-
-
-###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
-
+n channel error.: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/glue/MessageChannel.cpp, line 2143
 
 ###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
 
@@ -26,10 +20,15 @@ sgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
 ###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
 
 
+###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+
 ###!!! [Child][MessageChannel] Error: (msgtype=0xE40003,name=PTexture::Msg_Destroy) Channel error: cannot send/recv
 
 
 ###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
+
+e=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
 
 
 ###!!! [Child][MessageChannel] Error: (msgtype=0x3E0003,name=PCompositable::Msg_Destroy) Channel error: cannot send/recv
