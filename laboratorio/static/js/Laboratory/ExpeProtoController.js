@@ -1,6 +1,3 @@
-/**
- * Created by Lenovo on 28/03/2017.
- */
 url="/laboratorio/Experimento/experimentos/";
 function listarProtocolosExperimento(buscar){
     var settings = {
@@ -9,7 +6,7 @@ function listarProtocolosExperimento(buscar){
     "url": host+url+buscar+"/protocolos/",
     "method": "GET",
     "headers": {}
-    }
+    };
     var html="";
 
      $.ajax(settings).done(function (response) {
@@ -23,7 +20,6 @@ function listarProtocolosExperimento(buscar){
                 html+="</tr>";
          }
        $("#myTable tbody").html(html);
-        //console.log(response);
    });
 }
 
@@ -45,7 +41,7 @@ function agregarExperimentoProtocolo(id)
 
     if(protocolo==-1)
     {
-        alert("Debe seleccionar  un protocolo ")
+        alert("Debe seleccionar  un protocolo ");
         return false;
     }
     var settings = {
@@ -58,7 +54,7 @@ function agregarExperimentoProtocolo(id)
     },
     "processData": false,
     "data": JSON.stringify(data)
-    }
+    };
     if(confirm("Esta seguro de agregar un nuevo protocolo ?")) {
         // alert("Responde ");
         $.ajax(settings).done(function (response) {

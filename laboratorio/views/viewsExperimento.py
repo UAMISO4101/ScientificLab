@@ -23,29 +23,29 @@ class ExperimentoLista(generics.ListAPIView):
         return experimentos
 
 
-def agregar_experimento(request, id):
-    proyecto = Proyecto.objects.get(id=id)
-    return render(request, 'laboratorio/Experimento/agregarExperimento.html', {"idProy": id, "nombreProyecto": proyecto.nombre})
+def agregar_experimento(request, idProy):
+    proyecto = Proyecto.objects.get(id=idProy)
+    return render(request, 'laboratorio/Experimento/agregarExperimento.html', {"idProy": idProy, "nombreProyecto": proyecto.nombre})
 
 
-def listar_experimentos(request, id):
-    proyecto = Proyecto.objects.get(id=id)
-    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": id, "nombreProyecto": proyecto.nombre})
+def listar_experimentos(request, idProy):
+    proyecto = Proyecto.objects.get(id=idProy)
+    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": idProy, "nombreProyecto": proyecto.nombre})
 
-def agregar_expeprotocolo(request, id):
+def agregar_expeprotocolo(request, idExp):
     return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
-                  {"experimento": Experimento.objects.get(id=id)})
+                  {"experimento": Experimento.objects.get(id=idExp)})
 
 
-def detallar_experimento(request, id):
-    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
+def detallar_experimento(request, idExp):
+    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimento": Experimento.objects.get(id=idExp)})
 
 
-def editar_experimento(request, id):
-    experimento= Experimento.objects.get(id=id)
+def editar_experimento(request, idExp):
+    experimento= Experimento.objects.get(id=idExp)
     proy = Proyecto.objects.get(id=experimento.proyecto.id)
     return render(request, 'laboratorio/Experimento/editarExperimento.html',
-                  {"experimento": Experimento.objects.get(id=id),"nombreProyecto": proy.nombre})
+                  {"experimento": Experimento.objects.get(id=idExp),"nombreProyecto": proy.nombre})
 
 
 #Atiende las peticiones de los Experimentos
