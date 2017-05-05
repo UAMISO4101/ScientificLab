@@ -80,6 +80,9 @@ urlpatterns = [
     url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados'),
 
     #reports
-    url(r'^Reportes/AvanceProyectos/', views.reports, name='reporteAvance')
+    url(r'^Reportes/AvanceProyectos/', views.reports, name='reporteAvance'),
+
+    #Protocolos
+    url(r'^agregarProtocolo/$', views.agregar_protocolo, name='agregarProtocolo'),
 
 ]

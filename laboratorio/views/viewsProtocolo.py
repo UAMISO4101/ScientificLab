@@ -41,6 +41,8 @@ def protocolos(request):
             protocolo.version = data["version"]
         if data.has_key("categoria"):
             protocolo.categoria = data["categoria"]
+        if data.has_key("habilitado"):
+            protocolo.habilitado = data["habilitado"]
         protocolo.save()
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     # Si es GET Lista
@@ -81,6 +83,9 @@ def protocolos_id(request, id):
             algoCambio = True
         if data.has_key("categoria"):
             protocolo.categoria = data["categoria"]
+            algoCambio = True
+        if data.has_key("habilitado"):
+            protocolo.categoria = data["habilitado"]
             algoCambio = True
         if algoCambio:
             protocolo.save()
@@ -150,9 +155,12 @@ def lista_categorias_protocolo(request):
     if request.method == 'GET':
         try:
             categorias = CategoriaProtocolo().getDict()
-            print categorias
         except:
             raise ValidationError({'id': ['No fue posible generar la lista de categorias de protocolo']})
         return HttpResponse(json.dumps(categorias), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest categoriasprotocolo/ con metodo " + request.method)
+
+# Muestra la pagina de agregar protocolo
+def agregar_protocolo(request):
+    return render(request, 'laboratorio/Protocolo/agregarProtocolo.html')

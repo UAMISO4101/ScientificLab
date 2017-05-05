@@ -34,7 +34,7 @@
     <script src="{% static 'js/moment.js'%} "></script>
     <script src="{% static 'js/Laboratory/UsuarioController.js' %} "></script>
     <script type="application/javascript">
-        var host ="https://{{ request.META.HTTP_HOST }}";
+        var host ="http://{{ request.META.HTTP_HOST }}";
         $(document).ready(function () {
             showLoginElements();
         });
@@ -68,7 +68,7 @@
                         <a class="page-scroll" id="linkProjects" href="{% url 'laboratorio:listarProyectos' %}">Proyectos</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="{% url 'laboratorio:listarProtocolos' %}">Protocolos</a>
+                        <a class="page-scroll" id="linkProtocolos" href="{% url 'laboratorio:listarProtocolos' %}">Protocolos</a>
                     </li>
                     <li>
                         <a class="page-scroll" id="linkReports" href="{% url 'laboratorio:reporteAvance' %}">Reportes</a>

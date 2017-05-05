@@ -115,15 +115,16 @@ class CategoriaProtocolo:
     )
 
     def getDict(self):
-        return [{'id': categoria[0], 'estado': categoria[1]} for categoria in self.CHOICES]
+        return [{'id': categoria[0], 'nombre': categoria[1]} for categoria in self.CHOICES]
 
 
 # Clase Protocolo: Define los protocolos que pueden ir en un experimento
 class Protocolo(models.Model):
     titulo = models.CharField(max_length=100, null=True)
-    descripcion = models.CharField(max_length=1000, null=True)
+    descripcion = models.TextField(max_length=1000, null=True)
     version = models.IntegerField(null=True)
     categoria = models.IntegerField(choices=CategoriaProtocolo.CHOICES, null=True)
+    habilitado = models.NullBooleanField(null=True)
     experimentos = models.ManyToManyField(Experimento, through='ProtocolosExperimento')
 
 
