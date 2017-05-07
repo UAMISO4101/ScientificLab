@@ -99,7 +99,7 @@ class Experimento(models.Model):
     resultado = models.IntegerField(choices=ResultadoExperimento.CHOICES, null=True)
     proyecto = models.ForeignKey(Proyecto, related_name='experimentos', null=True, on_delete=models.CASCADE)
     responsable = models.ForeignKey(Responsable, related_name='experimentos', null=True, on_delete=models.CASCADE)
-
+    def __unicode__(self): return self.nombre
 
 # Clase CategoriaProtocolo: Define las posibles categorias de un Protocolo
 class CategoriaProtocolo:
@@ -126,7 +126,7 @@ class Protocolo(models.Model):
     categoria = models.IntegerField(choices=CategoriaProtocolo.CHOICES, null=True)
     habilitado = models.NullBooleanField(null=True)
     experimentos = models.ManyToManyField(Experimento, through='ProtocolosExperimento')
-
+    def __unicode__(self): return self.titulo
 
 # Clase ProtocolosExperimento: Define los protocolos de un experimento
 class ProtocolosExperimento(models.Model):

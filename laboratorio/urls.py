@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList, UsuariosLista
+from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento,ProtocolosExperimentoLista, ProjectProgressList, UsuariosLista
 from . import views
 
 
@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^pasos/(?P<id>\d+)/$', views.pasos_id, name='pasoId'),
     url(r'^elementos/$', views.elementos, name='elementos'),
     url(r'^elementos/(?P<id>\d+)/$', views.elementos_id, name='elementoId'),
+    url(r'^protocolosExperimento/filtrarProtocolosExperimento/$', ProtocolosExperimentoLista.as_view(), name='filtrarProtocolosExperimentos'),
 
     url(r'^patrocinadores/(?P<id>\d+)/proyectos/$', views.patrocinadores_id_proyectos, name='patrocinadoresIdProyectos'),
     url(r'^Proyecto/proyectos/(?P<id>\d+)/experimentos/$', views.proyectos_id_experimentos, name='proyectosIdExperimentos'),

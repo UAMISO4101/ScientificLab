@@ -1,44 +1,18 @@
-url="/laboratorio/Experimento/experimentos/";
+url="/laboratorio/protocolosExperimento/filtrarProtocolosExperimento/";
 function listarProtocolosExperimento(buscar){
-    console.log(host+url+buscar+"/protocolos/") ;
       var table = $("#myTable").DataTable( {
         "ajax": {
-            "url":  host+url+buscar+"/protocolos/",
+            "url":  host+url+'?experimento='+buscar,
              "method": "GET",
             "dataSrc": ""
         },
         "columns": [
-            { data: "titulo" },
-            { data: "descripcion" },
-            { data: "version" },
-            { data: "categoria" }
+            { data: "protocolo.titulo" },
+            { data: "protocolo.descripcion" },
+            { data: "protocolo.version" },
+            { data: "protocolo.categoria" }
         ]
         } );
-
-
-/*
-    var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": host+url+buscar+"/protocolos/",
-    "method": "GET",
-    "headers": {}
-    };
-    var html="";
-
-     $.ajax(settings).done(function (response) {
-         for(var i in response) {
-                var objeto = response[i] ;
-                html+="<tr class='alt'>";
-                html+="<td>"+objeto.fields.titulo+"</td>";
-                html+="<td>"+objeto.fields.descripcion+"</td>";
-                html+="<td>"+objeto.fields.version+"</td>";
-                html+="<td>"+objeto.fields.categoria+"</td>";
-                html+="</tr>";
-         }
-       $("#myTable tbody").html(html);
-   });
-   */
 }
 
 function showProtocolos(response) {

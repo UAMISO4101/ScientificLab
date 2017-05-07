@@ -2,13 +2,16 @@ from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
 from laboratorio.models import Avance
-from .models import Protocolo, Proyecto, Experimento, Responsable
+from .models import Protocolo, Proyecto, Experimento, Responsable,ProtocolosExperimento
 
 class ProtocoloSerializer(serializers.ModelSerializer):
+    categoria = serializers.SerializerMethodField()
     class Meta:
         model = Protocolo
         fields = ('id','titulo','descripcion', 'version', 'categoria')
 
+    def get_categoria(self, obj):
+        return obj.get_categoria_display()
 
 class ProyectoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,3 +49,11 @@ class ResponsableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Responsable
         fields = ('id', 'nombre', 'username', 'email', 'celular', 'cargo')
+
+class ProtocolosExperimentoSerealizer (serializers.ModelSerializer):
+    protocolo  = ProtocoloSerializer()
+
+    class Meta:
+        model = ProtocolosExperimento
+        fields = '__all__'
+        depth = 1
