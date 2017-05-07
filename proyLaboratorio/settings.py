@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'proyLaboratorio.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'laboratorio',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
+        'NAME': 'd17pvf4i71ihi7',
+        'USER': 'bxlxaarrdsduhx',
+        'PASSWORD': 'c2247b3ffb946ceb5a8e61d9a3e92380117b2f08490ae26999b1b36ff6847e4f',
+        'HOST': 'ec2-54-225-182-108.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
