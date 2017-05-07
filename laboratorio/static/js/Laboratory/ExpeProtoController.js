@@ -1,5 +1,22 @@
 url="/laboratorio/Experimento/experimentos/";
 function listarProtocolosExperimento(buscar){
+    console.log(host+url+buscar+"/protocolos/") ;
+      var table = $("#myTable").DataTable( {
+        "ajax": {
+            "url":  host+url+buscar+"/protocolos/",
+             "method": "GET",
+            "dataSrc": ""
+        },
+        "columns": [
+            { data: "titulo" },
+            { data: "descripcion" },
+            { data: "version" },
+            { data: "categoria" }
+        ]
+        } );
+
+
+/*
     var settings = {
     "async": true,
     "crossDomain": true,
@@ -21,6 +38,7 @@ function listarProtocolosExperimento(buscar){
          }
        $("#myTable tbody").html(html);
    });
+   */
 }
 
 function showProtocolos(response) {
