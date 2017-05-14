@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
 
 # Clase Roles: Define el rol de un usuario
 class RolesUsuario:
@@ -14,10 +12,6 @@ class RolesUsuario:
 
     def getDict(self):
         return [{'id': rol[0], 'estado': rol[1]} for rol in self.CHOICES]
-
-# Clase Usuario: Adicionando el campo rol
-"""class User(AbstractUser):
-    rol = models.IntegerField(choices=RolesUsuario.CHOICES, null=True)"""
 
 # Clase Patrocinador: Define un Patrocinador de proyectos
 class Patrocinador(models.Model):

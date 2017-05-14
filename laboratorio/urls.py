@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento, ProjectProgressList, UsuariosLista
+from .views import ProtocoloList, ProyectosLista, ExperimentoLista, ProjectProgressList, UsuariosLista
 from . import views
 
 

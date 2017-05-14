@@ -3,7 +3,7 @@ import json
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from ..models import Proyecto, Experimento, Responsable
+from ..models import Proyecto, Experimento
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import NotFound, ValidationError
@@ -16,19 +16,19 @@ class UsuariosLista(generics.ListAPIView):
     serializer_class = ResponsableSerializer
     def get_queryset(self):
         name = self.request.query_params.get('name')
-        id= self.request.query_params.get('id')
+        idUser= self.request.query_params.get('id')
         listResponsables = set()
-        if(id):
-           for Resp in Experimento.objects.filter(proyecto_id=id).select_related('responsable'):
+        if(idUser):
+           for Resp in Experimento.objects.filter(proyecto_id=idUser).select_related('responsable'):
                listResponsables.add(Resp.responsable)
-        else:
-           for Resp in Experimento.objects.filter(proyecto_id=id).select_related('responsable'):
+        elif(name):
+           for Resp in Experimento.objects.filter(proyecto_id=idUser).select_related('responsable').filter(nombre__icontains=name):
                listResponsables.add(Resp.responsable)
         return listResponsables
 
-def listar_usuariosProyecto(request, id):
-    project = Proyecto.objects.get(id=id)
-    return render(request, 'laboratorio/Usuario/usuariosProyecto.html', {'projectId': id, 'projectName':project.nombre})
+def listar_usuariosProyecto(request, idUser):
+    project = Proyecto.objects.get(id=idUser)
+    return render(request, 'laboratorio/Usuario/usuariosProyecto.html', {'projectId': idUser, 'projectName':project.nombre})
 
 # Muestra la pagina para inicio de sesion (login)
 def inicio_sesion(request):
