@@ -86,4 +86,7 @@ urlpatterns = [
     #Protocolos
     url(r'^agregarProtocolo/$', views.agregar_protocolo, name='agregarProtocolo'),
 
+    #Deshabilitar protocolo
+    url(r'^protocolos/(?P<id>\d+)/deshabilitar/$', views.protocolos_deshabilitar, name='protocoloIdDesahabilitar'),
+
 ]

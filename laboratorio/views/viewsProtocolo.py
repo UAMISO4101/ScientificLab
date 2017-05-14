@@ -164,3 +164,17 @@ def lista_categorias_protocolo(request):
 # Muestra la pagina de agregar protocolo
 def agregar_protocolo(request):
     return render(request, 'laboratorio/Protocolo/agregarProtocolo.html')
+
+@csrf_exempt
+def protocolos_deshabilitar(request, id):
+    # Si es POST crea la nueva version
+    if request.method == 'POST':
+        ##try:
+        Protocolo.objects.filter(id=id).update(habilitado=False)
+        protocolo = Protocolo.objects.get(id=id)
+
+        ##except:
+            ##raise ValidationError({'id': ['No existe protocolo ' + id]})
+        return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest protocolos/{id}/ con metodo " + request.method)

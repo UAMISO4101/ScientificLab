@@ -37,13 +37,19 @@ var  listarProtocolos= function(){
             { data: "version" },
             { data: "categoria" },
             { data: "habilitado" },
-            { "defaultContent": "<a href='#'  id='btn' class='btn btn-info btn-round'><span class='glyphicon glyphicon-plus'></span></a>" },
+            { "defaultContent": "<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a><a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>" },
         ]
         } );
 
         $("#myTable tbody").on( "click", "#btn", function () {
             var data = table.row( $(this).parents("tr") ).data();
             crearVersion(data.id)
+
+        } );
+
+        $("#myTable tbody").on( "click", "#deshabilitar", function () {
+            var data = table.row( $(this).parents("tr") ).data();
+            deshabilitarProtocolo(data.id)
 
         } );
 }
@@ -120,3 +126,22 @@ function showCategorias(response) {
     }
 }
 
+function deshabilitarProtocolo(id)
+{
+    var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": host+"/laboratorio/protocolos/"+id+"/deshabilitar/",
+    "method": "POST",
+    "headers": {}
+    }
+
+    if(confirm("Esta seguro de deshabilitar el protocolo ?")) {
+        $.ajax(settings).done(function (response) {
+            alert("Se deshabilito con exito")
+            location.reload();
+        });
+    }else{
+        return false;
+    }
+}
