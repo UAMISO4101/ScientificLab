@@ -47,7 +47,7 @@ def protocolos(request):
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
-        protocolos = Protocolo.objects.all()
+        protocolos = Protocolo.objects.filter(habilitado = True)
         return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos con metodo " + request.method)

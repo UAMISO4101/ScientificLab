@@ -134,10 +134,11 @@ function setDate(date, id){
 
 var table;
 var data;
-function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExperiment){
-var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>";
-    var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>";
-    var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info' >Iniciar</a>";
+function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExperiment,urlVerProtocolos){
+    var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round' title='Editar'><span class='glyphicon glyphicon-pencil'></span></a>";
+    var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round' title='Detallar'><span class='glyphicon glyphicon-cog'></span></a>";
+    var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info'  title='Iniciar'>Iniciar</a>";
+    var btnVerProtocolo = "<a href='"+urlVerProtocolos +"'  class='btn btn-info btn-round' title='Ver Protocolos'><span class='glyphicon glyphicon-list'></span></a>";
     var table = $('#myTable').DataTable( {
         "ajax": {
             "url":  host+urlAll,
@@ -163,7 +164,9 @@ var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span c
             { sortable: false,
               "render": function ( data, type, row, meta ) {
                return btnEditar.replace ("0",row.id)+
-                      btnDetallar.replace ("0",row.id);
+                      btnDetallar.replace ("0",row.id)+
+                      btnVerProtocolo.replace("0",row.id)
+                      ;
                  }
              },
         ]

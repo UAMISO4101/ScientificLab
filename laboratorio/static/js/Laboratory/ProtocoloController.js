@@ -36,6 +36,7 @@ var  listarProtocolos= function(){
             { data: "descripcion" },
             { data: "version" },
             { data: "categoria" },
+            { data: "habilitado" },
             { "defaultContent": "<a href='#'  id='btn' class='btn btn-info btn-round'><span class='glyphicon glyphicon-plus'></span></a>" },
         ]
         } );
