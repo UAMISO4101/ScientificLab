@@ -18,7 +18,7 @@ class ProtocoloList(generics.ListAPIView):
         if(titulo) :
            protocolo = Protocolo.objects.filter(titulo__icontains=titulo)
         else :
-            protocolo = Protocolo.objects.all()
+            protocolo = Protocolo.objects.all().order_by('-id')
         return protocolo
 
 def listar_protocolos(request):
