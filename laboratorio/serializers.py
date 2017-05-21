@@ -8,7 +8,7 @@ class ProtocoloSerializer(serializers.ModelSerializer):
     categoria = serializers.SerializerMethodField()
     class Meta:
         model = Protocolo
-        fields = ('id','titulo','descripcion', 'version', 'categoria')
+        fields = ('id','titulo','descripcion', 'version', 'categoria','habilitado')
 
     def get_categoria(self, obj):
         return obj.get_categoria_display()

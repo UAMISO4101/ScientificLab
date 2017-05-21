@@ -10,7 +10,8 @@ function listarProtocolosExperimento(buscar){
             { data: "protocolo.titulo" },
             { data: "protocolo.descripcion" },
             { data: "protocolo.version" },
-            { data: "protocolo.categoria" }
+            { data: "protocolo.categoria" },
+            { data: "protocolo.habilitado" }
         ]
         } );
 }

@@ -5,8 +5,7 @@ url="/laboratorio/protocolofiltro" ;
 var table ;
 var data ;
 
-function crearVersion(id)
-{
+function crearVersion(id) {
     var settings = {
     "async": true,
     "crossDomain": true,
@@ -25,7 +24,10 @@ function crearVersion(id)
     }
 }
 
-var  listarProtocolos= function(){
+var  listarProtocolos= function(urlEdit){
+var btnEdit="<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>";
+var btnNewVersion="<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a>";
+var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>";
  var table = $("#myTable").DataTable( {
         "ajax": {
             "url":  host+url,
@@ -36,13 +38,24 @@ var  listarProtocolos= function(){
             { data: "descripcion" },
             { data: "version" },
             { data: "categoria" },
-            { "defaultContent": "<a href='#'  id='btn' class='btn btn-info btn-round'><span class='glyphicon glyphicon-plus'></span></a>" },
+            { data: "habilitado" },
+            { sortable: false,
+              "render": function ( data, type, row, meta ) {
+               return btnNewVersion+ btnDisable+btnEdit.replace ("0",row.id)
+              }
+             }
         ]
         } );
 
         $("#myTable tbody").on( "click", "#btn", function () {
             var data = table.row( $(this).parents("tr") ).data();
             crearVersion(data.id)
+
+        } );
+
+        $("#myTable tbody").on( "click", "#deshabilitar", function () {
+            var data = table.row( $(this).parents("tr") ).data();
+            deshabilitarProtocolo(data.id)
 
         } );
 }
@@ -53,8 +66,25 @@ function trySaveProtocolo() {
     }
 }
 
-function dataProtocoloIsCorrect() {
+function updateProtocol() {
+    if(!dataProtocoloIsCorrect()) {
+        return;
+    }
+    var protocol = getData();
+    protocol.id = $("#formProtocolo").attr("id-protocol-data");
 
+    var url = $("#formProtocolo").attr("edit-protocol-url").replace(0,protocol.id);
+    $.ajax({
+        url: host+url,
+        method:"PUT",
+        data:JSON.stringify(protocol),
+        success:successSaveProtocolo,
+        error:errorSaveProtocolo,
+        dataType: "json"
+    });
+}
+
+function dataProtocoloIsCorrect() {
     if($("#titulo").val().trim() === "") {
         alertify.error("El titulo del protocolo es requerido",2);
         return false;
@@ -119,3 +149,22 @@ function showCategorias(response) {
     }
 }
 
+function deshabilitarProtocolo(id)
+{
+    var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": host+"/laboratorio/protocolos/"+id+"/deshabilitar/",
+    "method": "POST",
+    "headers": {}
+    }
+
+    if(confirm("Esta seguro de deshabilitar el protocolo ?")) {
+        $.ajax(settings).done(function (response) {
+            alert("Se deshabilito con exito")
+            location.reload();
+        });
+    }else{
+        return false;
+    }
+}
