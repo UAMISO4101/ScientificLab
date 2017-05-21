@@ -1,5 +1,3 @@
-var experiments;
-
 function dataIsCorrect() {
     if($("#nombre").val().trim() === "") {
         alertify.error("El nombre es requerido",2);
@@ -134,7 +132,7 @@ function setDate(date, id){
 
 var table;
 var data;
-function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExperiment,urlVerProtocolos){
+function listarExperiments(urlAll, urlEdit, urlDetails,urlVerProtocolos){
     var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round' title='Editar'><span class='glyphicon glyphicon-pencil'></span></a>";
     var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round' title='Detallar'><span class='glyphicon glyphicon-cog'></span></a>";
     var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info'  title='Iniciar'>Iniciar</a>";
