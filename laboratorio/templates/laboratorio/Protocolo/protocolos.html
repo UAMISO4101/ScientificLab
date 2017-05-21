@@ -14,9 +14,12 @@
     <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
     <script>
     $(document).ready( function () {
+        var urlNewVersion = "{% url 'laboratorio:protocoloIdNuevaVersion' id=0 %}";
+        var urlDisable = "{% url 'laboratorio:protocoloIdDesahabilitar' id=0 %}";
+        var urlFilter = "{% url 'laboratorio:ProtocoloFiltro'%}";
         var urlDetails = "{% url 'laboratorio:detallarProtocolo'  id=0%}";
         var urlEdit = "{% url 'laboratorio:editProtocol' id=0 %}";
-        listarProtocolos(urlDetails,urlEdit);
+        listarProtocolos(urlDetails,urlEdit,urlNewVersion,urlDisable,urlFilter);
     } );
     </script>
 {% endblock %}

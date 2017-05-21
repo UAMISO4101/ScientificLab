@@ -1,15 +1,13 @@
-/**
- * Created by Lenovo on 26/03/2017.
- */
-url="/laboratorio/protocolofiltro" ;
+
 var table ;
 var data ;
 
-function crearVersion(id) {
+function crearVersion(id, urlNewVersion) {
+    var url = urlNewVersion.replace(0, id);
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": host+"/laboratorio/protocolos/"+id+"/nuevaVersion/",
+    "url": host+url,
     "method": "POST",
     "headers": {}
     }
@@ -24,14 +22,14 @@ function crearVersion(id) {
     }
 }
 
-var  listarProtocolos= function(urlDetails,urlEdit){
+var  listarProtocolos= function(urlDetails,urlEdit, urlNewVersion,urlDisable,urlFilter){
+    var btnDetallar = "<a href='"+urlDetails +"' id='Details_0'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>";
+    var btnEdit="<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>";
     var btnNewVersion="<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a>";
     var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>";
-    var btnEdit="<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>";
-    var btnDetallar = "<a href='"+urlDetails +"' id='Details_0'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>";
     var table = $("#myTable").DataTable( {
         "ajax": {
-            "url":  host+url,
+            "url":  host+urlFilter,
             "dataSrc": ""
         },
         "columns": [
@@ -50,13 +48,13 @@ var  listarProtocolos= function(urlDetails,urlEdit){
 
         $("#myTable tbody").on( "click", "#btn", function () {
             var data = table.row( $(this).parents("tr") ).data();
-            crearVersion(data.id)
+            crearVersion(data.id, urlNewVersion);
 
         } );
 
         $("#myTable tbody").on( "click", "#deshabilitar", function () {
             var data = table.row( $(this).parents("tr") ).data();
-            deshabilitarProtocolo(data.id)
+            deshabilitarProtocolo(data.id, urlDisable);
 
         } );
 }
@@ -150,12 +148,13 @@ function showCategorias(response) {
     }
 }
 
-function deshabilitarProtocolo(id)
+function deshabilitarProtocolo(id, urlDisable)
 {
+    var url = urlDisable.replace(0,id);
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": host+"/laboratorio/protocolos/"+id+"/deshabilitar/",
+    "url": host+url,
     "method": "POST",
     "headers": {}
     }
