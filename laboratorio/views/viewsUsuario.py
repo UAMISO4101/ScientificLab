@@ -96,7 +96,6 @@ def usuarios(request):
 @csrf_exempt
 def usuarios_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             usuario = User.objects.get(id=id)
@@ -104,7 +103,7 @@ def usuarios_id(request, id):
             raise ValidationError({'id': ['No existe usuario ' + id]})
         usuario.delete()
         return JsonResponse({"Mensaje":"Usuario " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             usuario = User.objects.get(id=id)
@@ -131,7 +130,7 @@ def usuarios_id(request, id):
             usuario.save()
         serializer = UserSerializer(usuario)
         return HttpResponse(JSONRenderer().render(serializer.data), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             usuario = User.objects.get(id=id)

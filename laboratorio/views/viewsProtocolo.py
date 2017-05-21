@@ -1,15 +1,16 @@
 import json
-from django.http import JsonResponse
+
 from django.core import serializers
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.exceptions import ValidationError, NotFound
-from ..models import Protocolo, Experimento, Paso, CategoriaProtocolo
+from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError, NotFound
+
+from ..models import Protocolo, Experimento, Paso, CategoriaProtocolo
 from ..serializers import ProtocoloSerializer
-from rest_framework import viewsets
-from rest_framework.renderers import JSONRenderer
+
 
 class ProtocoloList(generics.ListAPIView):
     serializer_class = ProtocoloSerializer
@@ -27,7 +28,7 @@ def listar_protocolos(request):
 #Atiende las peticiones de los Protocolos
 @csrf_exempt
 def protocolos(request):
-    # Si es POST Graba
+
     if request.method == 'POST':
         data = json.loads(request.body)
         protocolo = Protocolo()
@@ -45,7 +46,7 @@ def protocolos(request):
             protocolo.habilitado = data["habilitado"]
         protocolo.save()
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         protocolos = Protocolo.objects.filter(habilitado = True)
         return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
@@ -56,7 +57,6 @@ def protocolos(request):
 @csrf_exempt
 def protocolos_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             protocolo = Protocolo.objects.get(id=id)
@@ -64,7 +64,7 @@ def protocolos_id(request, id):
             raise ValidationError({'id': ['No existe protocolo ' + id]})
         protocolo.delete()
         return JsonResponse({"Mensaje":"Protocolo " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             protocolo = Protocolo.objects.get(id=id)
@@ -90,7 +90,7 @@ def protocolos_id(request, id):
         if algoCambio:
             protocolo.save()
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             protocolo = Protocolo.objects.get(id=id)
@@ -108,7 +108,7 @@ def edit_protocol(request, id):
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def protocolos_id_experimentos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             protocolo = Protocolo.objects.get(id=id)
@@ -122,7 +122,7 @@ def protocolos_id_experimentos(request, id):
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def protocolos_id_pasos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             protocolo = Protocolo.objects.get(id=id)
@@ -156,7 +156,7 @@ def protocolos_id_nueva_version(request, id):
 #Atiende las peticiones de Categorias de Protocolo
 @csrf_exempt
 def lista_categorias_protocolo(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             categorias = CategoriaProtocolo().getDict()
@@ -176,14 +176,12 @@ def agregar_protocolo(request):
 
 @csrf_exempt
 def protocolos_deshabilitar(request, id):
-    # Si es POST crea la nueva version
+
     if request.method == 'POST':
-        ##try:
+
         Protocolo.objects.filter(id=id).update(habilitado=False)
         protocolo = Protocolo.objects.get(id=id)
 
-        ##except:
-            ##raise ValidationError({'id': ['No existe protocolo ' + id]})
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id}/ con metodo " + request.method)
