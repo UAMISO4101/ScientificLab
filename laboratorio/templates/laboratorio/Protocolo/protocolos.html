@@ -14,7 +14,8 @@
     <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
     <script>
     $(document).ready( function () {
-        listarProtocolos();
+        var urlEdit = "{% url 'laboratorio:editProtocol' id=0 %}";
+        listarProtocolos(urlEdit);
     } );
 
     </script>

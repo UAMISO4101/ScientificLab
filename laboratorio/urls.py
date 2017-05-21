@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^protocolos/$', views.protocolos, name='protocolos'),
     url(r'^Protocolo/listarProtocolos/$', views.listar_protocolos, name='listarProtocolos'),
     url(r'^protocolos/(?P<id>\d+)/$', views.protocolos_id, name='protocoloId'),
+    url(r'^protocolos/editar/(?P<id>\d+)/$', views.edit_protocol, name='editProtocol'),
     url(r'^protocolosExperimento/$', views.protocolosExperimento, name='protocolosExperimento'),
     url(r'^protocolosExperimento/(?P<id>\d+)/$', views.protocolosExperimento_id, name='protocolosExperimentoId'),
     url(r'^pasos/$', views.pasos, name='pasos'),

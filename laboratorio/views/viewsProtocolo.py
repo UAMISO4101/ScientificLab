@@ -85,7 +85,7 @@ def protocolos_id(request, id):
             protocolo.categoria = data["categoria"]
             algoCambio = True
         if data.has_key("habilitado"):
-            protocolo.categoria = data["habilitado"]
+            protocolo.habilitado = data["habilitado"]
             algoCambio = True
         if algoCambio:
             protocolo.save()
@@ -99,6 +99,10 @@ def protocolos_id(request, id):
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id} con metodo " + request.method)
+
+def edit_protocol(request, id):
+    protocol = Protocolo.objects.get(id=id)
+    return render(request, 'laboratorio/Protocolo/EditProtocol.html', {"protocol": protocol})
 
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt

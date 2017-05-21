@@ -5,8 +5,7 @@ url="/laboratorio/protocolofiltro" ;
 var table ;
 var data ;
 
-function crearVersion(id)
-{
+function crearVersion(id) {
     var settings = {
     "async": true,
     "crossDomain": true,
@@ -25,7 +24,10 @@ function crearVersion(id)
     }
 }
 
-var  listarProtocolos= function(){
+var  listarProtocolos= function(urlEdit){
+var btnEdit="<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>";
+var btnNewVersion="<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a>";
+var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>";
  var table = $("#myTable").DataTable( {
         "ajax": {
             "url":  host+url,
@@ -37,7 +39,11 @@ var  listarProtocolos= function(){
             { data: "version" },
             { data: "categoria" },
             { data: "habilitado" },
-            { "defaultContent": "<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a><a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>" },
+            { sortable: false,
+              "render": function ( data, type, row, meta ) {
+               return btnNewVersion+ btnDisable+btnEdit.replace ("0",row.id)
+              }
+             }
         ]
         } );
 
@@ -60,8 +66,25 @@ function trySaveProtocolo() {
     }
 }
 
-function dataProtocoloIsCorrect() {
+function updateProtocol() {
+    if(!dataProtocoloIsCorrect()) {
+        return;
+    }
+    var protocol = getData();
+    protocol.id = $("#formProtocolo").attr("id-protocol-data");
 
+    var url = $("#formProtocolo").attr("edit-protocol-url").replace(0,protocol.id);
+    $.ajax({
+        url: host+url,
+        method:"PUT",
+        data:JSON.stringify(protocol),
+        success:successSaveProtocolo,
+        error:errorSaveProtocolo,
+        dataType: "json"
+    });
+}
+
+function dataProtocoloIsCorrect() {
     if($("#titulo").val().trim() === "") {
         alertify.error("El titulo del protocolo es requerido",2);
         return false;
