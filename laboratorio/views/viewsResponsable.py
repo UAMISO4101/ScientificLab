@@ -10,7 +10,6 @@ from ..models import Responsable, Experimento
 @csrf_exempt
 def responsables(request):
 
-    # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
         responsable = Responsable()
@@ -20,7 +19,7 @@ def responsables(request):
             responsable.nombre = data["nombre"]
         responsable.save()
         return HttpResponse(serializers.serialize("json", [responsable]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         responsables = Responsable.objects.all()
         return HttpResponse(serializers.serialize("json", responsables), content_type="application/json")
@@ -31,7 +30,6 @@ def responsables(request):
 @csrf_exempt
 def responsables_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             responsable = Responsable.objects.get(id=id)
@@ -39,7 +37,7 @@ def responsables_id(request, id):
             raise ValidationError({'id': ['No existe responsable ' + id]})
         responsable.delete()
         return JsonResponse({"Mensaje":"Responsable " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             responsable = Responsable.objects.get(id=id)
@@ -53,7 +51,7 @@ def responsables_id(request, id):
         if algoCambio:
             responsable.save()
         return HttpResponse(serializers.serialize("json", [responsable]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             responsable = Responsable.objects.get(id=id)
@@ -66,7 +64,7 @@ def responsables_id(request, id):
 #Atiende las peticiones de un Responsable determinado
 @csrf_exempt
 def responsables_id_experimentos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             responsable = Responsable.objects.get(id=id)
