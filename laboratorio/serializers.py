@@ -50,6 +50,11 @@ class ResponsableSerializer(serializers.ModelSerializer):
         model = Responsable
         fields = ('id', 'nombre', 'username', 'email', 'celular', 'cargo')
 
+class ResponsablesXProyectoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Responsable
+        fields = '__all__'
+
 class ProtocolosExperimentoSerealizer (serializers.ModelSerializer):
     protocolo  = ProtocoloSerializer()
 

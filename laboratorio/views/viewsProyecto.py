@@ -35,6 +35,18 @@ class ProjectProgressList(generics.ListAPIView):
             orderBy = 'fecha'
         return Avance.objects.filter(proyecto=project).order_by(orderBy)
 
+class ProjectTraza(generics.ListAPIView):
+    serializer_class = AvanceSerializer
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        order = self.request.query_params.get('orderBy')
+        project = Proyecto.objects.get(id=id)
+        if order is not None and order == 'DESC':
+            orderBy = '-fecha'
+        else:
+            orderBy = 'fecha'
+        return Avance.objects.filter(proyecto=project).order_by(orderBy)
+
 def agregar_proyecto(request):
     return render(request, 'laboratorio/Proyecto/agregarProyecto.html')
 

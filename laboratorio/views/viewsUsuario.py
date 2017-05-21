@@ -9,7 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.renderers import JSONRenderer
 from rest_framework import generics
-from ..serializers import ResponsableSerializer, UserSerializer
+from ..serializers import ResponsableSerializer, UserSerializer, ResponsablesXProyectoSerializer
+
 
 # Consulta de usuarios
 class UsuariosLista(generics.ListAPIView):
@@ -25,6 +26,19 @@ class UsuariosLista(generics.ListAPIView):
            for Resp in Experimento.objects.filter(proyecto_id=id).select_related('responsable'):
                listResponsables.add(Resp.responsable)
         return listResponsables
+
+
+class UsuariosProyecto(generics.ListAPIView):
+    serializer_class = ResponsablesXProyectoSerializer
+    #Trazabilidad: Participantes
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        listResponsables = list()
+        if (id):
+            for Resp in Experimento.objects.filter(proyecto_id=id).select_related('responsable'):
+                listResponsables.append(Resp.responsable)
+        return listResponsables
+
 
 def listar_usuariosProyecto(request, id):
     project = Proyecto.objects.get(id=id)

@@ -1,4 +1,6 @@
 from django.conf.urls import url
+
+from laboratorio.views import ProjectTraza, UsuariosProyecto
 from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento,ProtocolosExperimentoLista, ProjectProgressList, UsuariosLista
 from . import views
 
@@ -81,9 +83,14 @@ urlpatterns = [
     url(r'^Proyecto/AvancesReportados/', ProjectProgressList.as_view(), name='avancesReportados'),
 
     #reports
-    url(r'^Reportes/AvanceProyectos/', views.reports, name='reporteAvance'),
+    url(r'^Reportes/AvanceProyectos/', views.progress, name='reporteAvance'),
+    url(r'^Reportes/trazabilidad/', views.trazabilidad, name='reporteTraza'),
 
     #Protocolos
     url(r'^agregarProtocolo/$', views.agregar_protocolo, name='agregarProtocolo'),
+
+    #Trazabilidad
+    url(r'^Proyecto/dataTraza/', UsuariosProyecto.as_view(), name='ProjectTraza'),
+
 
 ]
