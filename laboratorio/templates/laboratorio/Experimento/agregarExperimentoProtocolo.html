@@ -17,8 +17,9 @@
     </script>
     <script type="application/javascript">
         $("body").ready(function (){
+             var urlFilter = "{%url 'laboratorio:filtrarProtocolosExperimentos'%}";
              $.getJSON("{%url 'laboratorio:protocolos'%}").done(showProtocolos);
-             $(document).ready(listarProtocolosExperimento({{ experimento.id}}));
+             $(document).ready(listarProtocolosExperimento({{ experimento.id}}, urlFilter));
         });
     </script>
 {% endblock %}
@@ -40,7 +41,7 @@
                     </div>
                     </td>
                     <td>
-                    <button type="button" class="btn btn-primary" onclick="agregarExperimentoProtocolo({{ experimento.id}})">Agregar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarExperimentoProtocolo({{ experimento.id}},'{%url 'laboratorio:protocolosExperimento'%}' )">Agregar</button>
                     </td>
                     </tr>
                     </table>
