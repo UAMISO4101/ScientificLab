@@ -2,7 +2,6 @@ from unittest import TestCase
 from selenium import webdriver
 import time
 import random
-from selenium.webdriver.support.select import Select
 
 
 class UsersProjectTest(TestCase):
