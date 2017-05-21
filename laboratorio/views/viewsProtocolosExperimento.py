@@ -6,7 +6,18 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from ..models import ProtocolosExperimento, Protocolo, Experimento
 from django.shortcuts import render
+from rest_framework import generics
+from ..serializers import ProtocolosExperimentoSerealizer
 
+class ProtocolosExperimentoLista(generics.ListAPIView):
+    serializer_class = ProtocolosExperimentoSerealizer
+    def get_queryset(self):
+        experimento = self.request.query_params.get('experimento')
+        if(experimento !=0 ):
+            protocolosexperimentos = ProtocolosExperimento.objects.filter(experimento_id=experimento)
+        else:
+            protocolosexperimentos = ProtocolosExperimento.objects.all()
+        return protocolosexperimentos
 
 def agregar_expeprotocolo(request, id):
     return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',

@@ -59,6 +59,7 @@ class Responsable(models.Model):
     email = models.CharField(max_length=200, null=False, default="")
     cargo = models.CharField(max_length=60, null=True)
     celular = models.BigIntegerField(null=True)
+    def __unicode__(self): return self.nombre
 
 # Clase ResultadoExperimento: Define los posibles resultados de un Experimento
 class ResultadoExperimento:
@@ -92,7 +93,7 @@ class Experimento(models.Model):
     resultado = models.IntegerField(choices=ResultadoExperimento.CHOICES, null=True)
     proyecto = models.ForeignKey(Proyecto, related_name='experimentos', null=True, on_delete=models.CASCADE)
     responsable = models.ForeignKey(Responsable, related_name='experimentos', null=True, on_delete=models.CASCADE)
-
+    def __unicode__(self): return self.nombre
 
 # Clase CategoriaProtocolo: Define las posibles categorias de un Protocolo
 class CategoriaProtocolo:
@@ -108,7 +109,7 @@ class CategoriaProtocolo:
     )
 
     def getDict(self):
-        return [{'id': categoria[0], 'estado': categoria[1]} for categoria in self.CHOICES]
+        return [{'id': categoria[0], 'nombre': categoria[1]} for categoria in self.CHOICES]
 
 
 # Clase Protocolo: Define los protocolos que pueden ir en un experimento
@@ -119,7 +120,7 @@ class Protocolo(models.Model):
     categoria = models.IntegerField(choices=CategoriaProtocolo.CHOICES, null=True)
     habilitado = models.NullBooleanField(null=True)
     experimentos = models.ManyToManyField(Experimento, through='ProtocolosExperimento')
-
+    def __unicode__(self): return self.titulo
 
 # Clase ProtocolosExperimento: Define los protocolos de un experimento
 class ProtocolosExperimento(models.Model):

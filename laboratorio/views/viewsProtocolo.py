@@ -18,7 +18,7 @@ class ProtocoloList(generics.ListAPIView):
         if(titulo) :
            protocolo = Protocolo.objects.filter(titulo__icontains=titulo)
         else :
-            protocolo = Protocolo.objects.all()
+            protocolo = Protocolo.objects.all().order_by('-id')
         return protocolo
 
 def listar_protocolos(request):
@@ -41,11 +41,13 @@ def protocolos(request):
             protocolo.version = data["version"]
         if data.has_key("categoria"):
             protocolo.categoria = data["categoria"]
+        if data.has_key("habilitado"):
+            protocolo.habilitado = data["habilitado"]
         protocolo.save()
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     # Si es GET Lista
     elif request.method == 'GET':
-        protocolos = Protocolo.objects.all()
+        protocolos = Protocolo.objects.filter(habilitado = True)
         return HttpResponse(serializers.serialize("json", protocolos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos con metodo " + request.method)
@@ -82,6 +84,9 @@ def protocolos_id(request, id):
         if data.has_key("categoria"):
             protocolo.categoria = data["categoria"]
             algoCambio = True
+        if data.has_key("habilitado"):
+            protocolo.habilitado = data["habilitado"]
+            algoCambio = True
         if algoCambio:
             protocolo.save()
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
@@ -94,6 +99,11 @@ def protocolos_id(request, id):
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id} con metodo " + request.method)
+
+# Muestra la pagina de edicion de protocolo
+def edit_protocol(request, id):
+    protocol = Protocolo.objects.get(id=id)
+    return render(request, 'laboratorio/Protocolo/EditProtocol.html', {"protocol": protocol})
 
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
@@ -150,12 +160,31 @@ def lista_categorias_protocolo(request):
     if request.method == 'GET':
         try:
             categorias = CategoriaProtocolo().getDict()
-            print categorias
         except:
             raise ValidationError({'id': ['No fue posible generar la lista de categorias de protocolo']})
         return HttpResponse(json.dumps(categorias), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest categoriasprotocolo/ con metodo " + request.method)
 
+# Muestra la pagina de detalle de protocolo
 def detallar_protocolo(request, id):
     return render(request, 'laboratorio/Protocolo/detallarProtocolo.html', {"protocolo": Protocolo.objects.get(id=id)})
+
+# Muestra la pagina de agregar protocolo
+def agregar_protocolo(request):
+    return render(request, 'laboratorio/Protocolo/agregarProtocolo.html')
+
+@csrf_exempt
+def protocolos_deshabilitar(request, id):
+    # Si es POST crea la nueva version
+    if request.method == 'POST':
+        ##try:
+        Protocolo.objects.filter(id=id).update(habilitado=False)
+        protocolo = Protocolo.objects.get(id=id)
+
+        ##except:
+            ##raise ValidationError({'id': ['No existe protocolo ' + id]})
+        return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
+    else:
+        raise NotFound(detail="No se encuentra comando rest protocolos/{id}/ con metodo " + request.method)
+
