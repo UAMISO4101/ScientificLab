@@ -1,0 +1,85 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+    <title>Detalle de protocolo</title>
+{% block header_text %}
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/alertify.js'%} "></script>
+    <script src="{% static 'js/moment.js'%} "></script>
+    <script src="{% static 'js/Laboratory/ProtocoloController.js'%} "></script>
+    <script type="application/javascript">
+ /*       $(document).ready(function () {
+            $('.jqte_editor').jqte();
+        });*/
+
+        $("body").ready(function (){
+              $.getJSON("{%url 'laboratorio:listaCategoriasProtocolo'%}").done(mostrarCategoria);
+        });
+
+        $(document).ready(function() {
+            var habilitado = document.getElementById("val_habilitado").getAttribute("value");
+            if (habilitado == "True")
+                document.getElementById("habilitado").checked = true;
+            else
+                document.getElementById("habilitado").checked = false;
+        });
+        function mostrarCategoria(response) {
+           var categoriaId  = {{ protocolo.categoria }};
+           var categoria;
+           for (var i=0; i <response.length; i++){
+               categoria = response[i];
+               if(categoria.id == categoriaId)
+                   $("#categoria").val(categoria.estado);
+           }
+        }
+        $(document).ready(function(){
+            $(':checkbox[readonly=readonly]').click(function(){
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container form-horizontal">
+            <h1 id = "titlePage" class="text-center" style="color:#fed136">Detalle de Protocolo</h1>
+                 <input hidden type="number" name="ProtocoloID" id="ProtocoloID" value="{{ protocolo.id }}">
+                <div class="form-group">
+                    <label for="titulo" class="col-sm-2 control-label">Título de Protocolo: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="titulo" id="titulo" value="{{ protocolo.titulo }}" disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prioridad" class="col-sm-2 control-label">Versión: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="number" name="version" id="version" value="{{ protocolo.version  }}" disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="categoria" class="col-sm-2 control-label">Categoria: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="text" name="categoria" id="categoria" disabled/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="habilitado" class="col-sm-2 control-label">Habilitado: </label>
+                    <input type="hidden" name="val_habilitado" id="val_habilitado" value="{{ protocolo.habilitado }}">
+                    <div class="col-sm-1">
+                        <input class="form-control" type="checkbox" name="habilitado" id="habilitado" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="descripcion" class="col-sm-2 control-label">Descripción: </label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" name="descripcion" cols="100" rows="20" id="descripcion" disabled>{{ protocolo.descripcion }} </textarea>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-10">
+                    <a id="Btn_Regresar" href="{% url 'laboratorio:listarProtocolos' %}" class="btn btn-warning">Regresar</a>
+                </div>
+        </div>
+    </section>
+{% endblock %}

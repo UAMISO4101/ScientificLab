@@ -140,7 +140,7 @@ function setDate(date, id){
 var table;
 var data;
 function listarExperiments(urlAll, urlEdit, urlDetails,urlStartExperiment){
-var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
+    var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span class='glyphicon glyphicon-pencil'></span></a>"
     var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>"
     var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info' >Iniciar</a>"
     var table = $('#myTable').DataTable( {
@@ -154,7 +154,7 @@ var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round'><span c
             { data: "prioridad" },
             { "render": function(data, type, row, meta){
                 if(row.fechaInicio == null){
-                    btnIniciar= btnIniciar.replace (0,row.id);
+                    btnIniciar= btnIniciar.replace (/0/g,row.id);
                      return btnIniciar
                     }
                     else {

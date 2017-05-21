@@ -26,9 +26,9 @@ class UsuariosLista(generics.ListAPIView):
                listResponsables.add(Resp.responsable)
         return listResponsables
 
-def listar_usuariosProyecto(request, idUser):
-    project = Proyecto.objects.get(id=idUser)
-    return render(request, 'laboratorio/Usuario/usuariosProyecto.html', {'projectId': idUser, 'projectName':project.nombre})
+def listar_usuariosProyecto(request, id):
+    project = Proyecto.objects.get(id=id)
+    return render(request, 'laboratorio/Usuario/usuariosProyecto.html', {'projectId': id, 'projectName':project.nombre})
 
 # Muestra la pagina para inicio de sesion (login)
 def inicio_sesion(request):

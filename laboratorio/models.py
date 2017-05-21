@@ -114,9 +114,10 @@ class CategoriaProtocolo:
 # Clase Protocolo: Define los protocolos que pueden ir en un experimento
 class Protocolo(models.Model):
     titulo = models.CharField(max_length=100, null=True)
-    descripcion = models.CharField(max_length=1000, null=True)
+    descripcion = models.TextField(max_length=1000, null=True)
     version = models.IntegerField(null=True)
     categoria = models.IntegerField(choices=CategoriaProtocolo.CHOICES, null=True)
+    habilitado = models.NullBooleanField(null=True)
     experimentos = models.ManyToManyField(Experimento, through='ProtocolosExperimento')
 
 

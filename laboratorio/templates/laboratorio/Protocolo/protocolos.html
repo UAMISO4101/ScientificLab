@@ -11,10 +11,10 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="{% static 'js/Laboratory/ProtocoloController.js' %}"></script>
     <script>
-    $(document).ready( function () {
-        listarProtocolos();
-    } );
-
+        var urlDetails = "{% url 'laboratorio:detallarProtocolo'  id=0%}";
+        $(document).ready( function () {
+            listarProtocolos(urlDetails);
+        } );
     </script>
 {% endblock %}
 {% block content %}

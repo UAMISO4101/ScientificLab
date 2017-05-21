@@ -156,3 +156,6 @@ def lista_categorias_protocolo(request):
         return HttpResponse(json.dumps(categorias), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest categoriasprotocolo/ con metodo " + request.method)
+
+def detallar_protocolo(request, id):
+    return render(request, 'laboratorio/Protocolo/detallarProtocolo.html', {"protocolo": Protocolo.objects.get(id=id)})
