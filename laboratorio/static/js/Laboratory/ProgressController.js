@@ -11,6 +11,10 @@ function  paintProgress(data) {
         });
 }
 
+function errorGetProgress(response) {
+    console.log(response);
+}
+
 function listProgress(urlListProgress){
      $.ajax({
         url:host+urlListProgress,
@@ -19,28 +23,6 @@ function listProgress(urlListProgress){
         error:errorGetProgress,
         async:true,
         crossDomain:true
-    });
-}
-
-function errorGetProgress(response) {
-    console.log(response);
-}
-
-function saveProgress(idProject) {
-    var progress = $("#projectProgress").val();
-    if(progress>100 || progress<0) {
-        alertify.error("El avance debe ser entre 0% y 100%", 2);
-        return;
-    }
-
-    var url = $("#formProgress").attr("data-add-progress-url");
-    $.ajax({
-            url: host+url,
-        method:"POST",
-        data:getData(idProject),
-        success:sucessSaveProgress,
-        error:errorSaveProgress,
-        dataType: "json"
     });
 }
 
@@ -61,3 +43,22 @@ function errorSaveProgress() {
     alertify.error("Error al guardar el avance del proyecto");
 
 }
+
+function saveProgress(idProject) {
+    var progress = $("#projectProgress").val();
+    if(progress>100 || progress<0) {
+        alertify.error("El avance debe ser entre 0% y 100%", 2);
+        return;
+    }
+
+    var url = $("#formProgress").attr("data-add-progress-url");
+    $.ajax({
+            url: host+url,
+        method:"POST",
+        data:getData(idProject),
+        success:sucessSaveProgress,
+        error:errorSaveProgress,
+        dataType: "json"
+    });
+}
+
