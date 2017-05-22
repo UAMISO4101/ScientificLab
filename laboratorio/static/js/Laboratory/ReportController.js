@@ -1,3 +1,7 @@
+function errorGetProgress(response) {
+    alertify.error("Error al obtener información del proyecto");
+}
+
 function showProyectsNames(response){
     var nameProyectList =$("#projects");
     var project;
@@ -8,31 +12,7 @@ function showProyectsNames(response){
     }
  }
 
- function listProgress(urlListProgress){
-
-     $.ajax({
-        url:host+urlListProgress,
-        method:"GET",
-        success:function(response){
-            paintTableProgress(response);
-            paintChartProgress(response);
-        },
-        error:errorGetProgress,
-        async:true,
-        crossDomain:true
-    });
-}
- function paintChart(urlListProgress) {
-     var idProject= $('#projects option:selected').val();
-     if(idProject === undefined || idProject == -1) {
-         alertify.error("Seleccione un proyecto para poder generar la gráfica de avance.");
-         return;
-     }
-     urlListProgress +="?id="+idProject+'&orderBy=ASC';
-     listProgress(urlListProgress);
- }
-
- function getListProgress(data) {
+  function getListProgress(data) {
     var progressList = [];
     for(i =0; i<data.length;i++)
     {
@@ -41,20 +21,7 @@ function showProyectsNames(response){
     return progressList;
 }
 
-function getDates(data) {
-    var dates = [];
-    for(i =0; i<data.length;i++)
-    {
-     dates[i] = data[i].fecha;
-    }
-    return dates;
-}
-
-function errorGetProgress(response) {
-    alertify.error("Error al obtener información del proyecto");
-}
-
-function  paintTableProgress(data) {
+ function  paintTableProgress(data) {
     $('#listProgress').removeAttr("hidden");
 
     var table = $('#listReportedProgress');
@@ -101,4 +68,41 @@ function paintChartProgress(data) {
         }]
     });
 }
+
+ function listProgress(urlListProgress){
+
+     $.ajax({
+        url:host+urlListProgress,
+        method:"GET",
+        success:function(response){
+            paintTableProgress(response);
+            paintChartProgress(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
+}
+ function paintChart(urlListProgress) {
+     var idProject= $('#projects option:selected').val();
+     if(idProject === undefined || idProject == -1) {
+         alertify.error("Seleccione un proyecto para poder generar la gráfica de avance.");
+         return;
+     }
+     urlListProgress +="?id="+idProject+'&orderBy=ASC';
+     listProgress(urlListProgress);
+ }
+
+function getDates(data) {
+    var dates = [];
+    for(i =0; i<data.length;i++)
+    {
+     dates[i] = data[i].fecha;
+    }
+    return dates;
+}
+
+
+
+
 
