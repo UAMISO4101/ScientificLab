@@ -1,3 +1,16 @@
+function getData() {
+     var project = {};
+    project.nombre =$("#nombre").val();
+    project.descripcion =$("#descripcion").val();
+    project.fechaInicio =$("#fechaInicio").val();
+    project.fechaFinal =$("#fechaFinal").val();
+    project.prioridad =$("#prioridad").val();
+    project.estado =$("#estado option:selected").val();
+    project.idPatrocinador =$("#patrocinador option:selected").val();
+
+    return project;
+}
+
 function dataIsCorrect() {
 
     if($("#nombre").val().trim() === "") {
@@ -90,19 +103,6 @@ function validateData(createProject){
             updateProject();
     }
 }
-function getData() {
-     var project = {};
-    project.nombre =$("#nombre").val();
-    project.descripcion =$("#descripcion").val();
-    project.fechaInicio =$("#fechaInicio").val();
-    project.fechaFinal =$("#fechaFinal").val();
-    project.prioridad =$("#prioridad").val();
-    project.estado =$("#estado option:selected").val();
-    project.idPatrocinador =$("#patrocinador option:selected").val();
-
-    return project;
-}
-
 
 function showProjectStates(response){
     var statesList =$("#estado");
