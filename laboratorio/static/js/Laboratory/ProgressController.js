@@ -1,3 +1,16 @@
+function  paintProgress(data) {
+      $("#countProjectReportedProgress").html("<input type=\"label\" id=\"counterProgress\" value=\""+data.length+"\" hidden>");
+      $('#listReportedProgress').DataTable({
+        data: data,
+        searching:false,
+        columns: [
+            { data: "fecha" },
+            { data: "reporte" },
+            { data: "comentario" }
+        ]
+        });
+}
+
 function listProgress(urlListProgress){
      $.ajax({
         url:host+urlListProgress,
@@ -11,19 +24,6 @@ function listProgress(urlListProgress){
 
 function errorGetProgress(response) {
     console.log(response);
-}
-
-function  paintProgress(data) {
-      $("#countProjectReportedProgress").html("<input type=\"label\" id=\"counterProgress\" value=\""+data.length+"\" hidden>");
-      $('#listReportedProgress').DataTable({
-        data: data,
-        searching:false,
-        columns: [
-            { data: "fecha" },
-            { data: "reporte" },
-            { data: "comentario" }
-        ]
-        });
 }
 
 function saveProgress(idProject) {

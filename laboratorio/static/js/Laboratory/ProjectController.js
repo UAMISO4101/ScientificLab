@@ -1,12 +1,3 @@
-function validateData(createProject){
-    if(dataIsCorrect()) {
-        if(createProject)
-            saveProject();
-        else
-            updateProject();
-    }
-}
-
 function dataIsCorrect() {
 
     if($("#nombre").val().trim() === "") {
@@ -58,6 +49,14 @@ function dataIsCorrect() {
     return true;
 }
 
+function successSaveProject(response) {
+    alertify.success("El proyecto se ha guardado correctamente");
+}
+
+function errorSaveProject(e){
+    alertify.error("Error al guardar el proyecto");
+}
+
 function saveProject() {
     var url = $("#formProject").attr("data-project-url");
     $.ajax({
@@ -83,6 +82,14 @@ function updateProject() {
     });
 }
 
+function validateData(createProject){
+    if(dataIsCorrect()) {
+        if(createProject)
+            saveProject();
+        else
+            updateProject();
+    }
+}
 function getData() {
      var project = {};
     project.nombre =$("#nombre").val();
@@ -96,13 +103,6 @@ function getData() {
     return project;
 }
 
-function successSaveProject(response) {
-    alertify.success("El proyecto se ha guardado correctamente");
-}
-
-function errorSaveProject(e){
-    alertify.error("Error al guardar el proyecto");
-}
 
 function showProjectStates(response){
     var statesList =$("#estado");
