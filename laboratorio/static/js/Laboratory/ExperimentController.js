@@ -148,7 +148,8 @@ function listarExperiments(urlAll, urlEdit, urlDetails,urlVerProtocolos){
             { data: "prioridad" },
             { "render": function(data, type, row, meta){
                 if(row.fechaInicio == null){
-                    btnIniciar= btnIniciar.replace ("0",row.id);
+                    btnIniciar= btnIniciar.replace (/0/g,row.id);
+
                      return btnIniciar
                     }
                     else {

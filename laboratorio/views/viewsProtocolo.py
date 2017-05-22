@@ -100,6 +100,7 @@ def protocolos_id(request, id):
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id} con metodo " + request.method)
 
+# Muestra la pagina de edicion de protocolo
 def edit_protocol(request, id):
     protocol = Protocolo.objects.get(id=id)
     return render(request, 'laboratorio/Protocolo/EditProtocol.html', {"protocol": protocol})
@@ -165,6 +166,10 @@ def lista_categorias_protocolo(request):
     else:
         raise NotFound(detail="No se encuentra comando rest categoriasprotocolo/ con metodo " + request.method)
 
+# Muestra la pagina de detalle de protocolo
+def detallar_protocolo(request, id):
+    return render(request, 'laboratorio/Protocolo/detallarProtocolo.html', {"protocolo": Protocolo.objects.get(id=id)})
+
 # Muestra la pagina de agregar protocolo
 def agregar_protocolo(request):
     return render(request, 'laboratorio/Protocolo/agregarProtocolo.html')
@@ -180,3 +185,4 @@ def protocolos_deshabilitar(request, id):
         return HttpResponse(serializers.serialize("json", [protocolo]), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest protocolos/{id}/ con metodo " + request.method)
+

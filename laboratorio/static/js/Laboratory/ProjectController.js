@@ -150,10 +150,11 @@ function listarProyectos (urlAll,urlEdit,urlExperimentos,urlProgress,urlUsuarios
             { data: "fechaInicio" },
             { sortable: false,
               "render": function ( data, type, row, meta ) {
-               return btnEditar.replace ("0",row.pk)+
-                      btnExperimentos.replace ("0",row.pk)+
-                      btnProgress.replace("0",row.pk).replace("0",row.pk)+
-                      btnUsuarios.replace("0",row.pk).replace("0",row.pk);
+               return btnEditar.replace (/0/g,row.pk)+
+                      btnExperimentos.replace (/0/g,row.pk)+
+                      btnProgress.replace(/0/g,row.pk)+
+                      btnUsuarios.replace(/0/g,row.pk);
+
                  }
              },
         ]

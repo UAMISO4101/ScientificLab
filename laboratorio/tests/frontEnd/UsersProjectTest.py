@@ -3,59 +3,72 @@ from selenium import webdriver
 import time
 import random
 
-
 class UsersProjectTest(TestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(2)
+        self.baseUrl = 'http://localhost:8000/laboratorio'
 
     def tearDown(self):
         self.browser.quit()
 
     def test_title(self):
-        self.browser.get('http://localhost:8000/laboratorio')
+        self.browser.get(self.baseUrl)
         self.do_login()
         self.assertIn('Laboratorio Uniandes',self.browser.title)
 
     def test_links_project_Users(self):
-        self.browser.get('http://localhost:8000/laboratorio')
+        self.browser.get(self.baseUrl)
         self.do_login()
         time.sleep(2)
+
         linkProjects = self.browser.find_element_by_id('linkProjects')
         linkProjects.click()
-        time.sleep(8)
+        time.sleep(6)
+
         numProject = self.Rows_table_Project()
-        print(numProject)
         i = 0
         while i < numProject:
-            linkProjectSel = "Users_" + str(random.randint(1, numProject))
+            linkProjectSel = self.find_linkProjectSel(numProject)
             linkUsers = self.browser.find_element_by_id(linkProjectSel)
             linkUsers.click()
             time.sleep(4)
             tableUser = self.browser.find_element_by_id('listUserProject')
             tableUser.click()
             self.browser.execute_script("window.history.go(-1)")
-            time.sleep(8)
+            time.sleep(6)
             i+=3
 
     def test_go_to_project_Users(self):
-        self.browser.get('http://localhost:8000/laboratorio')
+        self.browser.get(self.baseUrl)
         self.do_login()
         time.sleep(2)
+
         linkProjects = self.browser.find_element_by_id('linkProjects')
         linkProjects.click()
-        time.sleep(8)
-        linkProjectSel = "Users_" + str(random.randint(1, self.Rows_table_Project()))
+        time.sleep(6)
+
+        numProject = self.Rows_table_Project()
+        linkProjectSel = self.find_linkProjectSel(numProject)
         linkUsers = self.browser.find_element_by_id(linkProjectSel)
         linkUsers.click()
         time.sleep(4)
-        print(self.Rows_table_Users())
-        titlePage = self.browser.find_element_by_id('titlePage').text
-        titleProject = self.browser.find_element_by_id('titleProject').text
-        print(titlePage)
-        self.assertEqual('USUARIOS DEL PROYECTO: ' + titleProject, titlePage)
 
+        titlePage = self.browser.find_element_by_id('titlePage').text
+        titleProject = self.browser.find_element_by_id('titleProject').get_attribute("value");
+        self.assertEqual('USUARIOS DEL PROYECTO: ' + titleProject.upper(), titlePage)
+
+    def find_linkProjectSel(self, numRows):
+        continuar = True
+        while continuar:
+            try:
+                linkProject = "Users_" + str(random.randint(1, numRows))
+                self.browser.find_element_by_id(linkProject)
+                continuar = False
+            except:
+                continuar = True
+        return linkProject
 
     def do_login(self):
         link = self.browser.find_element_by_id('link_iniciar_sesion')
