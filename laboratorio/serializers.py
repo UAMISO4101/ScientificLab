@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
-from laboratorio.models import Avance
+from laboratorio.models import Avance, Paso, Elemento
 from .models import Protocolo, Proyecto, Experimento, Responsable,ProtocolosExperimento
 
 class ProtocoloSerializer(serializers.ModelSerializer):
@@ -53,6 +53,11 @@ class ResponsableSerializer(serializers.ModelSerializer):
 class ResponsablesXProyectoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Responsable
+        fields = ('nombre','username')
+
+class ProtocolosXExperimentoProyectoSerealizer(serializers.ModelSerializer):
+    class Meta:
+        model = Experimento
         fields = '__all__'
 
 class ProtocolosExperimentoSerealizer (serializers.ModelSerializer):

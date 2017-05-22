@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from laboratorio.views import ProjectTraza, UsuariosProyecto
+from laboratorio.views import ProjectTraza, UsuariosProyecto, ProtocolosExperimentosProyecto, ExperimentosProyecto
 from .views import ProtocoloList, ProyectosLista, ExperimentoLista,ProtocolosExperimento,ProtocolosExperimentoLista, ProjectProgressList, UsuariosLista
 from . import views
 
@@ -92,6 +92,8 @@ urlpatterns = [
 
     #Trazabilidad
     url(r'^Proyecto/dataTraza/', UsuariosProyecto.as_view(), name='ProjectTraza'),
+    url(r'^Proyecto/dataProto/', ProtocolosExperimentosProyecto.as_view(), name='ProjectProto'),
+    url(r'^Proyecto/dataProto/', ExperimentosProyecto.as_view(), name='ProjectExpe'),
 
     #Deshabilitar protocolo
     url(r'^protocolos/(?P<id>\d+)/deshabilitar/$', views.protocolos_deshabilitar, name='protocoloIdDesahabilitar'),

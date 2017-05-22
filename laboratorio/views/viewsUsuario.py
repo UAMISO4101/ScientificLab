@@ -36,7 +36,7 @@ class UsuariosProyecto(generics.ListAPIView):
         listResponsables = list()
         if (id):
             for Resp in Experimento.objects.filter(proyecto_id=id).select_related('responsable'):
-                listResponsables.append(Resp.responsable)
+                    listResponsables.append(Resp.responsable)
         return listResponsables
 
 

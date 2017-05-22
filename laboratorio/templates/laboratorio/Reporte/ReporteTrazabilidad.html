@@ -14,6 +14,8 @@
     <script src="{% static 'js/Laboratory/TrazabilidadController.js' %}"></script>
     <script type="application/javascript">
         var urlProyectMembers = "{% url 'laboratorio:ProjectTraza'%}";
+        var urlProyectProto = "{% url 'laboratorio:ProjectProto'%}";
+        var urlProyectExpe = "{% url 'laboratorio:ProjectExpe'%}";
         $(document).ready( function () {
         $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
     });
@@ -30,7 +32,7 @@
                     <select class="form-control" name="projects" id="projects">
                     </select>
                 </div>
-                 <input class="btn btn-warning " id="btnGenerate" type="button" onclick="paintTraza(urlProyectMembers);" value="Generar"/>
+                 <input class="btn btn-warning " id="btnGenerate" type="button" onclick="paintTraza(urlProyectMembers, urlProyectProto, urlProyectExpe);" value="Generar"/>
             </div>
             <div class="row">
                 <div class="col-md-offset-3" id="AvanceChart" style="padding-bottom: 5rem; width:50%; "></div>

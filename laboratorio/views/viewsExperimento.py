@@ -6,10 +6,11 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto
+from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto, \
+    ProtocolosExperimento
 from django.shortcuts import render
 from rest_framework import generics
-from ..serializers import ExperimentoSerializer
+from ..serializers import ExperimentoSerializer, ProtocolosXExperimentoProyectoSerealizer
 
 
 class ExperimentoLista(generics.ListAPIView):
@@ -22,6 +23,30 @@ class ExperimentoLista(generics.ListAPIView):
             experimentos = Experimento.objects.all()
         return experimentos
 
+class ProtocolosExperimentosProyecto(generics.ListAPIView):
+    serializer_class = ProtocolosXExperimentoProyectoSerealizer
+    #Trazabilidad: Protocolos finalizados
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        print(id)
+        listExperimentos = list()
+        if (id):
+            for Resp in Experimento.objects.filter(proyecto_id=id).select_related('proyecto'):
+                for Proto in ProtocolosExperimento.objects.filter(experimento_id=Resp.id):
+                    listExperimentos.append(Resp)
+        return listExperimentos
+
+class ExperimentosProyecto(generics.ListAPIView):
+    serializer_class = ProtocolosXExperimentoProyectoSerealizer
+    #Trazabilidad: Protocolos finalizados
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        print(id)
+        listExperimentos = list()
+        if (id):
+            for Resp in Experimento.objects.filter(proyecto_id=id).select_related('proyecto'):
+                listExperimentos.append(Resp)
+        return listExperimentos
 
 def agregar_experimento(request, idProy):
     proyecto = Proyecto.objects.get(id=idProy)

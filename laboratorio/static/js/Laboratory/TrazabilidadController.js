@@ -7,7 +7,7 @@ function showProyectsNames(response){
         nameProyectList.append(new Option(project.fields.nombre, project.pk));
     }
  }
- function paintTraza(urlProyectMembers) {
+ function paintTraza(urlProyectMembers, urlProyectProto, urlProyectExpe) {
      var idProject= $('#projects option:selected').val();
      if(idProject === undefined || idProject === -1) {
          alertify.error("Seleccione un proyecto para presentar el informe");
@@ -15,14 +15,22 @@ function showProyectsNames(response){
      }
      urlProyectMembers +="?id="+idProject;
      listIntegrantes(urlProyectMembers);
- }
+
+     urlProyectProto +="?id="+idProject;
+     listProto(urlProyectProto);
+
+     urlProyectExpe +="?id="+idProject;
+     listExperimentos(urlProyectExpe);
+
+     avance();
+}
 
  function listIntegrantes(urlProyectMembers){
      $.ajax({
         url:host+urlProyectMembers,
         method:"GET",
         success:function(response){
-            paintChartTraza(response);
+            participacion(response);
         },
         error:errorGetProgress,
         async:true,
@@ -30,6 +38,31 @@ function showProyectsNames(response){
     });
 }
 
+ function listProto(urlProyectProto){
+     $.ajax({
+        url:host+urlProyectProto,
+        method:"GET",
+        success:function(response){
+            protocolos(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
+}
+
+ function listExperimentos(urlProyectProto){
+     $.ajax({
+        url:host+urlProyectProto,
+        method:"GET",
+        success:function(response){
+            experimentos(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
+}
  function getMembers(data) {
     var members = [];
     var registro = new Object();
@@ -57,6 +90,54 @@ function showProyectsNames(response){
         }
     }
     return members;
+}
+
+function getProto(data){
+    var proto = [];
+    var ejecutado = new Object();
+    var pendiente = new Object();
+    ejecutado.name = "Ejecutado";
+    ejecutado.y=0;
+    pendiente.name="Pendiente";
+    pendiente.y=0;
+    for(i =0; i<data.length;i++)
+    {
+        if(data[i].resultado===0)
+        {
+            ejecutado.y++;
+        }
+        if(data[i].resultado===1)
+        {
+            pendiente.y++;
+        }
+    }
+    proto[0]= ejecutado;
+    proto[1]= pendiente;
+    return proto;
+}
+
+function getExpe(data){
+    var expe = [];
+    var ejecutado = new Object();
+    var pendiente = new Object();
+    ejecutado.name = "Ejecutado";
+    ejecutado.y=0;
+    pendiente.name="Pendiente";
+    pendiente.y=0;
+    for(i =0; i<data.length;i++)
+    {
+        if(data[i].resultado===0)
+        {
+            ejecutado.y++;
+        }
+        if(data[i].resultado===1)
+        {
+            pendiente.y++;
+        }
+    }
+    expe[0]= ejecutado;
+    expe[1]= pendiente;
+    return expe;
 }
 
 function errorGetProgress(response) {
@@ -103,6 +184,8 @@ function avance(data){
     });
  }
      function experimentos(data) {
+    var expe = []
+    expe = getExpe(data);
      Highcharts.chart("ExperimentosChart", {
         chart: {
             backgroundColor: '#eee',
@@ -130,13 +213,13 @@ function avance(data){
         series: [{
             name: 'Brands',
             colorByPoint: true,
-            data: [{
-                name: 'Ejecutado', y: 56.33}, {
-                name: 'Pendiente', y: 43.67}]
+            data: expe
             }]
     });
      }
 function protocolos(data) {
+    var proto = []
+    proto = getProto(data);
      Highcharts.chart("ProtocolosChart", {
         chart: {
             backgroundColor: '#eee',
@@ -164,9 +247,7 @@ function protocolos(data) {
         series: [{
             name: 'Brands',
             colorByPoint: true,
-            data: [{
-                name: 'Ejecutado', y: 56.33}, {
-                name: 'Pendiente', y: 43.67}]
+            data: proto
             }]
     });
      }
@@ -204,11 +285,6 @@ function participacion(data) {
             }]
     });
      }
-    function paintChartTraza(data) {
-        avance(data);
-        experimentos(data);
-        protocolos(data);
-        participacion(data);
-    }
+
 
 
