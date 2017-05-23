@@ -134,10 +134,10 @@ var table;
 var data;
 
 
-function listarExperiments(urlAll, urlEdit, urlDetails, urlVerProtocolos){
+function listarExperiments(urlAll, urlEdit, urlDetails, urlVerProtocolos,urlStartExp){
     var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round' title='Editar'><span class='glyphicon glyphicon-pencil'></span></a>";
     var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round' title='Detallar'><span class='glyphicon glyphicon-cog'></span></a>";
-    var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info'  title='Iniciar'>Iniciar</a>";
+    var btnIniciar = "<a href='' onclick='iniciar(0, urlAll, urlEdit, urlDetails,urlStartExp)' class='btn btn-info'  title='Iniciar'>Iniciar</a>";
     var btnVerProtocolo = "<a href='"+urlVerProtocolos +"'  class='btn btn-info btn-round' title='Ver Protocolos'><span class='glyphicon glyphicon-list'></span></a>";
     var table = $('#myTable').DataTable( {
         "ajax": {
@@ -187,6 +187,6 @@ function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     });
 }
 
-function iniciar(id) {
-    startExperiment(id, urlAll ,urlEdit.replace("0",id), urlDetails.replace("0",id),urlStartExperiment.replace("0",id));
+function iniciar(id,  urlAll, urlEdit, urlDetails,urlStartExp) {
+    startExperiment(id, urlAll ,urlEdit.replace("0",id), urlDetails.replace("0",id),urlStartExp.replace("0",id));
 }

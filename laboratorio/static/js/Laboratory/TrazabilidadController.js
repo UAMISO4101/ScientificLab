@@ -1,3 +1,80 @@
+function errorGetProgress(response) {
+    alertify.error("Error al obtener información del proyecto");
+}
+
+function getProto(data){
+    var proto = [];
+    var ejecutado = new Object();
+    var pendiente = new Object();
+    ejecutado.name = "Ejecutado";
+    ejecutado.y=0;
+    pendiente.name="Pendiente";
+    pendiente.y=0;
+    for(i =0; i<data.length;i++)
+    {
+        if(data[i].resultado===0)
+        {
+            ejecutado.y++;
+        }
+        if(data[i].resultado===1)
+        {
+            pendiente.y++;
+        }
+    }
+    proto[0]= ejecutado;
+    proto[1]= pendiente;
+    return proto;
+}
+
+function protocolos(data) {
+    var proto = []
+    proto = getProto(data);
+    Highcharts.chart("ProtocolosChart", {
+        chart: {
+            backgroundColor: '#eee',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+        },
+        title: {text: "Protocolos realizados"},
+        tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: proto
+        }]
+    });
+}
+
+function listProto(urlProyectProto){
+     $.ajax({
+        url:host+urlProyectProto,
+        method:"GET",
+        success:function(response){
+            protocolos(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
+}
+
 function showProyectsNames(response){
     var nameProyectList =$("#projects");
     var project;
@@ -7,6 +84,33 @@ function showProyectsNames(response){
         nameProyectList.append(new Option(project.fields.nombre, project.pk));
     }
  }
+
+function listExperimentos(urlProyectProto){
+     $.ajax({
+        url:host+urlProyectProto,
+        method:"GET",
+        success:function(response){
+            experimentos(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
+}
+
+function listIntegrantes(urlProyectMembers){
+     $.ajax({
+        url:host+urlProyectMembers,
+        method:"GET",
+        success:function(response){
+            participacion(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
+}
+
  function paintTraza(urlProyectMembers, urlProyectProto, urlProyectExpe) {
      var idProject= $('#projects option:selected').val();
      if(idProject === undefined || idProject === -1) {
@@ -25,44 +129,6 @@ function showProyectsNames(response){
      avance();
 }
 
- function listIntegrantes(urlProyectMembers){
-     $.ajax({
-        url:host+urlProyectMembers,
-        method:"GET",
-        success:function(response){
-            participacion(response);
-        },
-        error:errorGetProgress,
-        async:true,
-        crossDomain:true
-    });
-}
-
- function listProto(urlProyectProto){
-     $.ajax({
-        url:host+urlProyectProto,
-        method:"GET",
-        success:function(response){
-            protocolos(response);
-        },
-        error:errorGetProgress,
-        async:true,
-        crossDomain:true
-    });
-}
-
- function listExperimentos(urlProyectProto){
-     $.ajax({
-        url:host+urlProyectProto,
-        method:"GET",
-        success:function(response){
-            experimentos(response);
-        },
-        error:errorGetProgress,
-        async:true,
-        crossDomain:true
-    });
-}
  function getMembers(data) {
     var members = [];
     var registro = new Object();
@@ -92,28 +158,40 @@ function showProyectsNames(response){
     return members;
 }
 
-function getProto(data){
-    var proto = [];
-    var ejecutado = new Object();
-    var pendiente = new Object();
-    ejecutado.name = "Ejecutado";
-    ejecutado.y=0;
-    pendiente.name="Pendiente";
-    pendiente.y=0;
-    for(i =0; i<data.length;i++)
-    {
-        if(data[i].resultado===0)
-        {
-            ejecutado.y++;
-        }
-        if(data[i].resultado===1)
-        {
-            pendiente.y++;
-        }
-    }
-    proto[0]= ejecutado;
-    proto[1]= pendiente;
-    return proto;
+function participacion(data) {
+    var members = []
+    members = getMembers(data);
+    Highcharts.chart("ParticipantesChart", {
+        chart: {
+            backgroundColor: '#eee',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie',
+        },
+        title: {text: "Participación de los integrantes"},
+        tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: members
+        }]
+    });
 }
 
 function getExpe(data){
@@ -138,10 +216,6 @@ function getExpe(data){
     expe[0]= ejecutado;
     expe[1]= pendiente;
     return expe;
-}
-
-function errorGetProgress(response) {
-    alertify.error("Error al obtener información del proyecto");
 }
 
 var project = $("#projects option:selected").text();
@@ -183,108 +257,43 @@ function avance(data){
             }]
     });
  }
-     function experimentos(data) {
-    var expe = []
-    expe = getExpe(data);
+ function experimentos(data) {
+     var expe = []
+     expe = getExpe(data);
      Highcharts.chart("ExperimentosChart", {
-        chart: {
-            backgroundColor: '#eee',
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-        },
-        title: {text: "Experimentos ejecutados"},
-        tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                },
-                connectorColor: 'silver'
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: expe
-            }]
-    });
-     }
-function protocolos(data) {
-    var proto = []
-    proto = getProto(data);
-     Highcharts.chart("ProtocolosChart", {
-        chart: {
-            backgroundColor: '#eee',
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-        },
-        title: {text: "Protocolos realizados"},
-        tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                },
-                connectorColor: 'silver'
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: proto
-            }]
-    });
-     }
-function participacion(data) {
-    var members = []
-    members = getMembers(data);
-     Highcharts.chart("ParticipantesChart", {
-        chart: {
-            backgroundColor: '#eee',
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie',
-        },
-        title: {text: "Participación de los integrantes"},
-        tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                },
-                connectorColor: 'silver'
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            name: 'Brands',
-            colorByPoint: true,
-            data: members
-            }]
-    });
-     }
+         chart: {
+             backgroundColor: '#eee',
+             plotBackgroundColor: null,
+             plotBorderWidth: null,
+             plotShadow: false,
+             type: 'pie',
+         },
+         title: {text: "Experimentos ejecutados"},
+         tooltip: {pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'},
+         plotOptions: {
+             pie: {
+                 allowPointSelect: true,
+                 cursor: 'pointer',
+                 dataLabels: {
+                     enabled: false,
+                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                     style: {
+                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                     },
+                     connectorColor: 'silver'
+                 },
+                 showInLegend: true
+             }
+         },
+         series: [{
+             name: 'Brands',
+             colorByPoint: true,
+             data: expe
+         }]
+     });
+ }
+
+
 
 
 

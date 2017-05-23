@@ -19,8 +19,9 @@
         var urlAll = "{% url 'laboratorio:filtrarExperimentos' %}" + "?proyecto={{idProy}}";
         var urlDetails = "{% url 'laboratorio:detallarExperimento'  idExp=0%}";
         var urlVerProtocolos = "{% url 'laboratorio:agregarExperimentoProtocolo'  id=0%}";
+        var urlStartExp = "{% url 'laboratorio:startExperiment'  id=0%}";
         $(document).ready(function () {
-            listarExperiments(urlAll,urlEdit,urlDetails, urlVerProtocolos);
+            listarExperiments(urlAll,urlEdit,urlDetails, urlVerProtocolos,urlStartExp);
         });
     </script>
 {% endblock %}
