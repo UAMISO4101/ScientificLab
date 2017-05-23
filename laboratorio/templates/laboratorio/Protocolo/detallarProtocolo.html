@@ -9,10 +9,6 @@
     <script src="{% static 'js/moment.js'%} "></script>
     <script src="{% static 'js/Laboratory/ProtocoloController.js'%} "></script>
     <script type="application/javascript">
- /*       $(document).ready(function () {
-            $('.jqte_editor').jqte();
-        });*/
-
         $("body").ready(function (){
               $.getJSON("{%url 'laboratorio:listaCategoriasProtocolo'%}").done(mostrarCategoria);
         });
@@ -30,7 +26,7 @@
            for (var i=0; i <response.length; i++){
                categoria = response[i];
                if(categoria.id == categoriaId)
-                   $("#categoria").val(categoria.estado);
+                   $("#categoria").val(categoria.nombre);
            }
         }
         $(document).ready(function(){
