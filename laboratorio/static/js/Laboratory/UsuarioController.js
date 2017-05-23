@@ -71,7 +71,7 @@ function errorLogout() {
 
 function responseSuccessLogout(data) {
     console.log(data)
-    if (data.mensaje == 'ok') {
+    if (data.mensaje === 'ok') {
         location.reload();
     }
     else {
@@ -112,6 +112,14 @@ function getData() {
     user.password =$("#password").val();
     user.password2 =$("#password2").val();
     return user;
+}
+
+function successSaveUser(response) {
+    alertify.success("El usuario se ha guardado correctamente");
+}
+
+function errorSaveUser(e){
+    alertify.error("Error al guardar el usuario");
 }
 
 function saveUser() {
@@ -165,14 +173,6 @@ function trySaveUser() {
     if(dataUserIsCorrect()) {
         saveUser();
     }
-}
-
-function successSaveUser(response) {
-    alertify.success("El usuario se ha guardado correctamente");
-}
-
-function errorSaveUser(e){
-    alertify.error("Error al guardar el usuario");
 }
 
 function getDataLogin() {
