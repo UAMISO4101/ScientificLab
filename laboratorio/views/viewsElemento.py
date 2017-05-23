@@ -6,11 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from ..models import Elemento, Paso, UnidadElemento
 
-#Atiende las peticiones de los Elementos
 @csrf_exempt
 def elementos(request):
 
-    # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
         elemento = Elemento()
@@ -31,18 +29,17 @@ def elementos(request):
             elemento.paso = paso
         elemento.save()
         return HttpResponse(serializers.serialize("json", [elemento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         elementos = Elemento.objects.all()
         return HttpResponse(serializers.serialize("json", elementos), content_type="application/json")
     else:
         raise NotFound(detail="No se encuentra comando rest elementos con metodo " + request.method)
 
-#Atiende las peticiones de un Elemento determinado
+
 @csrf_exempt
 def elementos_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             elemento = Elemento.objects.get(id=id)
@@ -50,7 +47,7 @@ def elementos_id(request, id):
             raise ValidationError({'id': ['No existe elemento ' + id]})
         elemento.delete()
         return JsonResponse({"Mensaje":"Elemento " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             elemento = Elemento.objects.get(id=id)
@@ -78,7 +75,7 @@ def elementos_id(request, id):
         if algoCambio:
             elemento.save()
         return HttpResponse(serializers.serialize("json", [elemento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             elemento = Elemento.objects.get(id=id)
@@ -92,7 +89,6 @@ def elementos_id(request, id):
 #Atiende las peticiones de Unidades de Elemento
 @csrf_exempt
 def lista_unidades_elemento(request):
-    # Si es GET Lista
     if request.method == 'GET':
         try:
             unidades = UnidadElemento().getDict()

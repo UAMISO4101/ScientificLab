@@ -1,0 +1,49 @@
+{% extends 'laboratorio/base.html' %}
+{% load staticfiles %}
+{% block header_text %}
+    <script
+   		   src="https://code.jquery.com/jquery-3.2.1.js"
+   		   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+   		   crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="{% static 'js/Laboratory/TrazabilidadController.js' %}"></script>
+    <script type="application/javascript">
+        var urlProyectMembers = "{% url 'laboratorio:ProjectTraza'%}";
+        var urlProyectProto = "{% url 'laboratorio:ProjectProto'%}";
+        var urlProyectExpe = "{% url 'laboratorio:ProjectExpe'%}";
+        $(document).ready( function () {
+        $.getJSON("{%url 'laboratorio:listaNombreProyectos'%}").done(showProyectsNames);
+    });
+    </script>
+
+{% endblock %}
+{% block content %}
+    <section id="portfolio" >
+        <div class="container">
+            <h1 class="text-center" style="color:#fed136">Trazabilidad del proyecto</h1>
+             <div class="form-group">
+                <label for="projects" class="col-sm-2 control-label">Proyecto: </label>
+                <div class="col-sm-6">
+                    <select class="form-control" name="projects" id="projects">
+                    </select>
+                </div>
+                 <input class="btn btn-warning " id="btnGenerate" type="button" onclick="paintTraza(urlProyectMembers, urlProyectProto, urlProyectExpe);" value="Generar"/>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-3" id="AvanceChart" style="padding-bottom: 5rem; width:50%; "></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3" id="ExperimentosChart" style=" width:30%;height: 320px;"></div>
+                <div class="col-md-3" id="ProtocolosChart" style=" width:30%;height: 320px;"></div>
+                <div class="col-md-3" id="ParticipantesChart" style=" width:30%;height: 320px;"></div>
+             </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -68,12 +68,15 @@
                         <a class="page-scroll" id="linkProjects" href="{% url 'laboratorio:listarProyectos' %}">Proyectos</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="{% url 'laboratorio:listarProtocolos' %}">Protocolos</a>
+                        <a class="page-scroll" id="linkProtocolos" href="{% url 'laboratorio:listarProtocolos' %}">Protocolos</a>
+
                     </li>
                     <li>
                         <a class="page-scroll" id="linkReports" href="{% url 'laboratorio:reporteAvance' %}">Reportes</a>
                     </li>
-
+                    <li>
+                        <a class="page-scroll" id="linkTraza" href="{% url 'laboratorio:reporteTraza' %}">Trazabilidad</a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li id="cerrar_sesion" logout-url="{%url 'laboratorio:cerrarSesion' %}" style="display: none;">

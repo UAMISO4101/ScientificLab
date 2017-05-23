@@ -6,10 +6,11 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from datetime import datetime
-from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto
+from ..models import Experimento, Proyecto, Responsable, Protocolo, ResultadoExperimento, EstadoProyecto, \
+    ProtocolosExperimento
 from django.shortcuts import render
 from rest_framework import generics
-from ..serializers import ExperimentoSerializer
+from ..serializers import ExperimentoSerializer, ProtocolosXExperimentoProyectoSerealizer
 
 
 class ExperimentoLista(generics.ListAPIView):
@@ -22,36 +23,60 @@ class ExperimentoLista(generics.ListAPIView):
             experimentos = Experimento.objects.all()
         return experimentos
 
+class ProtocolosExperimentosProyecto(generics.ListAPIView):
+    serializer_class = ProtocolosXExperimentoProyectoSerealizer
+    #Trazabilidad: Protocolos finalizados
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        print(id)
+        listExperimentos = list()
+        if (id):
+            for Resp in Experimento.objects.filter(proyecto_id=id).select_related('proyecto'):
+                for Proto in ProtocolosExperimento.objects.filter(experimento_id=Resp.id):
+                    listExperimentos.append(Resp)
+        return listExperimentos
 
-def agregar_experimento(request, id):
-    proyecto = Proyecto.objects.get(id=id)
-    return render(request, 'laboratorio/Experimento/agregarExperimento.html', {"idProy": id, "nombreProyecto": proyecto.nombre})
+class ExperimentosProyecto(generics.ListAPIView):
+    serializer_class = ProtocolosXExperimentoProyectoSerealizer
+    #Trazabilidad: Protocolos finalizados
+    def get_queryset(self):
+        id = self.request.query_params.get('id')
+        print(id)
+        listExperimentos = list()
+        if (id):
+            for Resp in Experimento.objects.filter(proyecto_id=id).select_related('proyecto'):
+                listExperimentos.append(Resp)
+        return listExperimentos
+
+def agregar_experimento(request, idProy):
+    proyecto = Proyecto.objects.get(id=idProy)
+    return render(request, 'laboratorio/Experimento/agregarExperimento.html', {"idProy": idProy, "nombreProyecto": proyecto.nombre})
 
 
-def listar_experimentos(request, id):
-    proyecto = Proyecto.objects.get(id=id)
-    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": id, "nombreProyecto": proyecto.nombre})
+def listar_experimentos(request, idProy):
+    proyecto = Proyecto.objects.get(id=idProy)
+    return render(request, 'laboratorio/Experimento/experimentos.html', {"idProy": idProy, "nombreProyecto": proyecto.nombre})
 
-def agregar_expeprotocolo(request, id):
+def agregar_expeprotocolo(request, idExp):
     return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
-                  {"experimento": Experimento.objects.get(id=id)})
+                  {"experimento": Experimento.objects.get(id=idExp)})
 
 
-def detallar_experimento(request, id):
-    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimento": Experimento.objects.get(id=id)})
+def detallar_experimento(request, idExp):
+    return render(request, 'laboratorio/Experimento/detallarExperimento.html', {"experimento": Experimento.objects.get(id=idExp)})
 
 
-def editar_experimento(request, id):
-    experimento= Experimento.objects.get(id=id)
+def editar_experimento(request, idExp):
+    experimento= Experimento.objects.get(id=idExp)
     proy = Proyecto.objects.get(id=experimento.proyecto.id)
     return render(request, 'laboratorio/Experimento/editarExperimento.html',
-                  {"experimento": Experimento.objects.get(id=id),"nombreProyecto": proy.nombre})
+                  {"experimento": Experimento.objects.get(id=idExp),"nombreProyecto": proy.nombre})
 
 
 #Atiende las peticiones de los Experimentos
 @csrf_exempt
 def experimentos(request):
-    # Si es POST Graba
+
     if request.method == 'POST':
         data = request.POST
         experimento = Experimento()
@@ -88,7 +113,7 @@ def experimentos(request):
             experimento.responsable = responsable
         experimento.save()
         return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         experimentos = Experimento.objects.all()
         return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
@@ -96,11 +121,9 @@ def experimentos(request):
         raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
 
 
-#Atiende las peticiones de un Experimento determinado
+
 @csrf_exempt
 def experimentos_id(request, id):
-
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -108,7 +131,7 @@ def experimentos_id(request, id):
             raise ValidationError({'id': ['No existe experimento ' + id]})
         experimento.delete()
         return JsonResponse({"Mensaje":"Experimento " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -156,7 +179,7 @@ def experimentos_id(request, id):
         if algoCambio:
             experimento.save()
         return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -168,7 +191,7 @@ def experimentos_id(request, id):
 
 @csrf_exempt
 def proyecto_id_experimentos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         return render(request, 'laboratorio/Experimento/experimentos.html', {"proy": Proyecto.objects.get(proyecto=id)})
 
@@ -176,7 +199,7 @@ def proyecto_id_experimentos(request, id):
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def experimentos_id_protocolos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -191,7 +214,7 @@ def experimentos_id_protocolos(request, id):
 #Atiende las peticiones de Resultados de Experimento
 @csrf_exempt
 def lista_resultados_experimento(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             resultados = ResultadoExperimento().getDict()
@@ -205,7 +228,7 @@ def lista_resultados_experimento(request):
 #Atiende las peticiones de Estados del Experimento
 @csrf_exempt
 def lista_estados_experimento(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             estados = ResultadoExperimento().getDictStates()
@@ -218,7 +241,7 @@ def lista_estados_experimento(request):
 
 @csrf_exempt
 def lista_nombre_proyecto(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             Nombre_proyectos = Proyecto.objects.all()

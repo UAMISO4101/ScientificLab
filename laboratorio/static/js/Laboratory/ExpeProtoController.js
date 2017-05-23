@@ -1,30 +1,18 @@
-/**
- * Created by Lenovo on 28/03/2017.
- */
-url="/laboratorio/Experimento/experimentos/";
-function listarProtocolosExperimento(buscar){
-    var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": host+url+buscar+"/protocolos/",
-    "method": "GET",
-    "headers": {}
-    }
-    var html="";
-
-     $.ajax(settings).done(function (response) {
-         for(var i in response) {
-                var objeto = response[i] ;
-                html+="<tr class='alt'>";
-                html+="<td>"+objeto.fields.titulo+"</td>";
-                html+="<td>"+objeto.fields.descripcion+"</td>";
-                html+="<td>"+objeto.fields.version+"</td>";
-                html+="<td>"+objeto.fields.categoria+"</td>";
-                html+="</tr>";
-         }
-       $("#myTable tbody").html(html);
-        //console.log(response);
-   });
+function listarProtocolosExperimento(buscar, urlFilter){
+      var table = $("#myTable").DataTable( {
+        "ajax": {
+            "url":  host+urlFilter+'?experimento='+buscar,
+             "method": "GET",
+            "dataSrc": ""
+        },
+        "columns": [
+            { data: "protocolo.titulo" },
+            { data: "protocolo.descripcion" },
+            { data: "protocolo.version" },
+            { data: "protocolo.categoria" },
+            { data: "protocolo.habilitado" }
+        ]
+        } );
 }
 
 function showProtocolos(response) {
@@ -37,28 +25,28 @@ function showProtocolos(response) {
     }
 }
 
-function agregarExperimentoProtocolo(id)
+function agregarExperimentoProtocolo(id,ulrAddExp)
 {
     var data = {};
     data.idExperimento =id;
-    data.idProtocolo = $('#protocolo option:selected').val();
+    data.idProtocolo = $("#protocolo option:selected").val();
 
     if(protocolo==-1)
     {
-        alert("Debe seleccionar  un protocolo ")
+        alert("Debe seleccionar  un protocolo ");
         return false;
     }
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": host+"/laboratorio/protocolosExperimento/",
+    "url": host+ulrAddExp,
     "method": "POST",
     "headers": {
     "content-type": "application/json"
     },
     "processData": false,
     "data": JSON.stringify(data)
-    }
+    };
     if(confirm("Esta seguro de agregar un nuevo protocolo ?")) {
         // alert("Responde ");
         $.ajax(settings).done(function (response) {

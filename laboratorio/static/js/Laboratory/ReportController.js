@@ -1,3 +1,7 @@
+function errorGetProgress(response) {
+    alertify.error("Error al obtener información del proyecto");
+}
+
 function showProyectsNames(response){
     var nameProyectList =$("#projects");
     var project;
@@ -8,36 +12,25 @@ function showProyectsNames(response){
     }
  }
 
- function paintChart(urlListProgress) {
-     var idProject= $('#projects option:selected').val();
-     if(idProject === undefined || idProject == -1) {
-         alertify.error("Seleccione un proyecto para poder generar la gráfica de avance.");
-         return;
-     }
-     urlListProgress +="?id="+idProject+'&orderBy=ASC';
-     listProgress(urlListProgress);
- }
-
- function listProgress(urlListProgress){
-
-     $.ajax({
-        url:host+urlListProgress,
-        method:"GET",
-        success:function(response){
-            paintTableProgress(response);
-            paintChartProgress(response);
-        },
-        error:errorGetProgress,
-        async:true,
-        crossDomain:true
-    });
+ function getDates(data) {
+    var dates = [];
+    for(i =0; i<data.length;i++)
+    {
+     dates[i] = data[i].fecha;
+    }
+    return dates;
 }
 
-function errorGetProgress(response) {
-    alertify.error("Error al obtener información del proyecto");
+  function getListProgress(data) {
+    var progressList = [];
+    for(i =0; i<data.length;i++)
+    {
+     progressList[i] = data[i].reporte;
+    }
+    return progressList;
 }
 
-function  paintTableProgress(data) {
+ function  paintTableProgress(data) {
     $('#listProgress').removeAttr("hidden");
 
     var table = $('#listReportedProgress');
@@ -54,20 +47,20 @@ function  paintTableProgress(data) {
 }
 
 function paintChartProgress(data) {
-    var project= $('#projects option:selected').text();
-    Highcharts.chart('progressChart', {
+    var project= $("#projects option:selected").text();
+    Highcharts.chart("progressChart", {
         chart: {
-            type: 'line'
+            type: "line"
         },
         title: {
-            text: 'Avance del proyecto '+ project
+            text: "Avance del proyecto "+ project
         },
         xAxis: {
             categories: getDates(data)
         },
         yAxis: {
             title: {
-                text: '% de avance'
+                text: "% de avance"
             }
         },
         plotOptions: {
@@ -85,20 +78,32 @@ function paintChartProgress(data) {
     });
 }
 
-function getDates(data) {
-    var dates = [];
-    for(i =0; i<data.length;i++)
-    {
-     dates[i] = data[i].fecha;
-    }
-    return dates;
-}
+ function listProgress(urlListProgress){
 
-function getListProgress(data) {
-    var progressList = [];
-    for(i =0; i<data.length;i++)
-    {
-     progressList[i] = data[i].reporte;
-    }
-    return progressList;
+     $.ajax({
+        url:host+urlListProgress,
+        method:"GET",
+        success:function(response){
+            paintTableProgress(response);
+            paintChartProgress(response);
+        },
+        error:errorGetProgress,
+        async:true,
+        crossDomain:true
+    });
 }
+ function paintChart(urlListProgress) {
+     var idProject= $('#projects option:selected').val();
+     if(idProject === undefined || idProject == -1) {
+         alertify.error("Seleccione un proyecto para poder generar la gráfica de avance.");
+         return;
+     }
+     urlListProgress +="?id="+idProject+'&orderBy=ASC';
+     listProgress(urlListProgress);
+ }
+
+
+
+
+
+

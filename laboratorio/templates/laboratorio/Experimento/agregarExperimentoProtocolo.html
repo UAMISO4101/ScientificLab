@@ -3,12 +3,23 @@
 {% block header_text %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'js/Laboratory/ExpeProtoController.js' %}"></script>
+ <script
+   		   src="https://code.jquery.com/jquery-3.2.1.js"
+   		   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+   		   crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+
     <script>
-$(document).ready(listarProtocolosExperimento({{ experimento.id}}));
-</script>
+
+    </script>
     <script type="application/javascript">
         $("body").ready(function (){
+             var urlFilter = "{%url 'laboratorio:filtrarProtocolosExperimentos'%}";
              $.getJSON("{%url 'laboratorio:protocolos'%}").done(showProtocolos);
+             $(document).ready(listarProtocolosExperimento({{ experimento.id}}, urlFilter));
         });
     </script>
 {% endblock %}
@@ -30,7 +41,7 @@ $(document).ready(listarProtocolosExperimento({{ experimento.id}}));
                     </div>
                     </td>
                     <td>
-                    <button type="button" class="btn btn-primary" onclick="agregarExperimentoProtocolo({{ experimento.id}})">Agregar</button>
+                    <button type="button" class="btn btn-primary" onclick="agregarExperimentoProtocolo({{ experimento.id}},'{%url 'laboratorio:protocolosExperimento'%}' )">Agregar</button>
                     </td>
                     </tr>
                     </table>
@@ -47,23 +58,10 @@ $(document).ready(listarProtocolosExperimento({{ experimento.id}}));
                                 <th>Descripción</th>
                                 <th>Versión</th>
                                 <th>Categoria</th>
+                                <th>Habilitado</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div id="paging">
-                                        <ul>
-                                            <li><a href="#"><span>Previous</span></a></li>
-                                            <li><a href="#" class="active"><span>1</span></a></li>
-                                            <li><a href="#"><span>Next</span></a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
                         <tbody>
-<!----!-->
                         </tbody>
                     </table>
                 </div>

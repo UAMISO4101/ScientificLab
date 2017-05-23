@@ -10,17 +10,24 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="{% static 'js/Laboratory/ProtocoloController.js' %}"></script>
+    <link href="{% static 'css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'css/alertify.rtl.css' %}" rel="stylesheet">
     <script>
     $(document).ready( function () {
-        listarProtocolos();
+        var urlNewVersion = "{% url 'laboratorio:protocoloIdNuevaVersion' id=0 %}";
+        var urlDisable = "{% url 'laboratorio:protocoloIdDesahabilitar' id=0 %}";
+        var urlFilter = "{% url 'laboratorio:ProtocoloFiltro'%}";
+        var urlDetails = "{% url 'laboratorio:detallarProtocolo'  id=0%}";
+        var urlEdit = "{% url 'laboratorio:editProtocol' id=0 %}";
+        listarProtocolos(urlDetails,urlEdit,urlNewVersion,urlDisable,urlFilter);
     } );
-
     </script>
 {% endblock %}
 {% block content %}
     <section id="portfolio" >
         <div class="container">
             <h1 class="text-center" style="color:#fed136">Protocolos</h1>
+            <a id="linkAgregarProtocolo" href="{%url 'laboratorio:agregarProtocolo'%}" class="btn btn-success btn-round img-crear"><span class="glyphicon glyphicon-plus"></span></a>
             <div class="row">
                 <div class="datagrid ">
                     <table id="myTable" class="table table-hover table-bordered">
@@ -30,6 +37,7 @@
                                 <th>Descripción</th>
                                 <th>Versión</th>
                                 <th>Categoria</th>
+                                <th>Habilitado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>

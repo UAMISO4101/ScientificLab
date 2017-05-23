@@ -6,7 +6,18 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.exceptions import ValidationError, NotFound
 from ..models import ProtocolosExperimento, Protocolo, Experimento
 from django.shortcuts import render
+from rest_framework import generics
+from ..serializers import ProtocolosExperimentoSerealizer
 
+class ProtocolosExperimentoLista(generics.ListAPIView):
+    serializer_class = ProtocolosExperimentoSerealizer
+    def get_queryset(self):
+        experimento = self.request.query_params.get('experimento')
+        if(experimento !=0 ):
+            protocolosexperimentos = ProtocolosExperimento.objects.filter(experimento_id=experimento)
+        else:
+            protocolosexperimentos = ProtocolosExperimento.objects.all()
+        return protocolosexperimentos
 
 def agregar_expeprotocolo(request, id):
     return render(request, 'laboratorio/Experimento/agregarExperimentoProtocolo.html',
@@ -16,7 +27,6 @@ def agregar_expeprotocolo(request, id):
 @csrf_exempt
 def protocolosExperimento(request):
 
-    # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
         protocoloExperimento = ProtocolosExperimento()
@@ -38,7 +48,7 @@ def protocolosExperimento(request):
             protocoloExperimento.experimento = experimento
         protocoloExperimento.save()
         return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         protocolosExperimento = ProtocolosExperimento.objects.all()
         return HttpResponse(serializers.serialize("json", protocolosExperimento), content_type="application/json")
@@ -49,7 +59,6 @@ def protocolosExperimento(request):
 @csrf_exempt
 def protocolosExperimento_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             protocoloExperimento = ProtocolosExperimento.objects.get(id=id)
@@ -57,7 +66,7 @@ def protocolosExperimento_id(request, id):
             raise ValidationError({'id': ['No existe Protocolo Experimento ' + id]})
         protocoloExperimento.delete()
         return JsonResponse({"Mensaje":"ProtocoloExperimento " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             protocoloExperimento = ProtocolosExperimento.objects.get(id=id)
@@ -84,7 +93,7 @@ def protocolosExperimento_id(request, id):
         if algoCambio:
             protocoloExperimento.save()
         return HttpResponse(serializers.serialize("json", [protocoloExperimento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             protocoloExperimento = ProtocolosExperimento.objects.get(id=id)
