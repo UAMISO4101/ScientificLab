@@ -12,6 +12,15 @@ function showProyectsNames(response){
     }
  }
 
+ function getDates(data) {
+    var dates = [];
+    for(i =0; i<data.length;i++)
+    {
+     dates[i] = data[i].fecha;
+    }
+    return dates;
+}
+
   function getListProgress(data) {
     var progressList = [];
     for(i =0; i<data.length;i++)
@@ -93,14 +102,6 @@ function paintChartProgress(data) {
      listProgress(urlListProgress);
  }
 
-function getDates(data) {
-    var dates = [];
-    for(i =0; i<data.length;i++)
-    {
-     dates[i] = data[i].fecha;
-    }
-    return dates;
-}
 
 
 
