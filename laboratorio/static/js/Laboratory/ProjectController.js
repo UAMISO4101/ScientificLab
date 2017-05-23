@@ -1,10 +1,14 @@
-function validateData(createProject){
-    if(dataIsCorrect()) {
-        if(createProject)
-            saveProject();
-        else
-            updateProject();
-    }
+function getData() {
+     var project = {};
+    project.nombre =$("#nombre").val();
+    project.descripcion =$("#descripcion").val();
+    project.fechaInicio =$("#fechaInicio").val();
+    project.fechaFinal =$("#fechaFinal").val();
+    project.prioridad =$("#prioridad").val();
+    project.estado =$("#estado option:selected").val();
+    project.idPatrocinador =$("#patrocinador option:selected").val();
+
+    return project;
 }
 
 function dataIsCorrect() {
@@ -58,6 +62,14 @@ function dataIsCorrect() {
     return true;
 }
 
+function successSaveProject(response) {
+    alertify.success("El proyecto se ha guardado correctamente");
+}
+
+function errorSaveProject(e){
+    alertify.error("Error al guardar el proyecto");
+}
+
 function saveProject() {
     var url = $("#formProject").attr("data-project-url");
     $.ajax({
@@ -83,25 +95,13 @@ function updateProject() {
     });
 }
 
-function getData() {
-     var project = {};
-    project.nombre =$("#nombre").val();
-    project.descripcion =$("#descripcion").val();
-    project.fechaInicio =$("#fechaInicio").val();
-    project.fechaFinal =$("#fechaFinal").val();
-    project.prioridad =$("#prioridad").val();
-    project.estado =$("#estado option:selected").val();
-    project.idPatrocinador =$("#patrocinador option:selected").val();
-
-    return project;
-}
-
-function successSaveProject(response) {
-    alertify.success("El proyecto se ha guardado correctamente");
-}
-
-function errorSaveProject(e){
-    alertify.error("Error al guardar el proyecto");
+function validateData(createProject){
+    if(dataIsCorrect()) {
+        if(createProject)
+            saveProject();
+        else
+            updateProject();
+    }
 }
 
 function showProjectStates(response){

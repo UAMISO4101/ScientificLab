@@ -1,6 +1,47 @@
+function dataProtocoloIsCorrect() {
+    if($("#titulo").val().trim() === "") {
+        alertify.error("El titulo del protocolo es requerido",2);
+        return false;
+    }
 
-var table ;
-var data ;
+    if($("#version").val()<0) {
+        alertify.error("La version debe ser mayor a 1",2);
+        return false;
+    }
+
+    if($("#categoria option:selected").val() === "-1") {
+        alertify.error("Seleccione una categoria",2);
+        return false;
+    }
+
+    if($("#descripcion").val().trim() === "") {
+        alertify.error("La descripcion no debe ser nula",2);
+        return false;
+    }
+
+    return true;
+}
+
+function deshabilitarProtocolo(id, urlDisable)
+{
+    var url = urlDisable.replace(0,id);
+    var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": host+url,
+    "method": "POST",
+    "headers": {}
+    }
+
+    if(confirm("Esta seguro de deshabilitar el protocolo ?")) {
+        $.ajax(settings).done(function (response) {
+            alert("Se deshabilito con exito")
+            location.reload();
+        });
+    }else{
+        return false;
+    }
+}
 
 function crearVersion(id, urlNewVersion) {
     var url = urlNewVersion.replace(0, id);
@@ -59,10 +100,12 @@ var  listarProtocolos= function(urlDetails,urlEdit, urlNewVersion,urlDisable,url
         } );
 }
 
-function trySaveProtocolo() {
-    if(dataProtocoloIsCorrect()) {
-        saveProtocolo();
-    }
+function successSaveProtocolo(response) {
+    alertify.success("El protocolo se ha guardado correctamente");
+}
+
+function errorSaveProtocolo(e){
+    alertify.error("Error al guardar el protocolo");
 }
 
 function updateProtocol() {
@@ -81,30 +124,6 @@ function updateProtocol() {
         error:errorSaveProtocolo,
         dataType: "json"
     });
-}
-
-function dataProtocoloIsCorrect() {
-    if($("#titulo").val().trim() === "") {
-        alertify.error("El titulo del protocolo es requerido",2);
-        return false;
-    }
-
-    if($("#version").val()<0) {
-        alertify.error("La version debe ser mayor a 1",2);
-        return false;
-    }
-
-    if($("#categoria option:selected").val() === "-1") {
-        alertify.error("Seleccione una categoria",2);
-        return false;
-    }
-
-    if($("#descripcion").val().trim() === "") {
-        alertify.error("La descripcion no debe ser nula",2);
-        return false;
-    }
-
-    return true;
 }
 
 function getData() {
@@ -129,14 +148,11 @@ function saveProtocolo() {
     });
 }
 
-function successSaveProtocolo(response) {
-    alertify.success("El protocolo se ha guardado correctamente");
+function trySaveProtocolo() {
+    if(dataProtocoloIsCorrect()) {
+        saveProtocolo();
+    }
 }
-
-function errorSaveProtocolo(e){
-    alertify.error("Error al guardar el protocolo");
-}
-
 
 function showCategorias(response) {
     var categoriasList  =$("#categoria");
@@ -145,27 +161,6 @@ function showCategorias(response) {
     for (var i=0; i <response.length; i++){
         categoria = response[i];
         categoriasList.append(new Option(categoria.nombre, categoria.id));
-    }
-}
-
-function deshabilitarProtocolo(id, urlDisable)
-{
-    var url = urlDisable.replace(0,id);
-    var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": host+url,
-    "method": "POST",
-    "headers": {}
-    }
-
-    if(confirm("Esta seguro de deshabilitar el protocolo ?")) {
-        $.ajax(settings).done(function (response) {
-            alert("Se deshabilito con exito")
-            location.reload();
-        });
-    }else{
-        return false;
     }
 }
 

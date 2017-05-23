@@ -40,6 +40,14 @@ function dataIsCorrect() {
     return true;
 }
 
+function successSaveExperiment(response) {
+    alertify.success("El experimento se ha guardado correctamente");
+}
+
+function errorSaveExperiment(response){
+    alertify.error("Error al guardar el experimento");
+}
+
 function getData() {
     var experiment = {};
     experiment.nombre =$("#nombre").val();
@@ -87,14 +95,6 @@ function validateData(createExperiment){
     }
 }
 
-function successSaveExperiment(response) {
-    alertify.success("El experimento se ha guardado correctamente");
-}
-
-function errorSaveExperiment(response){
-    alertify.error("Error al guardar el experimento");
-}
-
 function showResponsables(response){
     var responsablesList =$("#responsable");
     var responsable;
@@ -132,7 +132,9 @@ function setDate(date, id){
 
 var table;
 var data;
-function listarExperiments(urlAll, urlEdit, urlDetails,urlVerProtocolos){
+
+
+function listarExperiments(urlAll, urlEdit, urlDetails, urlVerProtocolos){
     var btnEditar = "<a href='"+ urlEdit + "' class='btn btn-info btn-round' title='Editar'><span class='glyphicon glyphicon-pencil'></span></a>";
     var btnDetallar = "<a href='"+urlDetails +"'  class='btn btn-info btn-round' title='Detallar'><span class='glyphicon glyphicon-cog'></span></a>";
     var btnIniciar = "<a href='' onclick='iniciar(0)' class='btn btn-info'  title='Iniciar'>Iniciar</a>";
@@ -171,9 +173,7 @@ function listarExperiments(urlAll, urlEdit, urlDetails,urlVerProtocolos){
         ]
         } );
 }
-function iniciar(id) {
-    startExperiment(id, urlAll ,urlEdit.replace("0",id), urlDetails.replace("0",id),urlStartExperiment.replace("0",id));
-}
+
 function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
     $.ajax({
         url: urlStartExp.replace("{idExp}", id),
@@ -185,4 +185,8 @@ function startExperiment(id,urlAll, urlEdit, urlDetails,urlStartExp){
         error:errorSaveExperiment,
         dataType: "json"
     });
+}
+
+function iniciar(id) {
+    startExperiment(id, urlAll ,urlEdit.replace("0",id), urlDetails.replace("0",id),urlStartExperiment.replace("0",id));
 }
