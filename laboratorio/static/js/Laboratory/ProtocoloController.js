@@ -1,15 +1,13 @@
-/**
- * Created by Lenovo on 26/03/2017.
- */
-url="/laboratorio/protocolofiltro" ;
+
 var table ;
 var data ;
 
-function crearVersion(id) {
+function crearVersion(id, urlNewVersion) {
+    var url = urlNewVersion.replace(0, id);
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": host+"/laboratorio/protocolos/"+id+"/nuevaVersion/",
+    "url": host+url,
     "method": "POST",
     "headers": {}
     }
@@ -24,13 +22,14 @@ function crearVersion(id) {
     }
 }
 
-var  listarProtocolos= function(urlEdit){
-var btnEdit="<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>";
-var btnNewVersion="<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a>";
-var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>";
- var table = $("#myTable").DataTable( {
+var  listarProtocolos= function(urlDetails,urlEdit, urlNewVersion,urlDisable,urlFilter){
+    var btnDetallar = "<a href='"+urlDetails +"' id='Details_0'  class='btn btn-info btn-round'><span class='glyphicon glyphicon-cog'></span></a>";
+    var btnEdit="<a href='"+ urlEdit +" ' class='btn btn-info btn-round' ><span class='glyphicon glyphicon-pencil'></span></a>";
+    var btnNewVersion="<a href='#'  id='btn' class='btn btn-info btn-round' title='Agregar Version'><span class='glyphicon glyphicon-plus'></span></a>";
+    var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' title='Deshabilitar'><span class='glyphicon glyphicon-remove'></span></a>";
+    var table = $("#myTable").DataTable( {
         "ajax": {
-            "url":  host+url,
+            "url":  host+urlFilter,
             "dataSrc": ""
         },
         "columns": [
@@ -41,7 +40,7 @@ var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' ti
             { data: "habilitado" },
             { sortable: false,
               "render": function ( data, type, row, meta ) {
-               return btnNewVersion+ btnDisable+btnEdit.replace ("0",row.id)
+               return btnNewVersion+ btnDisable+btnEdit.replace (/0/g,row.id)+btnDetallar.replace (/0/g,row.id);
               }
              }
         ]
@@ -49,13 +48,13 @@ var btnDisable="<a href='#'  id='deshabilitar' class='btn btn-info btn-round' ti
 
         $("#myTable tbody").on( "click", "#btn", function () {
             var data = table.row( $(this).parents("tr") ).data();
-            crearVersion(data.id)
+            crearVersion(data.id, urlNewVersion);
 
         } );
 
         $("#myTable tbody").on( "click", "#deshabilitar", function () {
             var data = table.row( $(this).parents("tr") ).data();
-            deshabilitarProtocolo(data.id)
+            deshabilitarProtocolo(data.id, urlDisable);
 
         } );
 }
@@ -149,12 +148,13 @@ function showCategorias(response) {
     }
 }
 
-function deshabilitarProtocolo(id)
+function deshabilitarProtocolo(id, urlDisable)
 {
+    var url = urlDisable.replace(0,id);
     var settings = {
     "async": true,
     "crossDomain": true,
-    "url": host+"/laboratorio/protocolos/"+id+"/deshabilitar/",
+    "url": host+url,
     "method": "POST",
     "headers": {}
     }
@@ -168,3 +168,14 @@ function deshabilitarProtocolo(id)
         return false;
     }
 }
+
+function showCategorias(response) {
+    var categoriasList  =$("#categoria");
+    var categoria;
+    categoriasList.append(new Option("Seleccione una categoria", -1));
+    for (var i=0; i <response.length; i++){
+        categoria = response[i];
+        categoriasList.append(new Option(categoria.nombre, categoria.id));
+    }
+}
+

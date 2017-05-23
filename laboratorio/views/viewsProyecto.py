@@ -95,7 +95,7 @@ def proyectos(request):
             proyecto.patrocinador = patrocinador
         proyecto.save()
         return HttpResponse(serializers.serialize("json", [proyecto]))
-    # Si es GET Lista
+
     elif request.method == 'GET':
         proyectos = Proyecto.objects.all()
         calculateProgress(proyectos)
@@ -117,7 +117,6 @@ def calculateProgress(projects):
 @csrf_exempt
 def proyectos_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             proyecto = Proyecto.objects.get(id=id)
@@ -125,7 +124,7 @@ def proyectos_id(request, id):
             raise ValidationError({'id': ['No existe Proyecto ' + id]})
         proyecto.delete()
         return JsonResponse({"Mensaje":"Proyecto " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             proyecto = Proyecto.objects.get(id=id)
@@ -171,7 +170,7 @@ def proyectos_id(request, id):
         if algoCambio:
             proyecto.save()
         return HttpResponse(serializers.serialize("json", [proyecto]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             proyecto = Proyecto.objects.get(id=id)
@@ -185,7 +184,7 @@ def proyectos_id(request, id):
 #Atiende las peticiones de un Proyecto determinado
 @csrf_exempt
 def proyectos_id_experimentos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             proyecto = Proyecto.objects.get(id=id)
@@ -200,7 +199,7 @@ def proyectos_id_experimentos(request, id):
 #Atiende las peticiones de Estados de Proyecto
 @csrf_exempt
 def lista_estados_proyecto(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             estados = EstadoProyecto().getDict()

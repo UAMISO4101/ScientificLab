@@ -1,5 +1,6 @@
 function paintLoginElements(data) {
-    if (data.mensaje === "no") {
+    console.log(data)
+    if (data.mensaje === 'no') {
         $("#lst_menu").hide();
         $("#cerrar_sesion").hide();
         $("#registrar_usuario").show();
@@ -17,10 +18,6 @@ function paintLoginElements(data) {
     }
 }
 
-function errorPaintLoginElements() {
-        alertify.error("No es posible obtener el estado de logueo del usuario");
-}
-
 function showLoginElements(){
     var url = $("#iniciar_sesion").attr("is-logged-url");
     $.ajax({
@@ -32,18 +29,20 @@ function showLoginElements(){
         crossDomain:true
     });
 }
+
+
+function errorPaintLoginElements() {
+        alertify.error("No es posible obtener el estado de logueo del usuario");
+}
+
 function responseSuccessLogout(data) {
     console.log(data)
-    if (data.mensaje === "ok") {
+    if (data.mensaje == 'ok') {
         location.reload();
     }
     else {
         alertify.error("No es posible realizar el logout");
     }
-}
-
-function errorLogout() {
-        alertify.error("No es posible obtener el resultado de logout");
 }
 
 function doLogout(){
@@ -58,22 +57,8 @@ function doLogout(){
     });
 }
 
-function getData() {
-    var user = {};
-    user.username =$("#username").val();
-    user.first_name =$("#first_name").val();
-    user.last_name =$("#last_name").val();
-    user.email =$("#email").val();
-    user.password =$("#password").val();
-    user.password2 =$("#password2").val();
-    return user;
-}
-function successSaveUser(response) {
-    alertify.success("El usuario se ha guardado correctamente");
-}
-
-function errorSaveUser(e){
-    alertify.error("Error al guardar el usuario");
+function errorLogout() {
+        alertify.error("No es posible obtener el resultado de logout");
 }
 
 function saveUser() {
@@ -88,49 +73,70 @@ function saveUser() {
     });
 }
 
+function trySaveUser() {
+    if(dataUserIsCorrect()) {
+        saveUser();
+    }
+}
+
+function getData() {
+    var user = {};
+    user.username =$("#username").val();
+    user.first_name =$("#first_name").val();
+    user.last_name =$("#last_name").val();
+    user.email =$("#email").val();
+    user.password =$("#password").val();
+    user.password2 =$("#password2").val();
+    return user;
+}
+
+function successSaveUser(response) {
+    alertify.success("El usuario se ha guardado correctamente");
+}
+
+function errorSaveUser(e){
+    alertify.error("Error al guardar el usuario");
+}
+
 function dataUserIsCorrect() {
 
-    if($("#username").val().trim() === "") {
+    if($("#username").val().trim() === '') {
         alertify.error("El nombre de usuario es requerido",2);
         return false;
     }
 
-    if($("#first_name").val().trim() === "") {
+    else if($("#first_name").val().trim() === '') {
         alertify.error("Los nombres son requeridos",2);
         return false;
     }
 
-    if($("#last_name").val().trim() === "") {
+    else if($("#last_name").val().trim() === '') {
         alertify.error("Los apellidos son requeridos",2);
         return false;
     }
 
-    if($("#email").val().trim() === "") {
+    else if($("#email").val().trim() === '') {
         alertify.error("El correo electrónico es requerido",2);
         return false;
     }
 
-    if($("#password").val().trim() === "") {
+    else if($("#password").val().trim() === '') {
         alertify.error("La clave es requerida",2);
         return false;
     }
 
-    if($("#password2").val().trim() === "") {
+    else if($("#password2").val().trim() === '') {
         alertify.error("La verificación de clave es requerida",2);
         return false;
     }
 
-    if($("#password").val() != $("#password2").val()) {
+    else if($("#password").val() !== $("#password2").val()) {
         alertify.error("Las contraseñas no coinciden",2);
         return false;
     }
 
-    return true;
-}
-
-function trySaveUser() {
-    if(dataUserIsCorrect()) {
-        saveUser();
+    else {
+        return true;
     }
 }
 
@@ -160,7 +166,7 @@ function loginUser() {
 }
 
 function successLoginUser(response) {
-    if (response.mensaje === "ok")
+    if (response.mensaje == "ok")
         window.location = $("#formLogin").attr("index-url");
     else
         alertify.error(response.mensaje);
@@ -172,12 +178,12 @@ function errorLoginUser(e){
 
 function dataLoginIsCorrect() {
 
-    if($("#username").val().trim() === "") {
+    if($("#username").val().trim() == '') {
         alertify.error("El nombre de usuario es requerido",2);
         return false;
     }
 
-    if($("#password").val().trim() === "") {
+    if($("#password").val().trim() == '') {
         alertify.error("La clave es requerida",2);
         return false;
     }

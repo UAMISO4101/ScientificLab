@@ -11,7 +11,6 @@ from ..models import Patrocinador, Proyecto
 @csrf_exempt
 def patrocinadores(request):
 
-    # Si es POST Graba
     if request.method == 'POST':
         data = json.loads(request.body)
         patrocinador = Patrocinador()
@@ -21,7 +20,7 @@ def patrocinadores(request):
             patrocinador.nombre = data["nombre"]
         patrocinador.save()
         return HttpResponse(serializers.serialize("json", [patrocinador]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         patrocinadores = Patrocinador.objects.all()
         return HttpResponse(serializers.serialize("json", patrocinadores), content_type="application/json")
@@ -33,7 +32,6 @@ def patrocinadores(request):
 @csrf_exempt
 def patrocinadores_id(request, id):
 
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             patrocinador = Patrocinador.objects.get(id=id)
@@ -41,7 +39,7 @@ def patrocinadores_id(request, id):
             raise ValidationError({'id': ['No existe patrocinador ' + id]})
         patrocinador.delete()
         return JsonResponse({"Mensaje":"Patrocinador " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             patrocinador = Patrocinador.objects.get(id=id)
@@ -55,7 +53,7 @@ def patrocinadores_id(request, id):
         if algoCambio:
             patrocinador.save()
         return HttpResponse(serializers.serialize("json", [patrocinador]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             patrocinador = Patrocinador.objects.get(id=id)
@@ -68,7 +66,7 @@ def patrocinadores_id(request, id):
 #Atiende las peticiones de un Patrocinador determinado
 @csrf_exempt
 def patrocinadores_id_proyectos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             patrocinador = Patrocinador.objects.get(id=id)

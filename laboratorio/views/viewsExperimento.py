@@ -76,7 +76,7 @@ def editar_experimento(request, idExp):
 #Atiende las peticiones de los Experimentos
 @csrf_exempt
 def experimentos(request):
-    # Si es POST Graba
+
     if request.method == 'POST':
         data = request.POST
         experimento = Experimento()
@@ -113,7 +113,7 @@ def experimentos(request):
             experimento.responsable = responsable
         experimento.save()
         return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         experimentos = Experimento.objects.all()
         return HttpResponse(serializers.serialize("json", experimentos), content_type="application/json")
@@ -121,11 +121,9 @@ def experimentos(request):
         raise NotFound(detail="No se encuentra comando rest experimentos con metodo " + request.method)
 
 
-#Atiende las peticiones de un Experimento determinado
+
 @csrf_exempt
 def experimentos_id(request, id):
-
-    # Si es DELETE Borra
     if request.method == 'DELETE':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -133,7 +131,7 @@ def experimentos_id(request, id):
             raise ValidationError({'id': ['No existe experimento ' + id]})
         experimento.delete()
         return JsonResponse({"Mensaje":"Experimento " + id + " borrado"})
-    # Si es PUT Actualiza
+
     elif request.method == 'PUT':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -181,7 +179,7 @@ def experimentos_id(request, id):
         if algoCambio:
             experimento.save()
         return HttpResponse(serializers.serialize("json", [experimento]), content_type="application/json")
-    # Si es GET Lista
+
     elif request.method == 'GET':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -193,7 +191,7 @@ def experimentos_id(request, id):
 
 @csrf_exempt
 def proyecto_id_experimentos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         return render(request, 'laboratorio/Experimento/experimentos.html', {"proy": Proyecto.objects.get(proyecto=id)})
 
@@ -201,7 +199,7 @@ def proyecto_id_experimentos(request, id):
 #Atiende las peticiones de un Experimento determinado
 @csrf_exempt
 def experimentos_id_protocolos(request, id):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             experimento = Experimento.objects.get(id=id)
@@ -216,7 +214,7 @@ def experimentos_id_protocolos(request, id):
 #Atiende las peticiones de Resultados de Experimento
 @csrf_exempt
 def lista_resultados_experimento(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             resultados = ResultadoExperimento().getDict()
@@ -230,7 +228,7 @@ def lista_resultados_experimento(request):
 #Atiende las peticiones de Estados del Experimento
 @csrf_exempt
 def lista_estados_experimento(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             estados = ResultadoExperimento().getDictStates()
@@ -243,7 +241,7 @@ def lista_estados_experimento(request):
 
 @csrf_exempt
 def lista_nombre_proyecto(request):
-    # Si es GET Lista
+
     if request.method == 'GET':
         try:
             Nombre_proyectos = Proyecto.objects.all()
